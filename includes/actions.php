@@ -1,0 +1,40 @@
+<?php 
+	ini_set('display_errors',1);  
+	error_reporting(E_ALL);
+
+	require_once(__dir__ . '/DBHandler.php');
+	$db = new DBHandler();
+
+	if(isset($_POST['registration']) && !empty($_POST['registration'])) {
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$confirmpassword = $_POST['confirmpassword'];
+		$email = $_POST['email'];
+
+		if(!empty($username) && !empty($password) && !empty($confirmpassword) && !empty($email)) {
+			if ($password === $confirmpassword) {
+				if($db->register($username, $password, $email)) {
+					echo "Register Successful";
+				} else {
+					echo "Something went wrong with the process!";
+				}
+			} else {
+				echo "Passwords do not match!";
+			}
+		} else {
+			echo "Complete the form! Do not leave an empty box!";
+		}
+	} else if(isset($_POST['login']) && !empty($_POST['login'])) {
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		
+		if ($db->login($username, $password) === "1") {
+			echo "No Account by that Username!";
+		} else if ($db->login($username, $password) === "2") {
+			echo "Wrong Username/Password";
+		} else if($db->login($username, $password)) {
+			$_SESSION['username'] = $username;
+			echo "Login Successful";
+		}
+	}
+?>
