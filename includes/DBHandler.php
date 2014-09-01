@@ -83,6 +83,86 @@ class DBHandler {
     /***********************************
 		            LOGIN
     *************************************/
+
+    /***********************************
+                    GROUP
+    *************************************/
+
+    function createGroup($groupname, $groupdescription, $groupstatus) {
+        $result = mysql_query("SELECT * FROM `group` WHERE groupname='$groupname'");
+        $no_of_rows = mysql_num_rows($result);
+        if($no_of_rows > 0) {
+            return "1";
+        } else if(!$no_of_rows) {
+            $insert = mysql_query("INSERT INTO `group` (groupname, groupdescription, groupstatus) VALUES ('$groupname', '$groupdescription', '$groupstatus')") or die(mysql_error());
+            if($insert) return true; else return "2";
+        }
+    }
+
+    function getGroupID($groupname) {
+        $result = mysql_query("SELECT * FROM `group` WHERE groupname='$groupname'") or die(mysql_error());
+        $no_of_rows = mysql_num_rows($result);
+        if ($no_of_rows > 0) {
+            $result = mysql_fetch_array($result);
+            return $result['groupID'];
+        }
+    }
+
+    function getAllGroups() {
+        $result = mysql_query("SELECT * FROM `group`") or die(mysql_error());
+        return $result;
+    }
+
+    function getGroupsByPage($start, $max) {
+        $result = mysql_query("SELECT * FROM `group` LIMIT $start, $max") or Die("End");
+        return $result;
+    }
+
+    /***********************************
+                    GROUP
+    *************************************/
+    /***********************************
+               USER & PROFILE
+    *************************************/
+
+    function getUserID($username) {
+        $result = mysql_query("SELECT * FROM user WHERE username='$username'") or die(mysql_error());
+        $no_of_rows = mysql_num_rows($result);
+        if ($no_of_rows > 0) {
+            $result = mysql_fetch_array($result);
+            return $result['userID'];
+        }
+    }
+
+    /* PROFILE */
+    function getLeaderName($userID) {
+        $result = mysql_query("SELECT * FROM userprofile WHERE userID = '$userID'") or die(mysql_error());
+        $result = mysql_fetch_array($result);
+        $leaderName = $result['firstname'] . " " . $result['lastname'];
+        return $leaderName;
+    }
+
+    /***********************************
+               USER $ PROFILE
+    *************************************/
+
+    /***********************************
+                MEMBER STATUS
+    *************************************/
+
+    function createLeaderGroup($userID, $groupID) {
+        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, status) VALUES ($userID, $groupID, 'Leader')") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+
+    function getLeaderID($groupID) {
+        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND status='Leader'") or die(mysql_error());
+        $result = mysql_fetch_array($result);
+        return $result['userID'];
+    }
+    /***********************************
+                MEMBER STATUS
+    *************************************/
 }
 
 ?>

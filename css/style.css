@@ -17,13 +17,18 @@
   border-radius: 1px;
 }
 
+.alert {
+	margin-top: 20px;
+	display: none;
+}
+
 /*************************************
 		     Home Page
 **************************************/
 
-/*************************************
-		        Title
-**************************************/
+/*********************************
+		      Title
+**********************************/
 
 .container > .page-header h1 {
 	text-align: center;
@@ -39,13 +44,13 @@
 	letter-spacing: 10px;
 }
 
-/*************************************
-		        Title
-**************************************/
+/*********************************
+		      Title
+**********************************/
 
-/*************************************
-		    Navigation Bar
-**************************************/
+/*********************************
+		  Navigation Bar
+**********************************/
 #navigation {
 	background-color: #D8D8D8;
 	padding: 10px 0;
@@ -72,12 +77,65 @@ ul#leftmenu li a {
   background-color: rgba(16, 2, 5, 0.57);
 }
 
-/*************************************
-		    Navigation Bar
-**************************************/
+ul#yourgroups li a{
+	border: none;
+}
+
+/*********************************
+		  Navigation Bar
+**********************************/
 
 /*************************************
 		     Home Page
+**************************************/
+
+/*************************************
+		    Groups Page
+**************************************/
+
+/*********************************
+		   Pagination
+**********************************/
+
+#pagination {
+	position: relative;
+	width: 70%;
+}
+
+#pagination ul li {
+	list-style-type: none;
+	display: inline;
+	padding: 10px;
+	text-align: center;
+}
+
+div#pagination a, div#pagination a.enabled {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #AAAADD;
+	
+	text-decoration: none; /* no underline */
+	color: #000099;
+}
+div#pagination a:hover, div#pagination a:active {
+	border: 1px solid #000099;
+	color: #000;
+}
+
+div#pagination a.disabled {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #EEE;
+
+	color: #DDD;
+}
+
+/*********************************
+		   Pagination
+**********************************/
+
+/*************************************
+		    Groups Page
 **************************************/
 
 /****************************

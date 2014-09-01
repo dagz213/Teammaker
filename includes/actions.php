@@ -14,7 +14,7 @@
 		if(!empty($username) && !empty($password) && !empty($confirmpassword) && !empty($email)) {
 			if ($password === $confirmpassword) {
 				if($db->register($username, $password, $email)) {
-					echo "Register Successful";
+					echo "Register Successful!";
 				} else {
 					echo "Something went wrong with the process!";
 				}
@@ -31,10 +31,28 @@
 		if ($db->login($username, $password) === "1") {
 			echo "No Account by that Username!";
 		} else if ($db->login($username, $password) === "2") {
-			echo "Wrong Username/Password";
+			echo "Wrong Username/Password!";
 		} else if($db->login($username, $password)) {
 			$_SESSION['username'] = $username;
-			echo "Login Successful";
+			echo "Login Successful!";
+		}
+	} else if(isset($_POST['creategroup']) && !empty($_POST['creategroup'])) {
+		$groupname = $_POST['groupname'];
+		$groupdescription = $_POST['groupdescription'];
+		$groupstatus = $_POST['groupstatus'];
+		
+		if ($db->createGroup($groupname, $groupdescription, $groupstatus) === "1") {
+			echo "Group by that name already exists!";
+		} else if ($db->createGroup($groupname, $groupdescription, $groupstatus) === "2") {
+			echo "Didn't create by some reason!";
+		} else if($db->createGroup($groupname, $groupdescription, $groupstatus)) {
+			$username = $_SESSION['username'];
+			$gID = $db->getUserID($username);
+			$uID = $db->getGroupID($groupname);
+			if($db->createLeaderGroup($gID, $uID))
+				echo "Create Group Successful";
+			else 
+				echo "Can't Create a Leader";
 		}
 	}
 ?>
