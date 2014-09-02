@@ -1,8 +1,13 @@
 <?php 
+	ob_start();
 	ini_set('display_errors',1);  
 	error_reporting(E_ALL);
 	require_once(__dir__.'/includes/DBHandler.php');
 	$db = new DBHandler();
+
+	if($db->isLoggedIn()) {
+		header('Location: groups.php');
+	}
 ?>
 <!DOCTYPE html>
 <html>

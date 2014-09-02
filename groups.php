@@ -1,8 +1,13 @@
 <?php 
+	ob_start();
 	ini_set('display_errors',1);  
 	error_reporting(E_ALL);
 	require_once(__dir__.'/includes/DBHandler.php');
 	$db = new DBHandler();
+
+	if(!$db->isLoggedIn()) {
+		header('Location: index.php');
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,6 +68,7 @@
 		<hr />
 		<div class="list-group">
 		<?php 
+			ob_start();
 			$maxPerPage = 3;
 			$count =  mysql_num_rows($db->getAllGroups());
 
@@ -119,7 +125,7 @@
 		                $_GET['page'] = 1;
 		            }
 
-		            for($i = 1; $i <= $_GET['page'] + 1 && $i <= $totalpages; $i++) {
+		            for($i = 1;$i <= $totalpages; $i++) {
 		            	echo "<li><a href='groups.php?page=$i'";
 		            	if($i == $_GET['page']) {
 		            		echo "style='border: 1px solid #000099;'";

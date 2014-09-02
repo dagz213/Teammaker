@@ -1,8 +1,13 @@
 <?php 
+	ob_start();
 	ini_set('display_errors',1);  
 	error_reporting(E_ALL);
 	require_once(__dir__.'/includes/DBHandler.php');
 	$db = new DBHandler();
+
+	if($db->isLoggedIn()) {
+		header('Location: groups.php');
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,12 +37,11 @@
 			<p class="list-group-item-text"> - Create a team</p>
 			<p class="list-group-item-text"> - Name your own team and give a description</p>
 			<p class="list-group-item-text"> - Join a team with a reason why</p>
-			<p class="list-group-item-text"> - Accept/Kick/Label a member</p>
+			<p class="list-group-item-text"> - Accept a member</p>
 			<p class="list-group-item-text"> - Discussion inside your Team's page</p>
 			<p class="list-group-item-text"> - Have your own personal profile to define yourself</p>
 			<p class="list-group-item-text"> - Ask a person to join your team</p>
 			<p class="list-group-item-text"> - You can have or join until 5 groups </p>
-			<p class="list-group-item-text"> - View List of People registered and see their profiles. </p>
 			<p class="list-group-item-text"> - Only 5-7 people in a team (1 Leader / 4 - 6 Members)</p>
 			<br />
 		</div>

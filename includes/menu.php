@@ -7,20 +7,12 @@
 			<span class='icon-bar'></span>
 		</button>
 		<div class='collapse navbar-collapse navbar-ex1-collapse'>
-			<ul class='nav navbar-nav pull-left' id='leftmenu'>
+			<ul class='nav navbar-nav' id='leftmenu'>
 				<li class='active'>
-					<a href='groups.php'>Home</a>
+					<a href='groups.php'>Groups</a>
 				</li>
-				<li class='dropdown'>
-					<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Your Groups <strong class='caret'></strong></a>
-					<ul class='dropdown-menu' id='yourgroups'>
-						<li>
-							<a href='#'>Group 1</a>
-						</li>			
-						<li>
-							<a href='#'>Group 2</a>
-						</li>
-					</ul>
+				<li>
+					<a href='#'>Teammaker</a>
 				</li>
 				<li>
 					<a href='#'>Profile</a>

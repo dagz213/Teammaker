@@ -57,6 +57,7 @@ $('#loginForm').submit(function(event) {
         data: values,
         success: function(data){
             if(data === "Login Successful") {
+                $('#resultMessage').css('color', 'green');
                 window.location.href = 'groups.php';
             } else {
                 $('#resultMessage').css('color', 'red');   
@@ -79,11 +80,6 @@ $('#createGroupForm').submit(function(event) {
         type: "post",
         data: values,
         success: function(data){
-            if(data === "Login Successful") {
-                $('#resultMessage').css('color', 'green'); 
-            } else {
-                $('#resultMessage').css('color', 'red');   
-            }
             $('#resultMessage').html(data);
         },
         error:function(){

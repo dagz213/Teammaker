@@ -14,7 +14,7 @@
 		if(!empty($username) && !empty($password) && !empty($confirmpassword) && !empty($email)) {
 			if ($password === $confirmpassword) {
 				if($db->register($username, $password, $email)) {
-					echo "Register Successful!";
+					echo "Register Successful";
 				} else {
 					echo "Something went wrong with the process!";
 				}
@@ -31,10 +31,10 @@
 		if ($db->login($username, $password) === "1") {
 			echo "No Account by that Username!";
 		} else if ($db->login($username, $password) === "2") {
-			echo "Wrong Username/Password!";
+			echo "Wrong Username/Password";
 		} else if($db->login($username, $password)) {
 			$_SESSION['username'] = $username;
-			echo "Login Successful!";
+			echo "Login Successful";
 		}
 	} else if(isset($_POST['creategroup']) && !empty($_POST['creategroup'])) {
 		$groupname = $_POST['groupname'];

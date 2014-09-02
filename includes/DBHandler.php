@@ -3,27 +3,27 @@ ini_set('display_errors',1);
 error_reporting(E_ALL);
 
 class DBHandler {
-	public function __construct() {
-		require_once __dir__.'/DBConnection.php';
-		session_start();
+    public function __construct() {
+        require_once __dir__.'/DBConnection.php';
+        session_start();
 
-		$this->db = new DBConnection();
-		$this->db->connect();
-	}
+        $this->db = new DBConnection();
+        $this->db->connect();
+    }
 
-	public function __destruct() {
+    public function __destruct() {
         // $this->close();
     }
 
-	public function isLoggedIn() {
+    public function isLoggedIn() {
         if(isset($_SESSION['username']) && !empty($_SESSION['username'])) return true; else return false;
     }
 
     /***********************************
-		         REGISTRATION
+                 REGISTRATION
     *************************************/
-	function register($username, $password, $email) {
-    	$hash = $this->hashSSHA($password);
+    function register($username, $password, $email) {
+        $hash = $this->hashSSHA($password);
         $encrypted_password = $hash["encrypted"]; // encrypted password
         $salt = $hash["salt"]; // salt
 
@@ -56,19 +56,19 @@ class DBHandler {
         return $hash;
     }
     /***********************************
-		         REGISTRATION
+                 REGISTRATION
     *************************************/
 
- 	/***********************************
-		            LOGIN
+    /***********************************
+                    LOGIN
     *************************************/
 
     function login($username, $password) {
-    	$result = mysql_query("SELECT * FROM user WHERE username='$username'") or die(mysql_error());
-    	$no_of_rows = mysql_num_rows($result);
-    	if ($no_of_rows > 0) {
-    		$result = mysql_fetch_array($result);
-    		$salt = $result['salt'];
+        $result = mysql_query("SELECT * FROM user WHERE username='$username'") or die(mysql_error());
+        $no_of_rows = mysql_num_rows($result);
+        if ($no_of_rows > 0) {
+            $result = mysql_fetch_array($result);
+            $salt = $result['salt'];
             $encrypted_password = $result['encrypted_password'];
             $hash = $this->checkhashSSHA($salt, $password);
 
@@ -78,10 +78,10 @@ class DBHandler {
                 return "2";
             }
 
-    	} else return "1";
+        } else return "1";
     }
     /***********************************
-		            LOGIN
+                    LOGIN
     *************************************/
 
     /***********************************
@@ -118,6 +118,13 @@ class DBHandler {
         return $result;
     }
 
+    function getGroupNameByID($groupID) {
+        $result = mysql_query("SELECT * FROM `group` WHERE groupID='$groupID'") or die(mysql_error());
+        $result = mysql_fetch_array($result);
+        $groupname =  $result['groupname'];
+        return $groupname;
+    }
+
     /***********************************
                     GROUP
     *************************************/
@@ -142,6 +149,8 @@ class DBHandler {
         return $leaderName;
     }
 
+    /* User INNER JOIN for account settings  */
+
     /***********************************
                USER $ PROFILE
     *************************************/
@@ -160,6 +169,12 @@ class DBHandler {
         $result = mysql_fetch_array($result);
         return $result['userID'];
     }
+
+    function getAllYourGroup($userID) {
+        $result = mysql_query("SELECT * FROM memberstatus WHERE userID = '$userID'") or die(mysql_error());
+        return $result;
+    }
+
     /***********************************
                 MEMBER STATUS
     *************************************/
