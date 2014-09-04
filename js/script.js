@@ -15,6 +15,20 @@ $(function() {
         $('.alert').css('display', 'none').css('margin-top', '20px');
     });
 
+    if($( window ).width() <= 768) {
+        $('.numbers').css('display', 'none');
+    } else {
+        $('.numbers').css('display', 'block');
+    }
+
+    $( window ).resize(function() {
+        if($( window ).width() <= 768) {
+            $('.numbers').css('display', 'none');
+        } else {
+            $('.numbers').css('display', 'block');
+        }
+    });
+
 });
 
 /* REGISTER */

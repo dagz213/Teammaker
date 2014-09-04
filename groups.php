@@ -69,19 +69,25 @@
 		<div class="list-group">
 		<?php 
 			ob_start();
-			$maxPerPage = 3;
+			$maxPerPage = 5;
 			$count =  mysql_num_rows($db->getAllGroups());
 
-			$page;
-			$start;
+			$pn;
 
-			if(!isset($_GET['page'])) {
-				$start = 0;
-				$page = 0;
+			$totalpages = ceil($count / $maxPerPage); 
+			if(isset($_GET['page'])) {
+				$pn = $_GET['page'];
 			} else {
-				$start = ($_GET['page'] - 1) * $maxPerPage;
-            	$page = $_GET['page'];
+				$pn = 1;
 			}
+
+			if($pn < 1) {
+				$pn = 1;
+			} else if ($pn > $totalpages) {
+				$pn = $totalpages;
+			}
+
+			$start = ($pn - 1) * $maxPerPage;
 
 			$groups = $db->getGroupsByPage($start, $maxPerPage);
 
@@ -89,22 +95,84 @@
 				$userID = $db->getLeaderID($row['groupID']);
 				$leaderName = $db->getLeaderName($userID);
 				echo '<a href="#" class="list-group-item">
-					<h4 class="list-group-item-heading">', $row['groupname'],'</h4>
+					<h1 class="list-group-item-heading">', $row['groupname'],'</h1>
 					<p class="list-group-item-text">', $row['groupdescription'],'</p>
 					<p class="list-group-item-text">', $leaderName,'</p>
 				</a>';
 			}
 		?>
 		</div><!-- list-group -->
-		<div id='pagination'>
+		<div id='pagination' class="row">
             <ul>
 			<?php
+				
+				$centerPages = "";
+				$sub1 = $pn - 1;
+				$sub2 = $pn - 2;
+				$add1 = $pn + 1;
+				$add2 = $pn + 2;
+				//$centerPages .= "<li><a></a?</li>";
+				if($pn == 1) {
+					$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a class="activepage">' . $pn . '</a></li>';
+					if($totalpages > 1)
+						$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $add1 . '</a></li>';
+					if (!($add2 > $totalpages)) {
+						$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $add2 . '</a></li>';
+					}				
+				} else if ($pn == $totalpages) {
+					if (!($sub2 < 1)) {
+						$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $sub2 . '</a></li>';
+					}
+					$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $sub1 . '</a></li>';
+					$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a class="activepage">' . $pn . '</a></li>';
+				}  else if ($pn > 1 && $pn < $totalpages) {
+					$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $sub1 . '</a></li>';
+					$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a class="activepage">' . $pn . '</a></li>';
+					$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $add1 . '</a></li>';
+				}
+
+				echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
+				if(isset($_GET['page'])) {
+					$previous = $_GET['page'] - 1;
+				}
+				if($_GET['page'] == 1) {
+					$previous = 1;
+				}
+				echo "$previous'";
+
+				if($_GET['page'] == 1) {
+					echo "class='disabled'";
+				} else {
+					echo "class='enabled'";
+				}
+
+				echo "><< Previous</a></li>";
+
+				echo $centerPages;
+
+				echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
+	            if(isset($_GET['page'])) {
+	                $next = $_GET['page'] + 1;
+	            } 
+	            echo "$next'";
+	            if($_GET['page'] == $totalpages) {
+					echo "class='disabled'";
+				}
+	            echo ">Next >></a></li>"; 
+
+			/*
 				$totalpages = ceil($count / $maxPerPage);
 
         		if($totalpages > 0) {
         			$previous;
         			$next;
-					echo "<li><a href='groups.php?page=";
+        			$currentPage;
+        			if(!isset($_GET['page'])) {
+						$currentPage = 1;
+					} else {
+						$currentPage = $_GET['page'];
+					}
+					echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
 					if(isset($_GET['page'])) {
 						$previous = $_GET['page'] - 1;
 					}
@@ -124,16 +192,16 @@
 					if(!isset($_GET['page'])) {
 		                $_GET['page'] = 1;
 		            }
-
-		            for($i = 1;$i <= $totalpages; $i++) {
-		            	echo "<li><a href='groups.php?page=$i'";
+		            $ii = $currentPage + 3;
+		            for($i = $currentPage; $i < $ii && $i <= $totalpages; $i++) {
+		            	echo "<li class='col-sm-1 col-md-1 col-lg-1 numbers'><a href='groups.php?page=$i'";
 		            	if($i == $_GET['page']) {
-		            		echo "style='border: 1px solid #000099;'";
+		            		echo "style='border: 4px solid #000099;'";
 		            	}
 		            	echo ">$i</a></li>";
 		            }
 
-		            echo "<li><a href='groups.php?page=";
+		            echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
 		            if(isset($_GET['page'])) {
 		                $next = $_GET['page'] + 1;
 		            } 
@@ -143,6 +211,7 @@
 					}
 		            echo ">Next >></a></li>"; 
 		        }
+		    */
 			?>
 			</ul>
 		</div> <!-- End of Pagination -->

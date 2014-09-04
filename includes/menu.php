@@ -11,8 +11,20 @@
 				<li class='active'>
 					<a href='groups.php'>Groups</a>
 				</li>
-				<li>
-					<a href='#'>Teammaker</a>
+				<li class='dropdown'>
+					<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Your Teams<strong class='caret'></strong></a>
+					<ul id='yourgroups' class='dropdown-menu'>";
+				$username = $_SESSION['username'];
+				$userID = $db->getUserID($username);
+				$yourGroups = $db->getAllYourGroup($userID);
+				while($row = mysql_fetch_array($yourGroups)) {
+					$groupID = $row['groupID'];
+					$groupname = $db->getGroupNameByID($groupID);
+					echo '<li><a href="#">', $groupname,'</a></li>';
+				}
+
+		echo "	
+					</ul>
 				</li>
 				<li>
 					<a href='#'>Profile</a>

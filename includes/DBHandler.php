@@ -114,7 +114,7 @@ class DBHandler {
     }
 
     function getGroupsByPage($start, $max) {
-        $result = mysql_query("SELECT * FROM `group` LIMIT $start, $max") or Die("End");
+        $result = mysql_query("SELECT * FROM `group`ORDER BY groupID DESC LIMIT $start, $max") or Die("End");
         return $result;
     }
 
