@@ -45,6 +45,7 @@
 			<p class="list-group-item-text"> - Only 5-7 people in a team (1 Leader / 4 - 6 Members)</p>
 			<br />
 		</div>
+		<?php include 'includes/footer.php'; ?>
 	</div> <!-- End of main container -->
 	<script type="text/javascript" src="js/script.js"></script>
 </body>

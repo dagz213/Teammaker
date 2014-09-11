@@ -95,6 +95,7 @@ $('#createGroupForm').submit(function(event) {
         data: values,
         success: function(data){
             $('#resultMessage').html(data);
+            setTimeout('window.location.href = "groups.php";', 1000);
         },
         error:function(){
             $("#resultMessage").html('Something went wrong with the request!');

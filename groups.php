@@ -94,11 +94,12 @@
 			while($row = mysql_fetch_array($groups)) {
 				$userID = $db->getLeaderID($row['groupID']);
 				$leaderName = $db->getLeaderName($userID);
-				echo '<a href="#" class="list-group-item">
+				echo 
+				'<div class="list-group-item">
 					<h1 class="list-group-item-heading">', $row['groupname'],'</h1>
 					<p class="list-group-item-text">', $row['groupdescription'],'</p>
 					<p class="list-group-item-text">', $leaderName,'</p>
-				</a>';
+				</div>';
 			}
 		?>
 		</div><!-- list-group -->
@@ -159,62 +160,10 @@
 					echo "class='disabled'";
 				}
 	            echo ">Next >></a></li>"; 
-
-			/*
-				$totalpages = ceil($count / $maxPerPage);
-
-        		if($totalpages > 0) {
-        			$previous;
-        			$next;
-        			$currentPage;
-        			if(!isset($_GET['page'])) {
-						$currentPage = 1;
-					} else {
-						$currentPage = $_GET['page'];
-					}
-					echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
-					if(isset($_GET['page'])) {
-						$previous = $_GET['page'] - 1;
-					}
-					if($_GET['page'] == 1) {
-						$previous = 1;
-					}
-					echo "$previous'";
-
-					if($_GET['page'] == 1) {
-						echo "class='disabled'";
-					} else {
-						echo "class='enabled'";
-					}
-
-					echo "><< Previous</a></li>";
-
-					if(!isset($_GET['page'])) {
-		                $_GET['page'] = 1;
-		            }
-		            $ii = $currentPage + 3;
-		            for($i = $currentPage; $i < $ii && $i <= $totalpages; $i++) {
-		            	echo "<li class='col-sm-1 col-md-1 col-lg-1 numbers'><a href='groups.php?page=$i'";
-		            	if($i == $_GET['page']) {
-		            		echo "style='border: 4px solid #000099;'";
-		            	}
-		            	echo ">$i</a></li>";
-		            }
-
-		            echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
-		            if(isset($_GET['page'])) {
-		                $next = $_GET['page'] + 1;
-		            } 
-		            echo "$next'";
-		            if($_GET['page'] == $totalpages) {
-						echo "class='disabled'";
-					}
-		            echo ">Next >></a></li>"; 
-		        }
-		    */
 			?>
 			</ul>
 		</div> <!-- End of Pagination -->
+		<?php include 'includes/footer.php'; ?>
 	</div> <!-- End of main container -->
 	<script type="text/javascript" src="../../js/jquery.js"></script>	
 	<script type="text/javascript" src="../../js/bootstrap.js"></script>

@@ -22,6 +22,10 @@
 	display: none;
 }
 
+.text-centered { 
+	text-align: center;
+}
+
 /*************************************
 		     Home Page
 **************************************/
@@ -42,6 +46,21 @@
 	font-family: 'Shadows Into Light', cursive;
 	font-weight: bolder;
 	letter-spacing: 10px;
+}
+
+.page-header h1 {
+	text-align: center;
+	font-size: 45px;
+	font-family: 'Shadows Into Light', cursive;
+	font-weight: bolder;
+	letter-spacing: 20px;
+}
+
+.page-header h2 {
+	font-family: 'Shadows Into Light', cursive;
+	font-weight: bolder;
+	letter-spacing: 10px;
+	text-align: center;
 }
 
 /*********************************
@@ -91,6 +110,26 @@ ul#yourgroups li a:hover {
 
 /*********************************
 		  Navigation Bar
+**********************************/
+
+/*********************************
+		 	  Footer
+**********************************/
+
+.footer {
+	margin-top: 50px;
+	margin-bottom: 25px;
+	width: 100%;
+	height: 50px;
+	background-color: #D8D8D8;
+}
+
+.footer h6 {
+	padding-top: 20px;
+}
+
+/*********************************
+		 	  Footer
 **********************************/
 
 /*************************************
@@ -145,6 +184,15 @@ div#pagination a.activepage {
 		   Pagination
 **********************************/
 
+#modalDelete {
+	top: 200px;
+}
+
+.modal-body div {
+	width: 150px;
+	margin: 0 auto;
+}
+
 /*************************************
 		    Groups Page
 **************************************/
@@ -163,8 +211,11 @@ div#pagination a.activepage {
 
 /* Landscape phone to portrait tablet */
 @media (max-width: 768px) {
-
-}
+	ul#leftmenu li a {
+		width: 90%;
+		margin: 0 auto;
+	}
+}	
 
 @media (max-width: 620px) {
 

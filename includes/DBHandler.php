@@ -125,6 +125,16 @@ class DBHandler {
         return $groupname;
     }
 
+    function getGroupByID($groupID) {
+        $result = mysql_query("SELECT * FROM `group` WHERE groupID='$groupID'") or die(mysql_error());
+        $result = mysql_fetch_array($result);
+        return $result;
+    }
+
+    function deleteGroup($groupID) {
+        $result = mysql_query("DELETE FROM `group` WHERE groupID = '$groupID'") or die(mysql_error());
+        if($result) return true; else return false;
+    }
     /***********************************
                     GROUP
     *************************************/
@@ -173,6 +183,15 @@ class DBHandler {
     function getAllYourGroup($userID) {
         $result = mysql_query("SELECT * FROM memberstatus WHERE userID = '$userID'") or die(mysql_error());
         return $result;
+    }
+
+    function checkIfLeader($groupID, $userID) {
+        
+    }
+
+    function deleteMemberStatus($groupID) {
+        $result = mysql_query("DELETE FROM memberstatus WHERE groupID = '$groupID'") or die(mysql_error());
+        if($result) return true; else return false;
     }
 
     /***********************************

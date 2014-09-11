@@ -68,6 +68,7 @@
 					</div>
 				</div> <!-- End of Submit Button form group -->
 			</form> <!-- End of register form -->
+			<?php include 'includes/footer.php'; ?>
 	</div> <!-- End of main container -->
 	<script type="text/javascript" src="js/script.js"></script>
 </body>

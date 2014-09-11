@@ -54,5 +54,12 @@
 			else 
 				echo "Can't Create a Leader";
 		}
+	} else if(isset($_POST['deletegroup']) && !empty($_POST['deletegroup'])) {
+		$groupID = $_POST['deletegroup'];
+		if($db->deleteGroup($groupID) && $db->deleteMemberStatus($groupID)) {
+			header("Location: ../groups.php");
+		} else {
+			echo "<script>alert('Something went wrong, Group Couldn't be deleted. Try again Later.');</script>";
+		}
 	}
 ?>
