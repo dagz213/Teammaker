@@ -135,6 +135,8 @@ class DBHandler {
         $result = mysql_query("DELETE FROM `group` WHERE groupID = '$groupID'") or die(mysql_error());
         if($result) return true; else return false;
     }
+
+    
     /***********************************
                     GROUP
     *************************************/
@@ -186,7 +188,15 @@ class DBHandler {
     }
 
     function checkIfLeader($groupID, $userID) {
-        
+        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND userID = '$userID' AND status = 'Leader'") or die(mysql_error());
+        $no_of_rows = mysql_num_rows($result);
+        if($no_of_rows > 0) return true; else return false;
+    }
+
+    function checkIfInGroup($groupID, $userID) {
+        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND userID = '$userID'") or die(mysql_error());
+        $no_of_rows = mysql_num_rows($result);
+        if($no_of_rows > 0) return true; else return false;
     }
 
     function deleteMemberStatus($groupID) {

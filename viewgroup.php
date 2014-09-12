@@ -4,9 +4,22 @@
 	error_reporting(E_ALL);
 	require_once(__dir__.'/includes/DBHandler.php');
 	$db = new DBHandler();
-
 	if(!$db->isLoggedIn()) {
 		header('Location: index.php');
+	}
+
+	//Go back to groups.php if not a member and if the id is not set
+	$groupID;
+	if(isset($_GET['id']) && !empty($_GET['id'])) { 
+		$groupID = $_GET['id'];
+	} else {
+		header('Location: groups.php');
+	}
+	$username = $_SESSION['username'];
+	$userID = $db->getUserID($username);
+
+	if(!$db->checkIfInGroup($groupID, $userID)) {
+		header('Location: groups.php');
 	}
 ?>
 <!DOCTYPE html>
@@ -33,13 +46,16 @@
 				$leaderID = $db->getLeaderID($groupID);
 				$leaderName = $db->getLeaderName($leaderID);
 				$groupdescription = $group['groupdescription'];
+				
 		?>
 				<div class="page-header">
-					<h1><?php echo $groupname; ?><br ?><small style="font-size: 20px; letter-spacing: 5px;">by <?php echo $leaderName; ?></small></h1>
+					<h1><?php echo $groupname; ?><br /><small style="font-size: 20px; letter-spacing: 5px;">by <?php echo $leaderName; ?></small></h1>
+					<?php if($db->checkIfLeader($groupID, $userID)) { ?>
 					<div class="text-centered">
-					<a href="" class="btn btn-large btn-primary" id="alertMe">Edit Group</a>
-					<a href="#modalDelete" role="button" class="btn btn-large btn-primary" data-toggle="modal">Delete Group</a>
+						<a href="" class="btn btn-large btn-primary" id="alertMe">Edit Group</a>
+						<a href="#modalDelete" role="button" class="btn btn-large btn-primary" data-toggle="modal">Delete Group</a>
 					</div>
+					<?php } ?>
 				</div>
 				<div id="viewgroupcontent"class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -54,11 +70,7 @@
 						<h3 class="text-centered"><strong>Members:</strong></h3>
 					</div>
 				</div>
-		<?php 
-			} else {
-				header('Location: groups.php');
-			}
-		?>
+		<?php } ?>
 		<div class="modal fade" id="modalDelete">
 			<div class="modal-dialog">
 				<div class="modal-content">
