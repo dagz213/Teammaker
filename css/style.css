@@ -3,6 +3,10 @@
 /* font-family: 'Shadows Into Light', cursive; */
 @import url(http://fonts.googleapis.com/css?family=Lobster);
 /* font-family: 'Lobster', serif; */
+@import url(http://fonts.googleapis.com/css?family=Black+Ops+One);
+/* font-family: 'Black Ops One', cursive; */
+@import url(http://fonts.googleapis.com/css?family=Holtwood+One+SC);
+/* font-family: 'Holtwood One SC', serif; */
 
 .navbar-toggle {
   border-color: black;
@@ -30,37 +34,28 @@
 		     Home Page
 **************************************/
 
+#mainContainer {
+	margin-top: 20px;
+}
+
 /*********************************
 		      Title
 **********************************/
 
-.container > .page-header h1 {
+a#title {
 	text-align: center;
-	font-size: 45px;
-	font-family: 'Shadows Into Light', cursive;
+	font-size: 35px;
+	font-family: 'Holtwood One SC', serif;
 	font-weight: bolder;
-	letter-spacing: 20px;
+	letter-spacing: 10px;
+	border: none;
+	color: black;
 }
 
 .container > .page-header h2 {
-	font-family: 'Shadows Into Light', cursive;
+	font-family: 'Holtwood One SC', serif;
 	font-weight: bolder;
 	letter-spacing: 10px;
-}
-
-.page-header h1 {
-	text-align: center;
-	font-size: 45px;
-	font-family: 'Shadows Into Light', cursive;
-	font-weight: bolder;
-	letter-spacing: 20px;
-}
-
-.page-header h2 {
-	font-family: 'Shadows Into Light', cursive;
-	font-weight: bolder;
-	letter-spacing: 10px;
-	text-align: center;
 }
 
 /*********************************
@@ -72,45 +67,27 @@
 **********************************/
 #navigation {
 	background-color: #D8D8D8;
-	padding: 10px 0;
+	font-weight: bold;
+	font-family: 'Black Ops One', cursive;
+	letter-spacing: 3px;
 }
-.navbar-brand {
-	font-family: 'Lobster', serif;
-	text-align: center;
-	border: 1px solid black;
-	border-radius: 10px;
-	margin-right: 10px;
-}
-
-ul#leftmenu li a {
-	font-family: 'Lobster', serif;
-	font-size: 20px;
-	text-align: center;
-	border: 1px solid black;
-	border-radius: 10px;
-	margin-right: 10px;
-}
-
 #navbarButton {
-	border-color: black;
-  	background-color: rgba(16, 2, 5, 0.57);
-
+	border: 1px solid black;
+	z-index: 2;
 }
-
-ul#yourgroups li a {
-	border: none;
-	width: 100%;
-	background-color: white;
-	border-radius: 0;
+#navbarButton span {
+	border: 1px solid black;
 }
-
-ul#yourgroups li a:hover {
-	background-color: #D8D8D8;
+#navigation ul li {
+	text-align: center;
+	background-color: #E8E8E8
 }
-
+ul#yourgroups li a, ul#rightmenu ul li a {
+	background-color: #fff;
+}
 /*********************************
 		  Navigation Bar
-**********************************/
+*********************************
 
 /*********************************
 		 	  Footer
@@ -139,6 +116,36 @@ ul#yourgroups li a:hover {
 /*************************************
 		    Groups Page
 **************************************/
+
+.groupdescription {
+	position: relative;
+	width: 85%;
+	word-wrap: break-word;
+}
+.groupbuttons {
+	position: absolute; 
+	width: 15%;
+	right: 0; 
+	top: 10px; 
+}
+
+.groupbuttons a {
+	width: 150px;
+}
+
+/* JOIN */
+#joinMessage {
+	width: 200px;
+	margin-left: -40px;
+	margin-bottom: 10px;
+}
+/* CANCEL */
+.pendingButton:after {
+	content: 'Pending';
+}
+.pendingButton:hover:after {
+	content: 'Cancel';
+}
 
 /*********************************
 		   Pagination
@@ -184,6 +191,40 @@ div#pagination a.activepage {
 		   Pagination
 **********************************/
 
+/*************************************
+		    Groups Page
+**************************************/
+
+/*************************************
+		  View Groups Page
+**************************************/
+
+#successAlert {
+	margin-top: 0px;
+}
+
+#groupname {
+	font-size: 50px;
+	font-family: 'Holtwood One SC', serif;
+}
+#groupname > small {
+	font-size: 20px; 
+	letter-spacing: 5px;
+	font-family: 'Black Ops One', cursive;
+}
+
+#viewgroupcontent div.page-header > h2, #viewgroupcontent h3 {
+	font-family: 'Holtwood One SC', serif;
+	letter-spacing: 3px;
+	font-size: 30px;
+}
+
+#viewgroupcontent h4, #viewgroupcontent p {
+	font-family: 'Black Ops One', cursive;
+	font-size: 20px;
+	color: #0080FF;
+}
+
 #modalDelete {
 	top: 200px;
 }
@@ -194,7 +235,7 @@ div#pagination a.activepage {
 }
 
 /*************************************
-		    Groups Page
+		  View Groups Page
 **************************************/
 
 /****************************
@@ -205,15 +246,25 @@ div#pagination a.activepage {
 
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
 
+}
+
+@media (max-width: 1015px) {
+	a#title {
+		font-size: 20px;
+	}
 }
 
 /* Landscape phone to portrait tablet */
 @media (max-width: 768px) {
-	ul#leftmenu li a {
-		width: 90%;
-		margin: 0 auto;
+	a#title {
+		position: absolute;
+		width: 100%;
+		font-size: 30px;
+	}
+	ul#rightmenu ul li.divider, ul#yourgroups li.divider {
+		display: none;
 	}
 }	
 
@@ -223,7 +274,15 @@ div#pagination a.activepage {
 
 /* Portrait & landscape phone */
 @media (max-width: 480px) {
+	a#title {
+		font-size: 20px;
+	}
+}
 
+@media (max-width: 350px) {
+	a#title {
+		font-size: 15px;
+	}
 }
 
 @media (max-width: 320px) {

@@ -34,9 +34,8 @@
 		
 </head>
 <body>
+	<?php include 'includes/menu.php'; ?>
 	<div class="container" id="mainContainer">
-		<?php include 'includes/title.php'; ?>
-		<?php include 'includes/menu.php'; ?>
 
 		<?php 
 			if(isset($_GET['id']) && !empty($_GET['id'])) { 
@@ -49,7 +48,7 @@
 				
 		?>
 				<div class="page-header">
-					<h1><?php echo $groupname; ?><br /><small style="font-size: 20px; letter-spacing: 5px;">by <?php echo $leaderName; ?></small></h1>
+					<h1 id="groupname" class="text-centered"><?php echo $groupname; ?><br /><small>by <?php echo $leaderName; ?></small></h1>
 					<?php if($db->checkIfLeader($groupID, $userID)) { ?>
 					<div class="text-centered">
 						<a href="" class="btn btn-large btn-primary" id="alertMe">Edit Group</a>
@@ -57,17 +56,22 @@
 					</div>
 					<?php } ?>
 				</div>
-				<div id="viewgroupcontent"class="row">
+				<div id="viewgroupcontent" class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="page-header"><h2>Description:</h2></div>
+						<div class="page-header text-centered"><h2>Description:</h2></div>
 						<p class="text-centered"><?php echo $groupdescription; ?></p>
+						<hr />
 					</div>
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-						<div class="page-header"><h2>Members:</h2></div>
+						<div class="page-header text-centered"><h2>Members:</h2></div>
 						<h3 class="text-centered"><strong>Leader:</strong></h3>
+						<hr />
 						<h4 class="text-centered"><?php echo $leaderName; ?></h4>
+						<hr />
 						<h3 class="text-centered"><strong>Members:</strong></h3>
+						<hr />
+						<hr />
 					</div>
 				</div>
 		<?php } ?>

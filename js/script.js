@@ -102,3 +102,19 @@ $('#createGroupForm').submit(function(event) {
         }
     });
 });
+
+$('#modalJoin').on('show.bs.modal', function(e) {
+    
+    var $modal = $(this),
+        esseyId = e.relatedTarget.id;
+    var string = esseyId.split('/');
+   $modal.find('#gname').html(string[1]);
+   $modal.find('#joingroup').val(string[0]);
+});
+
+$('#modalPendingCancel').on('show.bs.modal', function(e) {
+    var $modal = $(this),
+        esseyId = e.relatedTarget.id;
+    var string = esseyId.split('/');
+   $modal.find('#pendingcancelgroup').val(string[0]);
+});

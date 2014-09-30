@@ -61,5 +61,24 @@
 		} else {
 			echo "<script>alert('Something went wrong, Group Couldn't be deleted. Try again Later.');</script>";
 		}
+	} else if(isset($_POST['joingroup']) && !empty($_POST['joingroup'])) {
+		$groupID = $_POST['joingroup'];
+		$userID = $_POST['userid'];
+		$message = $_POST['joinmessage'];
+
+		if($db->joinGroup($userID, $groupID, $message)) {
+			header("Location: ../groups.php");
+		} else {
+			echo "<script>alert('Something went wrong, Couldn't join the group. Try again Later.');</script>";
+		}
+	} else if(isset($_POST['pendingcancelgroup']) && !empty($_POST['pendingcancelgroup'])) {
+		$groupID = $_POST['pendingcancelgroup'];
+		$userID = $_POST['userid'];
+
+		if($db->cancelPending($userID, $groupID)) {
+			header("Location: ../groups.php");
+		} else {
+			echo "<script>alert('Something went wrong, Couldn't cancel pending. Try again Later.');</script>";
+		}
 	}
 ?>

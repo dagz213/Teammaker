@@ -22,9 +22,8 @@
 	<script type="text/javascript" src="../../js/bootstrap.js"></script>	
 </head>
 <body>
+	<?php include 'includes/menu.php'; ?>
 	<div class="container" id="mainContainer">
-		<?php include 'includes/title.php'; ?>
-		<?php include 'includes/menu.php'; ?>
 		<div class="page-header">
 		   <h2>Login</h2>
 		</div>

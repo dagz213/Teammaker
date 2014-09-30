@@ -22,9 +22,8 @@
 	<script type="text/javascript" src="../../js/bootstrap.js"></script>	
 </head>
 <body>
+	<?php include 'includes/menu.php'; ?>
 	<div class="container" id="mainContainer">
-		<?php include 'includes/title.php'; ?>
-		<?php include 'includes/menu.php'; ?>
 		<div class="list-group-item">
 			<h4 class="list-group-item-heading">Description:</h4><br />
 			<p class="list-group-item-text">Team Maker Web App is an app that can be used in a classroom, by group of people and by a company.</p>

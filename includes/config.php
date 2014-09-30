@@ -1,6 +1,6 @@
 <?php
 	define("DB_HOST", "wyncodingca.ipagemysql.com");
-	define("DB_USER", "teammaker");
-	define("DB_PASSWORD", "teammaker");
-	define("DB_DATABASE", "teammaker");
+	define("DB_USER", "tm");
+	define("DB_PASSWORD", "tm");
+	define("DB_DATABASE", "tm");
 ?>

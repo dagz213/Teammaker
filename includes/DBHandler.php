@@ -114,8 +114,8 @@ class DBHandler {
     }
 
     function getGroupsByPage($start, $max) {
-        $result = mysql_query("SELECT * FROM `group`ORDER BY groupID DESC LIMIT $start, $max") or Die("End");
-        return $result;
+        $result = mysql_query("SELECT * FROM `group`ORDER BY groupID DESC LIMIT $start, $max") or die(mysql_error());
+        if($result) return $result; else return false;
     }
 
     function getGroupNameByID($groupID) {
@@ -135,7 +135,6 @@ class DBHandler {
         $result = mysql_query("DELETE FROM `group` WHERE groupID = '$groupID'") or die(mysql_error());
         if($result) return true; else return false;
     }
-
     
     /***********************************
                     GROUP
@@ -206,6 +205,30 @@ class DBHandler {
 
     /***********************************
                 MEMBER STATUS
+    *************************************/
+
+    /***********************************
+                  REQUESTS
+    *************************************/
+
+    function checkIfPending($userID, $groupID) {
+        $result = mysql_query("SELECT * FROM `requests` WHERE userID = '$userID' AND groupID = '$groupID'") or die(mysql_error());
+        $no_of_rows = mysql_num_rows($result);
+        if($no_of_rows == 1) return true; else return false;
+    }
+
+    function joinGroup($userID, $groupID, $message) {
+        $result = mysql_query("INSERT INTO `requests` (userID, groupID, message) VALUES ($userID, $groupID, '$message')") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+
+    function cancelPending($userID, $groupID) {
+        $result = mysql_query("DELETE FROM `requests` WHERE userID = '$userID' AND groupID = '$groupID'") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+
+    /***********************************
+                  REQUESTS
     *************************************/
 }
 
