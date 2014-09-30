@@ -61,6 +61,16 @@
 		} else {
 			echo "<script>alert('Something went wrong, Group Couldn't be deleted. Try again Later.');</script>";
 		}
+	} else if(isset($_POST['editgroup']) && !empty($_POST['editgroup'])) {
+		$groupID = $_POST['editgroup'];
+		$groupname = $_POST['groupname'];
+		$groupdescription = $_POST['groupdescription'];
+
+		if($db->editGroup($groupID, $groupname, $groupdescription)) {
+			header("Location: ../viewgroup.php?id=$groupID");
+		} else {
+			echo "<script>alert('Something went wrong, Group Couldn't be edited. Try again Later.');</script>";
+		}
 	} else if(isset($_POST['joingroup']) && !empty($_POST['joingroup'])) {
 		$groupID = $_POST['joingroup'];
 		$userID = $_POST['userid'];

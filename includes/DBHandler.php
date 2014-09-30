@@ -135,6 +135,11 @@ class DBHandler {
         $result = mysql_query("DELETE FROM `group` WHERE groupID = '$groupID'") or die(mysql_error());
         if($result) return true; else return false;
     }
+
+    function editGroup($groupID, $groupname, $groupdescription) {
+        $result = mysql_query("UPDATE `group` SET groupname='$groupname', groupdescription='$groupdescription' WHERE groupID=$groupID");
+        if($result) return true; else return false;
+    }
     
     /***********************************
                     GROUP

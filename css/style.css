@@ -204,8 +204,8 @@ div#pagination a.activepage {
 }
 
 #groupname {
-	font-size: 50px;
-	font-family: 'Holtwood One SC', serif;
+	font-size: 60px;
+	font-family: 'Lobster', serif;
 }
 #groupname > small {
 	font-size: 20px; 
@@ -214,14 +214,18 @@ div#pagination a.activepage {
 }
 
 #viewgroupcontent div.page-header > h2, #viewgroupcontent h3 {
-	font-family: 'Holtwood One SC', serif;
+	font-family: 'Lobster', serif;
 	letter-spacing: 3px;
 	font-size: 30px;
 }
 
+#viewgroupcontent div.page-header > h2 {
+	font-size: 50px;
+}
+
 #viewgroupcontent h4, #viewgroupcontent p {
 	font-family: 'Black Ops One', cursive;
-	font-size: 20px;
+	font-size: 17px;
 	color: #0080FF;
 }
 
@@ -232,6 +236,12 @@ div#pagination a.activepage {
 .modal-body div {
 	width: 150px;
 	margin: 0 auto;
+}
+
+#editGroupName, #editGroupDescription {
+	width: 200px;
+	margin-left: -40px;
+	margin-bottom: 10px;
 }
 
 /*************************************

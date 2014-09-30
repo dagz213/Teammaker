@@ -51,7 +51,7 @@
 					<h1 id="groupname" class="text-centered"><?php echo $groupname; ?><br /><small>by <?php echo $leaderName; ?></small></h1>
 					<?php if($db->checkIfLeader($groupID, $userID)) { ?>
 					<div class="text-centered">
-						<a href="" class="btn btn-large btn-primary" id="alertMe">Edit Group</a>
+						<a href="#modalEdit" role="button" class="btn btn-large btn-primary" data-toggle="modal">Edit Group</a>
 						<a href="#modalDelete" role="button" class="btn btn-large btn-primary" data-toggle="modal">Delete Group</a>
 					</div>
 					<?php } ?>
@@ -89,6 +89,30 @@
 							<input type="hidden" name="deletegroup" value="<?php echo $groupID; ?>">
 							<input class="btn btn-primary" type="submit" value="Delete" />
 						
+						<button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
+						</form>
+					</div>
+					</div><!-- end modal-footer -->
+
+				</div><!-- end modal-content -->
+			</div><!-- end modal-dialog -->
+		</div><!-- end myModal -->
+
+		<div class="modal fade" id="modalEdit">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title text-centered">Edit <?php echo $groupname;?></h4>
+					</div><!-- end modal-header -->
+
+					<div class="modal-body">
+					<div>
+						<form id="editGroupForm" action="includes/actions.php" method="post">
+							<input id="editGroupName" type="text" name="groupname" value="<?php echo $groupname;?>">
+							<textarea id="editGroupDescription" name="groupdescription" class="form-control" rows="6"><?php echo $groupdescription;?></textarea>
+							<input type="hidden" name="editgroup" value="<?php echo $groupID; ?>">
+							<input class="btn btn-primary" type="submit" value="Edit" />
 						<button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
 						</form>
 					</div>
