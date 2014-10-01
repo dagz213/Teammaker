@@ -103,10 +103,11 @@
 				$groupname = $row['groupname'];
 				$userID = $db->getLeaderID($groupID);
 				$leaderName = $db->getLeaderName($userID);
+				$groupCount = $db->getGroupCount($groupID);
 				echo 
 				'<div class="list-group-item">
 					<div class="groupdescription">
-						<h1 class="list-group-item-heading">', $groupname,'</h1>
+						<h1 class="list-group-item-heading">', $groupname,' (', $groupCount,')</h1>
 						<p class="list-group-item-text">', $row['groupdescription'],'
 						</p>
 						<p class="list-group-item-text">', $leaderName,'</p>
