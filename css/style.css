@@ -248,6 +248,22 @@ div#pagination a.activepage {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+	
+#acceptSubmit {
+	width: 100%;
+	margin-left: 0;
+	margin-bottom: 10px;
+}
+#refuseSubmit {
+	width: 100%;
+}
+
+#pendings {
+	width: 100%;
+}
+#pendings option{
+	width: 100%;
+}
 
 /*************************************
 		  View Groups Page
@@ -258,7 +274,14 @@ div#pagination a.activepage {
 *****************************/
 /* Before Tablet */
 @media (max-width: 1200px) {
-
+	/* Group's Page */
+	.groupdescription {
+		width: 83%;
+	}
+	.groupbuttons {
+		width: 17%;
+	}
+	/* Group's Page */
 }
 
 @media (max-width: 1024px) {
@@ -271,6 +294,17 @@ div#pagination a.activepage {
 	}
 }
 
+@media (max-width: 991px) {
+	/* Group's Page */
+	.groupdescription {
+		width: 78%;
+	}
+	.groupbuttons {
+		width: 22%;
+	}
+	/* Group's Page */
+}
+
 /* Landscape phone to portrait tablet */
 @media (max-width: 768px) {
 	a#title {
@@ -281,10 +315,69 @@ div#pagination a.activepage {
 	ul#rightmenu ul li.divider, ul#yourgroups li.divider {
 		display: none;
 	}
+
+	/* Group's Page */
+	.groupbuttons a {
+		width: 130px;
+	}
+	.groupTitle {
+		font-size: 30px;
+	}
+	.groupList {
+		font-size: 15px;
+	}
+	/* Group's Page */
+
+	/* View Group's Page */
+	#groupname {
+		font-size: 50px;
+	}
+	#groupname > small {
+		font-size: 15px; 
+	}
+	#viewgroupcontent div.page-header > h2, #viewgroupcontent h3 {
+		font-size: 20px;
+	}
+	#viewgroupcontent div.page-header > h2 {
+		font-size: 40px;
+	}
+	#viewgroupcontent h4, #viewgroupcontent p {
+		font-size: 17px;
+	}
+	/* View Group's Page */
 }	
 
 @media (max-width: 620px) {
+	/* Group's Page */
+	.groupbuttons a {
+		width: 100px;
+		font-size: 11px;
+		padding: 10px 15px;
+	}
+	/* Group's Page */
 
+	/* View Group's Page */
+	#viewgroupcontent div.page-header > h2, #viewgroupcontent h3 {
+		font-size: 15px;
+	}
+	#viewgroupcontent div.page-header > h2 {
+		font-size: 30px;
+	}
+	#viewgroupcontent h4, #viewgroupcontent p {
+		font-size: 12px;
+	}
+	/* View Group's Page */
+}
+
+@media (max-width: 520px) {
+	/* Group's Page */
+	.groupTitle {
+		font-size: 25px;
+	}
+	.groupList {
+		font-size: 12px;
+	}
+	/* Group's Page */
 }
 
 /* Portrait & landscape phone */
@@ -292,12 +385,88 @@ div#pagination a.activepage {
 	a#title {
 		font-size: 20px;
 	}
+
+	/* Group's Page */
+	.groupbuttons a {
+		font-size: 11px;
+		padding: 5px 10px;
+	}
+	.groupdescription {
+		width: 73%;
+	}
+	.groupbuttons {
+		width: 27%;
+	}
+	.groupTitle {
+		font-size: 20px;
+	}
+	.groupList {
+		font-size: 11px;
+	}
+	/* Group's Page */
+
+	/* View Group's Page */
+	#viewgroupcontent div.page-header > h2 {
+		font-size: 25px;
+	}
+	/* View Group's Page */
+}
+
+@media (max-width: 420px) {
+	/* Group's Page */
+	.groupdescription {
+		width: 69%;
+	}
+	.groupbuttons {
+		width: 31%;
+	}
+	.groupTitle {
+		font-size: 18px;
+	}
+	.groupList {
+		font-size: 11px;
+	}
+	/* Group's Page */
+
+	/* View Group's Page */
+	#viewgroupcontent div.page-header > h2, #viewgroupcontent h3 {
+		font-size: 13px;
+	}
+	#viewgroupcontent div.page-header > h2 {
+		font-size: 20px;
+	}
+	#viewgroupcontent h4, #viewgroupcontent p {
+		font-size: 10px;
+	}
+	/* View Group's Page */
+}
+
+@media (max-width: 380px) {
+	/* Group's Page */
+	.groupbuttons a {
+		width: 80px;
+		font-size: 10px;
+		padding: 5px 5px;
+	}
+	/* Group's Page */
 }
 
 @media (max-width: 350px) {
 	a#title {
 		font-size: 15px;
 	}
+
+	/* View Group's Page */
+	#viewgroupcontent div.page-header > h2, #viewgroupcontent h3 {
+		font-size: 12px;
+	}
+	#viewgroupcontent div.page-header > h2 {
+		font-size: 18px;
+	}
+	#viewgroupcontent h4, #viewgroupcontent p {
+		font-size: 8px;
+	}
+	/* View Group's Page */
 }
 
 @media (max-width: 320px) {

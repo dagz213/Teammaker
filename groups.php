@@ -107,14 +107,14 @@
 
 				$maxMembers = 7;
 				$maxGroups = 5;
-				
+
 				echo 
 				'<div class="list-group-item">
 					<div class="groupdescription">
-						<h1 class="list-group-item-heading">', $groupname,' (', $groupCount,')</h1>
-						<p class="list-group-item-text">', $row['groupdescription'],'
+						<h1 class="list-group-item-heading groupTitle">', $groupname,' (', $groupCount,')</h1>
+						<p class="list-group-item-text groupList">', $row['groupdescription'],'
 						</p>
-						<p class="list-group-item-text">', $leaderName,'</p>
+						<p class="list-group-item-text groupList">', $leaderName,'</p>
 					</div> <!-- END OF GROUP DESCRIPTION -->
 					<div class="groupbuttons">
 				';

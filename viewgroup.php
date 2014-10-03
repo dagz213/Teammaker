@@ -57,13 +57,12 @@
 					<?php } ?>
 				</div>
 				<div id="viewgroupcontent" class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 						<div class="page-header text-centered"><h2>Description:</h2></div>
 						<p class="text-centered"><?php echo $groupdescription; ?></p>
 						<hr />
 					</div>
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 						<div class="page-header text-centered"><h2>Members:</h2></div>
 						<h3 class="text-centered"><strong>Leader:</strong></h3>
 						<hr />
@@ -101,7 +100,7 @@
 			        		</select>
 			        		<h3 class="text-centered" style="font-size: 17px;"><strong>Reason of joining:</strong></h3>
 			        		<h4 id="message" class="text-centered"></h4>
-			        		<input type="submit" id="acceptSubmit" name="accept" value="Accept" class="btn btn-large btn-primary" style="margin-left: 60px;">
+			        		<input type="submit" id="acceptSubmit" name="accept" value="Accept" class="btn btn-large btn-primary acceptButton">
 			        		<input type="submit" id="refuseSubmit" name="refuse" value="Refuse" class="btn btn-large btn-primary">
 			        	</form>
 			        	<div id="resultMessage"></div>
