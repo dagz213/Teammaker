@@ -104,6 +104,10 @@
 				$userID = $db->getLeaderID($groupID);
 				$leaderName = $db->getLeaderName($userID);
 				$groupCount = $db->getGroupCount($groupID);
+
+				$maxMembers = 7;
+				$maxGroups = 5;
+				
 				echo 
 				'<div class="list-group-item">
 					<div class="groupdescription">
@@ -115,16 +119,20 @@
 					<div class="groupbuttons">
 				';
 				//Group Buttons
-				if($db->getYourGroupCount($yourUserID) <= 7) {
+				if($db->getYourGroupCount($yourUserID) <= $maxGroups) {
+
 					if($db->checkIfInGroup($groupID, $yourUserID)) {
 						//Already Joinged
 						echo '<a href="" class="btn btn-large btn-primary" id="alreadyJoinedButton">Already Joined</a>';
 
 					} else if($db->checkIfPending($yourUserID, $groupID)) {
 						echo '<a href="#myModal" data-toggle="modal" data-target="#modalPendingCancel" role="button" id="', $groupID,'" class="pendingButton btn btn-large btn-primary"></a>';
+					} else if($groupCount >= $maxMembers) {
+						echo "They already have the max members";
 					} else {
 						echo '<a href="#myModal" data-toggle="modal" data-target="#modalJoin" role="button" id="', $groupID,'/', $groupname,'" class="btn btn-large btn-primary">Join</a>';
 					}
+
 				} else {
 					echo "You Can't Join a group Anymore!";
 				}
