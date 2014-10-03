@@ -168,7 +168,7 @@ $('#pendingForm').submit(function(event) {
             if(data === "SUCCESS") {
                 setTimeout('window.location.href = "viewgroup.php?id=' + groupID + '";', 0);
             } else if(data === "FAIL") {
-                alert("aw");
+
             }
         },
         error:function(){

@@ -38,6 +38,7 @@
 	<div class="container" id="mainContainer">
 
 		<?php 
+			$yourUserID = $db-> getUserID($username);
 			if(isset($_GET['id']) && !empty($_GET['id'])) { 
 				$groupID = $_GET['id'];
 				$group = $db->getGroupByID($groupID);
@@ -76,11 +77,17 @@
 	        					$userID = $member['userID'];
 	        					$user = $db->getLeaderName($userID);
 	        					echo '
-	        						<h4 class="text-centered">', $user,'</h4>
+	        						<h4 class="text-centered">', $user;
+	        					if($db->checkIfLeader($groupID, $yourUserID)) {
+	        						echo '(<a href="includes/actions.php?action=kickMember&userID=', $userID,'&groupID=', $groupID,'">Kick?</a>)';
+	        					}
+	        					echo '
+	        						</h4>
 	        					';
 	        				}
 	        			?>
 						<hr />
+						<?php if($db->checkIfLeader($groupID, $yourUserID)) { ?>
 						<h3 class="text-centered"><strong>Pending:</strong></h3>
 						<hr />
 						<form id="pendingForm" method="post">
@@ -105,6 +112,7 @@
 			        	</form>
 			        	<div id="resultMessage"></div>
 						<hr />
+						<?php } ?>
 					</div>
 				</div>
 		<?php } ?>
