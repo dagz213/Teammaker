@@ -115,6 +115,7 @@
 					<div class="groupbuttons">
 				';
 				//Group Buttons
+				if($db->getYourGroupCount($yourUserID) <= 7) {
 					if($db->checkIfInGroup($groupID, $yourUserID)) {
 						//Already Joinged
 						echo '<a href="" class="btn btn-large btn-primary" id="alreadyJoinedButton">Already Joined</a>';
@@ -124,7 +125,9 @@
 					} else {
 						echo '<a href="#myModal" data-toggle="modal" data-target="#modalJoin" role="button" id="', $groupID,'/', $groupname,'" class="btn btn-large btn-primary">Join</a>';
 					}
-
+				} else {
+					echo "You Can't Join a group Anymore!";
+				}
 				echo '	
 					</div> <!-- END OF GROUP BUTTONS -->
 				</div>';

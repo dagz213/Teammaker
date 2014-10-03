@@ -225,6 +225,12 @@ class DBHandler {
         if($result) return $result; else return false;
     }
 
+    function getYourGroupCount($userID) {
+        $result = mysql_query("SELECT * FROM memberstatus WHERE userID = '$userID'") or die(mysql_error());
+         $no_of_rows = mysql_num_rows($result);
+         return $no_of_rows;
+    }
+
     /***********************************
                 MEMBER STATUS
     *************************************/
