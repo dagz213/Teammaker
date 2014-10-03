@@ -60,6 +60,7 @@
 			header("Location: ../groups.php");
 		} else {
 			echo "<script>alert('Something went wrong, Group Couldn't be deleted. Try again Later.');</script>";
+			header("Location: ../groups.php");
 		}
 	} else if(isset($_POST['editgroup']) && !empty($_POST['editgroup'])) {
 		$groupID = $_POST['editgroup'];
@@ -70,6 +71,7 @@
 			header("Location: ../viewgroup.php?id=$groupID");
 		} else {
 			echo "<script>alert('Something went wrong, Group Couldn't be edited. Try again Later.');</script>";
+			header("Location: ../groups.php");
 		}
 	} else if(isset($_POST['joingroup']) && !empty($_POST['joingroup'])) {
 		$groupID = $_POST['joingroup'];
@@ -80,6 +82,7 @@
 			header("Location: ../groups.php");
 		} else {
 			echo "<script>alert('Something went wrong, Couldn't join the group. Try again Later.');</script>";
+			header("Location: ../groups.php");
 		}
 	} else if(isset($_POST['pendingcancelgroup']) && !empty($_POST['pendingcancelgroup'])) {
 		$groupID = $_POST['pendingcancelgroup'];
@@ -97,20 +100,31 @@
 		$message = $db->getReasonByUserID($userID, $groupID);
 		echo $message;
 
+	}  else if (isset($_GET['action']) && $_GET['action'] === 'kickMember') {
+
+		$userID = $_GET['userID'];
+		$groupID = $_GET['groupID'];
+		if($db->kickMember($groupID, $userID)) {
+			header("Location: ../viewgroup.php?id=$groupID");
+		} else {
+			echo "<script>alert('Something went wrong, Couldn't kick that member. Try again Later.');</script>";
+			header("Location: ../groups.php");
+		}
+
+	}  else if (isset($_GET['member']) && $_GET['member'] === 'refuseMember') {
+		$userID = $_GET['pendings'];
+		$groupID = $_GET['optionGroupID'];
+		
+		if($db->cancelPending($userID, $groupID)) {
+			echo "SUCCESS";
+		} else {
+			echo "FAIL";
+		}
 	} else if (isset($_GET['member']) && $_GET['member'] === 'acceptMember') {
 		$userID = $_GET['pendings'];
 		$groupID = $_GET['optionGroupID'];
 
 		if($db->acceptMember($userID, $groupID)) {
-			echo "SUCCESS";
-		} else {
-			echo "FAIL";
-		}
-	}  else if (isset($_POST['member']) && $_POST['member'] === 'refuseMember') {
-		$userID = $_POST['pendings'];
-		$groupID = $_POST['optionGroupID'];
-
-		if($db->cancelPending($userID, $groupID)) {
 			echo "SUCCESS";
 		} else {
 			echo "FAIL";

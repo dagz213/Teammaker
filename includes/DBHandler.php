@@ -176,12 +176,12 @@ class DBHandler {
     *************************************/
 
     function createLeaderGroup($userID, $groupID) {
-        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, status) VALUES ($userID, $groupID, 'Leader')") or die(mysql_error());
+        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, status) VALUES ('$userID', '$groupID', 'Leader')") or die(mysql_error());
         if($result) return true; else return false;
     }
 
     function createMember($userID, $groupID) {
-        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, status) VALUES ($userID, $groupID, 'Member')") or die(mysql_error());
+        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, status) VALUES ('$userID', '$groupID', 'Member')") or die(mysql_error());
         if($result) return true; else return false;
     }
 
@@ -231,6 +231,11 @@ class DBHandler {
          return $no_of_rows;
     }
 
+    function kickMember($groupID, $userID) {
+        $result = mysql_query("DELETE FROM memberstatus WHERE groupID = '$groupID' AND userID = '$userID'") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+
     /***********************************
                 MEMBER STATUS
     *************************************/
@@ -270,10 +275,9 @@ class DBHandler {
     }
 
     function acceptMember($userID, $groupID) {
-        $result = mysql_query("DELETE FROM `requests` WHERE userID = '$userID' AND groupID = '$groupID'") or die(mysql_error());
+        $result = $this->cancelPending($userID, $groupID);
         if($result) {
-            $result = $this->createMember($userID, $groupID);
-            if($result) return true; else return false;
+            if($this->createMember($userID, $groupID)) return true; else return false;
         } else return false;
     }
     /***********************************

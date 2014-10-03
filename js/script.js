@@ -154,9 +154,9 @@ $('#pendingForm').submit(function(event) {
     var values = $(this).serialize();
     var groupID = $('#optionGroupID').val();
     var memberString = "";
-    if(btnName == 'accept') {
+    if(btnName === 'accept') {
         memberString = "acceptMember";
-    } else if(btnName == 'refuse') {
+    } else if(btnName === 'refuse') {
         memberString = "refuseMember";
     }
 
@@ -166,7 +166,9 @@ $('#pendingForm').submit(function(event) {
         data: "member=" + memberString + "&" + values,
         success: function(data){
             if(data === "SUCCESS") {
-                setTimeout('window.location.href = "viewgroup.php?id=' + groupID + '";', 1000);
+                setTimeout('window.location.href = "viewgroup.php?id=' + groupID + '";', 0);
+            } else if(data === "FAIL") {
+                alert("aw");
             }
         },
         error:function(){
