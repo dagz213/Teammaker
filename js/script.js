@@ -118,3 +118,59 @@ $('#modalPendingCancel').on('show.bs.modal', function(e) {
     var string = esseyId.split('/');
    $modal.find('#pendingcancelgroup').val(string[0]);
 });
+
+
+//to get The reason of joinging
+function showUser(str) {
+    var groupID = $('#optionGroupID').val();
+    if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    } else {
+        // code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            document.getElementById("message").innerHTML=xmlhttp.responseText;
+        }
+    }
+
+    xmlhttp.open("GET","includes/actions.php?action=getPending&userID=" + str + "&groupID=" + groupID,true);
+    xmlhttp.send();
+}
+
+var clkBtn = "";
+$('input[type="submit"]').click(function(evt) {
+    clkBtn = evt.target.name;
+});
+
+
+$('#pendingForm').submit(function(event) {
+    event.preventDefault();
+    var btnName = clkBtn;
+    $('#resultMessage').html('');
+    var values = $(this).serialize();
+    var groupID = $('#optionGroupID').val();
+    var memberString = "";
+    if(btnName == 'accept') {
+        memberString = "acceptMember";
+    } else if(btnName == 'refuse') {
+        memberString = "refuseMember";
+    }
+
+    $.ajax({
+        url: "includes/actions.php",
+        type: "GET",
+        data: "member=" + memberString + "&" + values,
+        success: function(data){
+            if(data === "SUCCESS") {
+                setTimeout('window.location.href = "viewgroup.php?id=' + groupID + '";', 1000);
+            }
+        },
+        error:function(){
+            $("#resultMessage").html('Something went wrong with the request!');
+        }
+    });
+});

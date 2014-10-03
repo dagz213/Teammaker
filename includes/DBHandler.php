@@ -180,6 +180,11 @@ class DBHandler {
         if($result) return true; else return false;
     }
 
+    function createMember($userID, $groupID) {
+        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, status) VALUES ($userID, $groupID, 'Member')") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+
     function getLeaderID($groupID) {
         $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND status='Leader'") or die(mysql_error());
         $result = mysql_fetch_array($result);
@@ -188,7 +193,7 @@ class DBHandler {
 
     function getAllYourGroup($userID) {
         $result = mysql_query("SELECT * FROM memberstatus WHERE userID = '$userID'") or die(mysql_error());
-        return $result;
+        if($result) return $result; else return false;
     }
 
     function checkIfLeader($groupID, $userID) {
@@ -215,6 +220,11 @@ class DBHandler {
          return $no_of_rows;
     }
 
+    function getMembers($groupID) {
+        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND status='Member'") or die(mysql_error());
+        if($result) return $result; else return false;
+    }
+
     /***********************************
                 MEMBER STATUS
     *************************************/
@@ -239,6 +249,27 @@ class DBHandler {
         if($result) return true; else return false;
     }
 
+    function getPendings($groupID) {
+        $result = mysql_query("SELECT * FROM `requests` WHERE groupID = '$groupID'") or die(mysql_error());
+        if($result) return $result; else return false;
+    }
+
+    function getReasonByUserID($userID, $groupID) {
+        $result = mysql_query("SELECT * FROM `requests` WHERE groupID = '$groupID' AND userID = '$userID' ") or die(mysql_error());
+        if($result && mysql_num_rows($result) == 1) {
+            $result = mysql_fetch_assoc($result);
+            $message = $result['message'];
+            return $message;
+        } else return $groupID;
+    }
+
+    function acceptMember($userID, $groupID) {
+        $result = mysql_query("DELETE FROM `requests` WHERE userID = '$userID' AND groupID = '$groupID'") or die(mysql_error());
+        if($result) {
+            $result = $this->createMember($userID, $groupID);
+            if($result) return true; else return false;
+        } else return false;
+    }
     /***********************************
                   REQUESTS
     *************************************/

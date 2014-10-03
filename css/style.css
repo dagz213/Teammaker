@@ -244,6 +244,11 @@ div#pagination a.activepage {
 	margin-bottom: 10px;
 }
 
+#message {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 /*************************************
 		  View Groups Page
 **************************************/

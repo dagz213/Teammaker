@@ -71,6 +71,40 @@
 						<hr />
 						<h3 class="text-centered"><strong>Members:</strong></h3>
 						<hr />
+						<?php 
+	        				$result = $db->getMembers($groupID);
+	        				while($member = mysql_fetch_array($result)) {
+	        					$userID = $member['userID'];
+	        					$user = $db->getLeaderName($userID);
+	        					echo '
+	        						<h4 class="text-centered">', $user,'</h4>
+	        					';
+	        				}
+	        			?>
+						<hr />
+						<h3 class="text-centered"><strong>Pending:</strong></h3>
+						<hr />
+						<form id="pendingForm" method="post">
+							<input type="hidden" name="optionGroupID" id="optionGroupID" value="<?php echo $groupID; ?>">
+			        		<select name="pendings" id="pendings" onchange="showUser(this.value);">
+			        			<option value="" selected="true">Select the best candidate to accept:</option>
+			        			<?php 
+			        				$result = $db->getPendings($groupID);
+			        				while($pendings = mysql_fetch_array($result)) {
+			        					$userID = $pendings['userID'];
+			        					$user = $db->getLeaderName($userID);
+			        					echo "
+			        						<option value='$userID'>".$user."</option>
+			        					";
+			        				}
+			        			?>
+			        		</select>
+			        		<h3 class="text-centered" style="font-size: 17px;"><strong>Reason of joining:</strong></h3>
+			        		<h4 id="message" class="text-centered"></h4>
+			        		<input type="submit" id="acceptSubmit" name="accept" value="Accept" class="btn btn-large btn-primary" style="margin-left: 60px;">
+			        		<input type="submit" id="refuseSubmit" name="refuse" value="Refuse" class="btn btn-large btn-primary">
+			        	</form>
+			        	<div id="resultMessage"></div>
 						<hr />
 					</div>
 				</div>

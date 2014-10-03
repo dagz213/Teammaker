@@ -29,7 +29,7 @@
 				while($row = mysql_fetch_array($yourGroups)) {
 					$groupID = $row['groupID'];
 					$groupname = $db->getGroupNameByID($groupID);
-					echo '<li><a href="viewgroup.php?id=', $groupID,'">', $groupname,'</a></li><li class="divider"></li>';
+					echo '<li><a href="viewgroup.php?id=', $groupID,'">', $groupname,'</a></li>';
 				}
 
 		echo "	
