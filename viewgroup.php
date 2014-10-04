@@ -46,6 +46,7 @@
 				$leaderID = $db->getLeaderID($groupID);
 				$leaderName = $db->getLeaderName($leaderID);
 				$groupdescription = $group['groupdescription'];
+				$pendingCount = $db->getRequestCount($groupID);
 				
 		?>
 				<div class="page-header">
@@ -79,7 +80,7 @@
 	        					echo '
 	        						<h4 class="text-centered">', $user;
 	        					if($db->checkIfLeader($groupID, $yourUserID)) {
-	        						echo '(<a href="includes/actions.php?action=kickMember&userID=', $userID,'&groupID=', $groupID,'">Kick?</a>)';
+	        						echo '(<a href="#myModal" data-toggle="modal" data-target="#modalKick" role="button" id="', $userID,'/', $user,'">Kick?</a>)';
 	        					}
 	        					echo '
 	        						</h4>
@@ -93,7 +94,7 @@
 						<form id="pendingForm" method="post">
 							<input type="hidden" name="optionGroupID" id="optionGroupID" value="<?php echo $groupID; ?>">
 			        		<select name="pendings" id="pendings" onchange="showUser(this.value);">
-			        			<option value="" selected="true">Select the best candidate to accept:</option>
+			        			<option value="" selected="true">Select the best candidate to accept: <?php echo $pendingCount; ?></option>
 			        			<?php 
 			        				$result = $db->getPendings($groupID);
 			        				while($pendings = mysql_fetch_array($result)) {
@@ -154,6 +155,29 @@
 							<textarea id="editGroupDescription" name="groupdescription" class="form-control" rows="6"><?php echo $groupdescription;?></textarea>
 							<input type="hidden" name="editgroup" value="<?php echo $groupID; ?>">
 							<input class="btn btn-primary" type="submit" value="Edit" />
+						<button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
+						</form>
+					</div>
+					</div><!-- end modal-footer -->
+
+				</div><!-- end modal-content -->
+			</div><!-- end modal-dialog -->
+		</div><!-- end myModal -->
+
+		<div class="modal fade" id="modalKick">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title text-centered">Are you sure to kick <span id="kickname"></span> </h4>
+					</div><!-- end modal-header -->
+
+					<div class="modal-body">
+					<div>
+						<form id="kickMemberForm" action="includes/actions.php" method="post">
+							<input type="hidden" name="kickMember" value="<?php echo $groupID; ?>">
+							<input type="hidden" id="userID" name="userID">
+							<input class="btn btn-primary" type="submit" value="Kick" />
 						<button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
 						</form>
 					</div>

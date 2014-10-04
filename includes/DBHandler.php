@@ -280,6 +280,11 @@ class DBHandler {
             if($this->createMember($userID, $groupID)) return true; else return false;
         } else return false;
     }
+
+    function getRequestCount($groupID) {
+        $count = mysql_num_rows($this->getPendings($groupID));
+        return $count;
+    }
     /***********************************
                   REQUESTS
     *************************************/
