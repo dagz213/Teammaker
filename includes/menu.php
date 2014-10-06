@@ -18,7 +18,7 @@
 		
 			<ul class='nav navbar-nav' id='leftmenu'>
 				<li class='active'>
-					<a href='groups.php'>Groups</a>
+					<a href='groups.php'>Home</a>
 				</li>
 				<li class='dropdown'>
 					<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Your Teams<strong class='caret'></strong></a>
@@ -36,7 +36,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href='#'>Profile</a>
+					<a href='profile.php'>Profile</a>
 				</li>
 			</ul>
 			<ul id='rightmenu' class='nav navbar-nav pull-right'>

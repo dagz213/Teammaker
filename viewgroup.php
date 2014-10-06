@@ -46,6 +46,7 @@
 				$leaderID = $db->getLeaderID($groupID);
 				$leaderName = $db->getLeaderName($leaderID);
 				$groupdescription = $group['groupdescription'];
+				$pendingCount = $db->getRequestCount($groupID);
 				
 		?>
 				<div class="page-header">
@@ -67,7 +68,7 @@
 						<div class="page-header text-centered"><h2>Members:</h2></div>
 						<h3 class="text-centered"><strong>Leader:</strong></h3>
 						<hr />
-						<h4 class="text-centered"><?php echo $leaderName; ?></h4>
+						<h4 class="text-centered"><a href="profile.php?id=<?php echo $leaderID; ?>"><?php echo $leaderName; ?></a></h4>
 						<hr />
 						<h3 class="text-centered"><strong>Members:</strong></h3>
 						<hr />
@@ -77,9 +78,9 @@
 	        					$userID = $member['userID'];
 	        					$user = $db->getLeaderName($userID);
 	        					echo '
-	        						<h4 class="text-centered">', $user;
+	        						<h4 class="text-centered"><a href="profile.php?id=', $userID,'">', $user,'</a>';
 	        					if($db->checkIfLeader($groupID, $yourUserID)) {
-	        						echo '(<a href="includes/actions.php?action=kickMember&userID=', $userID,'&groupID=', $groupID,'">Kick?</a>)';
+	        						echo '(<a href="#myModal" data-toggle="modal" data-target="#modalKick" role="button" id="', $userID,'/', $user,'">Kick?</a>)';
 	        					}
 	        					echo '
 	        						</h4>
@@ -93,15 +94,15 @@
 						<form id="pendingForm" method="post">
 							<input type="hidden" name="optionGroupID" id="optionGroupID" value="<?php echo $groupID; ?>">
 			        		<select name="pendings" id="pendings" onchange="showUser(this.value);">
-			        			<option value="" selected="true">Select the best candidate to accept:</option>
+			        			<option value="" selected="true">Select the best candidate to accept: <?php echo $pendingCount; ?></option>
 			        			<?php 
 			        				$result = $db->getPendings($groupID);
 			        				while($pendings = mysql_fetch_array($result)) {
 			        					$userID = $pendings['userID'];
 			        					$user = $db->getLeaderName($userID);
-			        					echo "
-			        						<option value='$userID'>".$user."</option>
-			        					";
+			        					echo '
+			        						<option value="', $userID,'">', $user,'</option>
+			        					';
 			        				}
 			        			?>
 			        		</select>
@@ -154,6 +155,29 @@
 							<textarea id="editGroupDescription" name="groupdescription" class="form-control" rows="6"><?php echo $groupdescription;?></textarea>
 							<input type="hidden" name="editgroup" value="<?php echo $groupID; ?>">
 							<input class="btn btn-primary" type="submit" value="Edit" />
+						<button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
+						</form>
+					</div>
+					</div><!-- end modal-footer -->
+
+				</div><!-- end modal-content -->
+			</div><!-- end modal-dialog -->
+		</div><!-- end myModal -->
+
+		<div class="modal fade" id="modalKick">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title text-centered">Are you sure to kick <span id="kickname"></span> </h4>
+					</div><!-- end modal-header -->
+
+					<div class="modal-body">
+					<div>
+						<form id="kickMemberForm" action="includes/actions.php" method="post">
+							<input type="hidden" name="kickMember" value="<?php echo $groupID; ?>">
+							<input type="hidden" id="userID" name="userID">
+							<input class="btn btn-primary" type="submit" value="Kick" />
 						<button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
 						</form>
 					</div>

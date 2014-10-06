@@ -114,7 +114,7 @@
 						<h1 class="list-group-item-heading groupTitle">', $groupname,' (', $groupCount,')</h1>
 						<p class="list-group-item-text groupList">', $row['groupdescription'],'
 						</p>
-						<p class="list-group-item-text groupList">Leader: ', $leaderName,'</p>
+						<p class="list-group-item-text groupList">Leader: <a href="profile.php?id=', $userID,'">', $leaderName,'</a></p>
 					</div> <!-- END OF GROUP DESCRIPTION -->
 					<div class="groupbuttons">
 				';

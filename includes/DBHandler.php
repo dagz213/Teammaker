@@ -165,6 +165,11 @@ class DBHandler {
         return $leaderName;
     }
 
+    function getUserByID($userID) {
+         $result = mysql_query("SELECT * FROM user a INNER JOIN userprofile b ON a.userID = b.userID WHERE a.userID = '$userID'") or die(mysql_error());
+         if($result) return mysql_fetch_array($result); else return false;
+    }
+
     /* User INNER JOIN for account settings  */
 
     /***********************************
@@ -279,6 +284,11 @@ class DBHandler {
         if($result) {
             if($this->createMember($userID, $groupID)) return true; else return false;
         } else return false;
+    }
+
+    function getRequestCount($groupID) {
+        $count = mysql_num_rows($this->getPendings($groupID));
+        return $count;
     }
     /***********************************
                   REQUESTS

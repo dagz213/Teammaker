@@ -93,6 +93,16 @@
 		} else {
 			echo "<script>alert('Something went wrong, Couldn't cancel pending. Try again Later.');</script>";
 		}
+	}  else if(isset($_POST['kickMember']) && !empty($_POST['kickMember'])) {
+		$groupID = $_POST['kickMember'];
+		$userID = $_POST['userID'];
+
+		if($db->kickMember($groupID, $userID)) {
+			header("Location: ../viewgroup.php?id=$groupID");
+		} else {
+			echo "<script>alert('Something went wrong, Couldn't kick member. Try again Later.');</script>";
+			header("Location: ../viewgroup.php?id=$groupID");
+		}
 	}  else if (isset($_GET['action']) && $_GET['action'] === 'getPending') {
 
 		$userID = $_GET['userID'];
