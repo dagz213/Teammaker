@@ -36,7 +36,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href='#'>Profile</a>
+					<a href='profile.php'>Profile</a>
 				</li>
 			</ul>
 			<ul id='rightmenu' class='nav navbar-nav pull-right'>

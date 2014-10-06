@@ -68,7 +68,7 @@
 						<div class="page-header text-centered"><h2>Members:</h2></div>
 						<h3 class="text-centered"><strong>Leader:</strong></h3>
 						<hr />
-						<h4 class="text-centered"><?php echo $leaderName; ?></h4>
+						<h4 class="text-centered"><a href="profile.php?id=<?php echo $leaderID; ?>"><?php echo $leaderName; ?></a></h4>
 						<hr />
 						<h3 class="text-centered"><strong>Members:</strong></h3>
 						<hr />
@@ -78,7 +78,7 @@
 	        					$userID = $member['userID'];
 	        					$user = $db->getLeaderName($userID);
 	        					echo '
-	        						<h4 class="text-centered">', $user;
+	        						<h4 class="text-centered"><a href="profile.php?id=', $userID,'">', $user,'</a>';
 	        					if($db->checkIfLeader($groupID, $yourUserID)) {
 	        						echo '(<a href="#myModal" data-toggle="modal" data-target="#modalKick" role="button" id="', $userID,'/', $user,'">Kick?</a>)';
 	        					}
@@ -100,9 +100,9 @@
 			        				while($pendings = mysql_fetch_array($result)) {
 			        					$userID = $pendings['userID'];
 			        					$user = $db->getLeaderName($userID);
-			        					echo "
-			        						<option value='$userID'>".$user."</option>
-			        					";
+			        					echo '
+			        						<option value="', $userID,'">', $user,'</option>
+			        					';
 			        				}
 			        			?>
 			        		</select>
