@@ -182,10 +182,10 @@
 				}
 				echo "$previous'";
 
-				if($_GET['page'] == 1) {
+				if($totalpages == 1) {
+					echo "class='displaynone'";
+				} else if($_GET['page'] == 1 || !isset($_GET['page'])) {
 					echo "class='disabled'";
-				} else {
-					echo "class='enabled'";
 				}
 
 				echo "><< Previous</a></li>";
@@ -199,7 +199,9 @@
 	            	$next = 2;
 	            }
 	            echo "$next'";
-	            if($_GET['page'] == $totalpages) {
+	            if($totalpages == 1) {
+					echo "class='displaynone'";
+				} else if($_GET['page'] == $totalpages || $_GET['page'] == 1) {
 					echo "class='disabled'";
 				}
 	            echo ">Next >></a></li>"; 

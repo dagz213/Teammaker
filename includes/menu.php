@@ -45,7 +45,7 @@
 					
 					<ul class='dropdown-menu'>
 						<li>
-							<a href='#'><span class='glyphicon glyphicon-refresh'></span> Update Profile</a>
+							<a href='#'><span class='glyphicon glyphicon-refresh'></span>Update Profile</a>
 						</li>			
 						<li class='divider'></li>
 						<li>

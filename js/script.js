@@ -70,7 +70,39 @@ $('#loginForm').submit(function(event) {
         type: "post",
         data: values,
         success: function(data){
-            if(data === "Login Successful") {
+            var string = data.split('/');
+            if(string[0] === "Login Successful") {
+                $('#resultMessage').css('color', 'green');
+                if(string[1] === "noregister") {
+                    window.location.href = 'groups.php';
+                } else if (string[1] === "register") {
+                    window.location.href = 'registerprofile.php';
+                } 
+            } else { 
+                $('#resultMessage').css('color', 'red');   
+            }
+            $('#resultMessage').html(string[0]);
+        },
+        error:function(){
+            $("#resultMessage").html('Something went wrong with the request!');
+        }
+    });
+});
+
+/* REGISTER PROFILE */
+$('#profileRegistrationForm').submit(function(event) {
+    /* Stop form from submitting normally */
+    event.preventDefault();
+    $('#resultMessage').html('');
+    /* Get some values from elements on the page: */
+    var values = $(this).serialize();
+    /* Send the data using post and put the results in a div */
+     $.ajax({
+        url: "includes/actions.php",
+        type: "post",
+        data: values,
+        success: function(data){
+            if(data === "Register User Profile Successful") {
                 $('#resultMessage').css('color', 'green');
                 window.location.href = 'groups.php';
             } else {

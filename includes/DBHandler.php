@@ -73,7 +73,12 @@ class DBHandler {
             $hash = $this->checkhashSSHA($salt, $password);
 
             if ($encrypted_password == $hash) {
-                return true;
+                if($this->checkIfHasProfile($result['userID'])) {
+                    return "3";
+                } else {
+                    return "4";
+                }
+                
             } else {
                 return "2";
             }
@@ -158,6 +163,15 @@ class DBHandler {
     }
 
     /* PROFILE */
+    function registerProfile($userID, $firstname, $lastname, $birthday, $gender, $hobbies, $skills, $about) {
+        $result = mysql_query("INSERT INTO userprofile (userID, firstname, lastname, birthday, gender, hobbies, skills, about) VALUES ('$userID', '$firstname', '$lastname', '$birthday', '$gender', '$hobbies', '$skills', '$about')") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+    function checkIfHasProfile($userID) {
+        $result = mysql_query("SELECT * FROM userprofile WHERE userID = '$userID'") or die(mysql_error());
+        $result = mysql_num_rows($result);
+        if($result == 1) return true; else return false;
+    }
     function getLeaderName($userID) {
         $result = mysql_query("SELECT * FROM userprofile WHERE userID = '$userID'") or die(mysql_error());
         $result = mysql_fetch_array($result);

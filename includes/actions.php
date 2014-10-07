@@ -6,6 +6,7 @@
 	$db = new DBHandler();
 
 	if(isset($_POST['registration']) && !empty($_POST['registration'])) {
+
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		$confirmpassword = $_POST['confirmpassword'];
@@ -24,6 +25,41 @@
 		} else {
 			echo "Complete the form! Do not leave an empty box!";
 		}
+
+	} else if(isset($_POST['registerprofile']) && !empty($_POST['registerprofile'])) {
+		$userID = $_POST['registerprofile'];
+		$firstname = $_POST['firstname'];
+		$lastname = $_POST['lastname'];
+		$month = $_POST['month'];
+		$day = $_POST['day'];
+		$year = $_POST['year'];
+		$gender = $_POST['gender'];
+		$hobbies = $_POST['hobbies'];
+		$skills = $_POST['skills'];
+		$about = $_POST['about'];
+
+		if(!empty($firstname) && !empty($lastname) && !empty($month) && 
+			!empty($day) && !empty($year) && !empty($gender) && 
+			!empty($skills) && !empty($about)) {
+
+			$birthday = date("Y-m-d", mktime(0, 0, 0, $month, $day, $year));
+			if(!$db->checkIfHasProfile($userID)) {
+
+				if($db->registerProfile($userID, $firstname, $lastname, $birthday, $gender, $hobbies, $skills, $about)) {
+					echo "Register User Profile Successful";
+				} else {
+					echo "Something went wrong with user profile registration";
+				}
+
+			} else {
+				echo "Already has User Profile";
+			}
+		} else {
+			echo "Must fill the field with *";
+		}
+		
+
+
 	} else if(isset($_POST['login']) && !empty($_POST['login'])) {
 		$username = $_POST['username'];
 		$password = $_POST['password'];
@@ -31,10 +67,13 @@
 		if ($db->login($username, $password) === "1") {
 			echo "No Account by that Username!";
 		} else if ($db->login($username, $password) === "2") {
-			echo "Wrong Username/Password";
-		} else if($db->login($username, $password)) {
+			echo "Wrong Username or Password";
+		} else if ($db->login($username, $password) === "3") {
 			$_SESSION['username'] = $username;
-			echo "Login Successful";
+			echo "Login Successful/noregister";
+		} else if($db->login($username, $password) === "4") {
+			$_SESSION['username'] = $username;
+			echo "Login Successful/register";
 		}
 	} else if(isset($_POST['creategroup']) && !empty($_POST['creategroup'])) {
 		$groupname = $_POST['groupname'];
