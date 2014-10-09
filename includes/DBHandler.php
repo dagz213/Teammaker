@@ -167,6 +167,12 @@ class DBHandler {
         $result = mysql_query("INSERT INTO userprofile (userID, firstname, lastname, birthday, gender, hobbies, skills, about) VALUES ('$userID', '$firstname', '$lastname', '$birthday', '$gender', '$hobbies', '$skills', '$about')") or die(mysql_error());
         if($result) return true; else return false;
     }
+
+    function editProfile($userID, $firstname, $lastname, $birthday, $gender, $hobbies, $skills, $about) {
+        $result = mysql_query("UPDATE userprofile SET firstname = '$firstname', lastname = '$lastname', birthday = '$birthday', gender = '$gender', hobbies = '$hobbies', skills = '$skills', about = '$about' WHERE userID = $userID") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+
     function checkIfHasProfile($userID) {
         $result = mysql_query("SELECT * FROM userprofile WHERE userID = '$userID'") or die(mysql_error());
         $result = mysql_num_rows($result);

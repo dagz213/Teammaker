@@ -60,6 +60,26 @@
 		
 
 
+	} else if(isset($_POST['editprofile']) && !empty($_POST['editprofile'])) {
+		$userID = $_POST['editprofile'];
+		$firstname = $_POST['firstname'];
+		$lastname = $_POST['lastname'];
+		$month = $_POST['month'];
+		$day = $_POST['day'];
+		$year = $_POST['year'];
+		$gender = $_POST['gender'];
+		$hobbies = $_POST['hobbies'];
+		$skills = $_POST['skills'];
+		$about = $_POST['about'];
+
+		$birthday = date("Y-m-d", mktime(0, 0, 0, $month, $day, $year));
+
+		if($db->editProfile($userID, $firstname, $lastname, $birthday, $gender, $hobbies, $skills, $about)) {
+			echo "Saved";
+		} else {
+			echo "Something went wrong with saving the changes";
+		}
+
 	} else if(isset($_POST['login']) && !empty($_POST['login'])) {
 		$username = $_POST['username'];
 		$password = $_POST['password'];
