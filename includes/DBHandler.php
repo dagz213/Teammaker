@@ -119,7 +119,7 @@ class DBHandler {
     }
 
     function getGroupsByPage($start, $max) {
-        $result = mysql_query("SELECT * FROM `group`ORDER BY groupID DESC LIMIT $start, $max") or die(mysql_error());
+        $result = mysql_query("SELECT * FROM `group` ORDER BY groupID DESC LIMIT $start, $max") or die(mysql_error());
         if($result) return $result; else return false;
     }
 
@@ -160,6 +160,15 @@ class DBHandler {
             $result = mysql_fetch_array($result);
             return $result['userID'];
         }
+    }
+
+    function getAllPeople() {
+        $result = mysql_query("SELECT * FROM user") or die(mysql_error());
+        return $result;
+    }
+    function getPeopleByPage($seed, $start, $max) {
+        $result = mysql_query("SELECT * FROM user a INNER JOIN userprofile b ON a.userID = b.userID ORDER BY RAND($seed) LIMIT $start, $max") or die(mysql_error());
+        if($result) return $result; else return false;
     }
 
     /* PROFILE */
@@ -313,6 +322,15 @@ class DBHandler {
     /***********************************
                   REQUESTS
     *************************************/
+    function makeSeed() {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $hour = date("H");
+        $day = date("j");
+        $month = date("n");
+        $ip = str_replace(".", "", $ip);
+        $seed = ($ip + $hour + $day + $month);
+        $_SESSION['seed'] = $seed;
+    }
 }
 
 ?>

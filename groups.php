@@ -8,6 +8,8 @@
 	if(!$db->isLoggedIn()) {
 		header('Location: index.php');
 	}
+
+	$db->makeSeed();
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,9 +70,12 @@
 
 		<a href="" class="btn btn-large btn-primary" id="alertMe">Create Group</a>
 		<hr />
+		<div class="page-header">
+		   <h2>Groups</h2>
+		</div>
 		<div class="list-group">
 		<?php 
-			ob_start();
+			//Variables
 			$groups;
 			$maxPerPage = 5;
 			$count =  mysql_num_rows($db->getAllGroups());
@@ -144,7 +149,7 @@
 			}
 		?>
 		</div><!-- list-group -->
-		<div id='pagination' class="row">
+		<div class="row pag">
             <ul>
 			<?php
 				if($pn > 0) {
@@ -153,7 +158,7 @@
 				$sub2 = $pn - 2;
 				$add1 = $pn + 1;
 				$add2 = $pn + 2;
-				//$centerPages .= "<li><a></a?</li>";
+
 				if($pn == 1) {
 					$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a class="activepage">' . $pn . '</a></li>';
 					if($totalpages > 1)
@@ -173,42 +178,183 @@
 					$centerPages .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $add1 . '</a></li>';
 				}
 
-				echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
-				if(isset($_GET['page'])) {
-					$previous = $_GET['page'] - 1;
-				}
-				if($_GET['page'] == 1) {
-					$previous = 1;
-				}
-				echo "$previous'";
+				if($totalpages > 1) {
+					//get PagePeople for Group's Pagination
+		            if(isset($_GET['pagePeople']))
+		            	$pagePeople = $_GET['pagePeople'];
+		            else {
+		            	$pagePeople = 1;
+		            }
 
-				if($totalpages == 1) {
-					echo "class='displaynone'";
-				} else if($_GET['page'] == 1 || !isset($_GET['page'])) {
-					echo "class='disabled'";
+					echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
+					if(isset($_GET['page'])) {
+						$previous = $_GET['page'] - 1;
+					}
+					if($_GET['page'] == 1) {
+						$previous = 1;
+					}
+					echo "$previous&pagePeople=$pagePeople'";
+
+					if($totalpages == 1) {
+						echo "class='displaynone'";
+					} else if($_GET['page'] == 1 || !isset($_GET['page'])) {
+						echo "class='disabled'";
+					}
+
+					echo "><< Previous</a></li>";
 				}
-
-				echo "><< Previous</a></li>";
-
 				echo $centerPages;
 
-				echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?page=";
+				echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='?page=";
 	            if(isset($_GET['page'])) {
 	                $next = $_GET['page'] + 1;
 	            } else {
 	            	$next = 2;
 	            }
-	            echo "$next'";
+
+	            echo "$next&pagePeople=$pagePeople'";
+
 	            if($totalpages == 1) {
 					echo "class='displaynone'";
-				} else if($_GET['page'] == $totalpages || $_GET['page'] == 1) {
+				} else if($_GET['page'] == $totalpages) {
 					echo "class='disabled'";
 				}
 	            echo ">Next >></a></li>"; 
 	        }
 			?>
 			</ul>
-		</div> <!-- End of Pagination -->
+		</div> <!-- End of Pagination Groups -->
+
+		<!-- START OF PEOPLE PAGE -->
+		<div class="page-header">
+		   <h2>People</h2>
+		</div>
+		<div id="peoplePage" class="list-group">
+		<?php 
+			$people;
+			$countPeople =  mysql_num_rows($db->getAllPeople());
+
+			$pnPeople = 0;
+			if($countPeople > 0) {
+			$totalpagesPeople = ceil($countPeople / $maxPerPage); 
+			if(isset($_GET['pagePeople'])) {
+				$pnPeople = $_GET['pagePeople'];
+			} else {
+				$pnPeople = 1;
+			}
+
+			if($pnPeople < 1) {
+				$pnPeople = 1;
+			} else if ($pnPeople > $totalpagesPeople) {
+				$pnPeople = $totalpagesPeople;
+			}
+
+			$startPeople = ($pnPeople - 1) * $maxPerPage;
+			$seed = $_SESSION['seed'];
+
+			if($db->getPeopleByPage($seed, $startPeople, $maxPerPage)) {
+				$people = $db->getPeopleByPage($seed, $startPeople, $maxPerPage);
+			} else {
+
+			}
+
+			while($row = mysql_fetch_array($people)) {
+				$userID = $row['userID'];
+				$leaderName = $db->getLeaderName($userID);
+				$about = $row['about'];
+				$skills = $row['skills'];
+
+				echo 
+				'<div class="list-group-item">
+					<div class="groupdescription">
+						<h1 class="list-group-item-heading groupTitle"><a href="profile.php?id=', $userID,'">', $leaderName,'</a></h1>
+						<p class="list-group-item-text groupList">About: ', $about,'</p>
+						<p class="list-group-item-text groupList">Skills: ', $skills,'</a></p>
+					</div> <!-- END OF GROUP DESCRIPTION -->
+				</div>
+				';
+				}
+			} else {
+			}
+		?>
+		</div><!-- list-group -->
+		<div class="row pag">
+            <ul>
+			<?php
+				if($pnPeople > 0) {
+				$centerPagesPeople = "";
+				$sub1People = $pnPeople - 1;
+				$sub2People = $pnPeople - 2;
+				$add1People = $pnPeople + 1;
+				$add2People = $pnPeople + 2;
+				//$centerPages .= "<li><a></a?</li>";
+				if($pnPeople == 1) {
+					$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a class="activepage">' . $pnPeople . '</a></li>';
+					if($totalpagesPeople > 1)
+						$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $add1People . '</a></li>';
+					if (!($add2People > $totalpagesPeople)) {
+						$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $add2People . '</a></li>';
+					}				
+				} else if ($pnPeople == $totalpagesPeople) {
+					if (!($sub2People < 1)) {
+						$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $sub2People . '</a></li>';
+					}
+					$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $sub1People . '</a></li>';
+					$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a class="activepage">' . $pnPeople . '</a></li>';
+				}  else if ($pnPeople > 1 && $pnPeople < $totalpagesPeople) {
+					$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $sub1People . '</a></li>';
+					$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a class="activepage">' . $pnPeople . '</a></li>';
+					$centerPagesPeople .= '<li class="col-sm-1 col-md-1 col-lg-1 numbers"><a>' . $add1People . '</a></li>';
+				}
+
+				//get page for People's Pagination
+	            if(isset($_GET['page']))
+	            	$page = $_GET['page'];
+	            else {
+	            	$page = 1;
+	            }
+
+	           	if($totalpagesPeople > 1) {
+					echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='groups.php?pagePeople=";
+					if(isset($_GET['pagePeople'])) {
+						$previousPeople = $_GET['pagePeople'] - 1;
+					}
+					if($_GET['pagePeople'] == 1) {
+						$previousPeople = 1;
+					}
+					echo "$previousPeople&page=$page'";
+
+					if($totalpagesPeople == 1) {
+						echo "class='displaynone'";
+					} else if($_GET['pagePeople'] == 1 || !isset($_GET['pagePeople'])) {
+						echo "class='disabled'";
+					}
+					echo "><< Previous</a></li>";
+				}
+
+				
+
+				echo $centerPagesPeople;
+
+				echo "<li class='col-sm-2 col-md-2 col-lg-2'><a href='?pagePeople=";
+	            if(isset($_GET['pagePeople'])) {
+	                $nextPeople = $_GET['pagePeople'] + 1;
+	            } else {
+	            	$nextPeople = 2;
+	            }
+
+	            echo "$nextPeople&page=$page'";
+
+	            if($totalpagesPeople == 1) {
+					echo "class='displaynone'";
+				} else if($_GET['pagePeople'] == $totalpagesPeople) {
+					echo "class='disabled'";
+				}
+	            echo ">Next >></a></li>"; 
+	        }
+			?>
+			</ul>
+		</div> <!-- End of Pagination Groups -->
 		
 		<div class="modal fade" id="modalJoin">
 			<div class="modal-dialog">

@@ -37,7 +37,6 @@
 .disabled {
 	border-color: #E8E8E8;
 	color: #E8E8E8;
-
 }
 .displaynone {
 	display: none;
@@ -159,48 +158,51 @@ ul#yourgroups li a, ul#rightmenu ul li a {
 	content: 'Cancel';
 }
 
-/*********************************
-		   Pagination
-**********************************/
-
-#pagination {
-	position: relative;
+/* PEOPLE */
+#peoplePage {
+	margin-top: 20px;
 }
 
-#pagination ul li {
+/*********************************
+		   Pag
+**********************************/
+
+.pag ul li {
 	list-style-type: none;
 	display: inline;
 	padding: 10px;
 	text-align: center;
 }
 
-div#pagination a, div#pagination a.enabled {
+div.pag a, div.pag a.enabled {
 	padding: 2px 5px 2px 5px;
 	margin: 2px;
 	border: 1px solid #AAAADD;
-	
+
 	text-decoration: none; /* no underline */
 	color: #000099;
 }
-div#pagination a:hover, div#pagination a:active {
+div.pag a:hover, div.pag a:active {
 	border: 1px solid #000099;
 	color: #000;
+	cursor: pointer;
 }
 
-div#pagination a.disabled {
+div.pag a.disabled {
 	padding: 2px 5px 2px 5px;
 	margin: 2px;
 	border: 1px solid #EEE;
 
+	pointer-events: none;
 	color: #DDD;
 }
 
-div#pagination a.activepage {
+div.pag a.activepage {
 	border: 4px solid #000099;
 }
 
 /*********************************
-		   Pagination
+		   Pag
 **********************************/
 
 /*************************************
