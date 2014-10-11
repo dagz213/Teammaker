@@ -44,7 +44,7 @@
 			<p class="list-group-item-text"> - Edit your profile</p>
 			<p class="list-group-item-text"> - Have your own personal profile to define yourself</p>
 			<p class="list-group-item-text"> - Have a profile picture</p>
-			<p class="list-group-item-text"> - Ask/Invite a person to join your team</p>
+			<p class="list-group-item-text"> - Ask/Invite a 5 people at a time to join your team</p>
 			<p class="list-group-item-text"> - Refuse an invitation</p>
 			<p class="list-group-item-text"> - You can have or join until 5 groups (but only 1 you can create or be a leader in) </p>
 			<p class="list-group-item-text"> - Only 7 people in a team (1 Leader / 4 - 6 Members)</p>

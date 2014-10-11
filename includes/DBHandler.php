@@ -336,11 +336,20 @@ class DBHandler {
     /***********************************
                    INVITE
     *************************************/
+    /* CHECK */              
     function checkIfAlreadyInvited($groupID, $userID) {
         $result = mysql_query("SELECT * FROM invite WHERE groupID = '$groupID' AND userID = '$userID'") or die(mysql_error());
         $result = mysql_num_rows($result);
         if($result == 1) return true; else return false;
     }
+    function checkIfInviteLimit($groupID) {
+        $result = mysql_query("SELECT * FROM invite WHERE groupID = '$groupID'") or die(mysql_error());
+        $result = mysql_num_rows($result);
+        if($result == 5) return true; else if($result < 5 && $result >= 0) {
+            return false;
+        }
+    }
+    /* CHECK */
     function inviteToGroup($groupID, $userID) {
         $result = mysql_query("INSERT INTO invite (groupID, userID) VALUES ('$groupID', '$userID')") or die(mysql_error());
         if($result) return true; else return false;

@@ -47,7 +47,11 @@
 							$yourUserID = $db->getUserID($un);
 							if($db->checkIfHasGroupANDLeader($yourUserID)) {
 								if(!$db->checkIfAlreadyInvited($groupID, $userID)) {
-									echo '<a href="#myModal" data-toggle="modal" data-target="#modalInvite" role="button" id="', $userID,'" class="btn btn-large btn-primary">Invite</a>';
+									if($db->checkIfInviteLimit($groupID)) {
+										echo '<a href="#myModal" class="btn btn-large btn-primary">Already Invite Limit</a>';
+									} else {
+										echo '<a href="#myModal" data-toggle="modal" data-target="#modalInvite" role="button" id="', $userID,'" class="btn btn-large btn-primary">Invite</a>';
+									}
 								} else {
 									echo '<a href="#myModal" data-toggle="modal" data-target="#modalInviteCancel" role="button" id="', $userID,'" class="btn btn-large btn-primary">Already Invited</a>';
 								}
