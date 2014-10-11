@@ -177,7 +177,6 @@ $('#modalPendingCancel').on('show.bs.modal', function(e) {
    $modal.find('#pendingcancelgroup').val(string[0]);
 });
 
-
 //to get The reason of joinging
 function showUser(str) {
     var groupID = $('#optionGroupID').val();
@@ -241,4 +240,10 @@ $('#modalKick').on('show.bs.modal', function(e) {
     var string = esseyId.split('/');
    $modal.find('#kickname').html(string[1]);
    $modal.find('#userID').val(string[0]);
+});
+
+$('#modalInvite').on('show.bs.modal', function(e) {
+    var $modal = $(this),
+        esseyId = e.relatedTarget.id;
+   $modal.find('#userIDInvite').val(esseyId);
 });

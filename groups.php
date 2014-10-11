@@ -145,7 +145,6 @@
 					</div> <!-- END OF GROUP BUTTONS -->
 				</div>';
 				}
-			} else {
 			}
 		?>
 		</div><!-- list-group -->
@@ -271,11 +270,22 @@
 						<p class="list-group-item-text groupList">About: ', $about,'</p>
 						<p class="list-group-item-text groupList">Skills: ', $skills,'</a></p>
 					</div> <!-- END OF GROUP DESCRIPTION -->
+					<div class="groupbuttons">';
+					
+					if($db->checkIfHasGroupANDLeader($yourUserID)) {
+						if(!$db->checkIfAlreadyInvited($groupID, $userID)) {
+							echo '<a href="#myModal" data-toggle="modal" data-target="#modalInvite" role="button" id="', $userID,'" class="btn btn-large btn-primary">Invite</a>';
+						} else {
+							echo '<a href="#myModal" data-toggle="modal" data-target="#modalInviteCancel" role="button" id="', $userID,'" class="btn btn-large btn-primary">Already Invited</a>';
+						}
+					}
+				echo '
+					</div> <!-- END OF INVITE BUTTONS -->
 				</div>
 				';
 				}
-			} else {
 			}
+				
 		?>
 		</div><!-- list-group -->
 		<div class="row pag">
@@ -402,6 +412,34 @@
 				</div><!-- end modal-content -->
 			</div><!-- end modal-dialog -->
 		</div><!-- END OF MODAL PENDING CANCEL -->
+
+		<div class="modal fade" id="modalInvite">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<?php
+							$groupsYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
+							$groupID = $groupsYouOwn['groupID'];
+							$groupname = $db->getGroupNameByID($groupID);
+						?>
+						<h4 class="modal-title text-centered">Invite to group "<?php echo $groupname; ?>"?</h4>
+					</div><!-- end modal-header -->
+
+					<div class="modal-body">
+					<div>
+						<form id="inviteToGroupForm" action="includes/actions.php" method="post">
+							<input id="userIDInvite" type="hidden" name="invitetogroup">
+							<input type="hidden" name="groupID" value="<?php echo $groupID; ?>">
+							<input class="btn btn-primary" type="submit" value="Invite" />
+						<button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
+						</form> <!-- END OF INVITE TO GROUP FORM -->
+					</div>
+					</div><!-- end modal-footer -->
+
+				</div><!-- end modal-content -->
+			</div><!-- end modal-dialog -->
+		</div><!-- END OF MODAL INVITE -->
 		<?php include 'includes/footer.php'; ?>
 	</div> <!-- End of main container -->
 	<script type="text/javascript" src="../../js/jquery.js"></script>	

@@ -33,15 +33,23 @@
 		<div class="list-group-item">
 			<h4 class="list-group-item-heading">Features:</h4><br />
 			<p class="list-group-item-text"> - Register / Login</p>
-			<p class="list-group-item-text"> - Create a team</p>
+			<p class="list-group-item-text"> - Create a team (once)</p>
 			<p class="list-group-item-text"> - Name your own team and give a description</p>
+			<p class="list-group-item-text"> - Edit/Delete your group</p>
 			<p class="list-group-item-text"> - Join a team with a reason why</p>
 			<p class="list-group-item-text"> - Accept a member</p>
+			<p class="list-group-item-text"> - Refuse/Kick a member</p>
 			<p class="list-group-item-text"> - Discussion inside your Team's page</p>
+			<p class="list-group-item-text"> - Register your profile if you haven't done so.</p>
+			<p class="list-group-item-text"> - Edit your profile</p>
 			<p class="list-group-item-text"> - Have your own personal profile to define yourself</p>
-			<p class="list-group-item-text"> - Ask a person to join your team</p>
-			<p class="list-group-item-text"> - You can have or join until 5 groups </p>
-			<p class="list-group-item-text"> - Only 5-7 people in a team (1 Leader / 4 - 6 Members)</p>
+			<p class="list-group-item-text"> - Have a profile picture</p>
+			<p class="list-group-item-text"> - Ask/Invite a person to join your team</p>
+			<p class="list-group-item-text"> - Refuse an invitation</p>
+			<p class="list-group-item-text"> - You can have or join until 5 groups (but only 1 you can create or be a leader in) </p>
+			<p class="list-group-item-text"> - Only 7 people in a team (1 Leader / 4 - 6 Members)</p>
+			<p class="list-group-item-text"> - Private Messaging</p>
+			<p class="list-group-item-text"> - Status/Wall</p>
 			<br />
 		</div>
 		<?php include 'includes/footer.php'; ?>

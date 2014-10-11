@@ -314,6 +314,10 @@ div.pag a.activepage {
 	width: 90%;
 }
 
+#profilepersonalinfo a {
+	display: block;
+}
+
 #profilepersonalinfo h3 {
 	background-color: #2E9AFE;
 	color: #E8E8E8;

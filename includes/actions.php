@@ -5,6 +5,9 @@
 	require_once(__dir__ . '/DBHandler.php');
 	$db = new DBHandler();
 
+	/*****************************
+			  POST ACTIONS
+	*****************************/
 	if(isset($_POST['registration']) && !empty($_POST['registration'])) {
 
 		$username = $_POST['username'];
@@ -58,8 +61,6 @@
 			echo "Must fill the field with *";
 		}
 		
-
-
 	} else if(isset($_POST['editprofile']) && !empty($_POST['editprofile'])) {
 		$userID = $_POST['editprofile'];
 		$firstname = $_POST['firstname'];
@@ -81,6 +82,7 @@
 		}
 
 	} else if(isset($_POST['login']) && !empty($_POST['login'])) {
+
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		
@@ -95,7 +97,9 @@
 			$_SESSION['username'] = $username;
 			echo "Login Successful/register";
 		}
+
 	} else if(isset($_POST['creategroup']) && !empty($_POST['creategroup'])) {
+
 		$groupname = $_POST['groupname'];
 		$groupdescription = $_POST['groupdescription'];
 		$groupstatus = $_POST['groupstatus'];
@@ -113,7 +117,9 @@
 			else 
 				echo "Can't Create a Leader";
 		}
+
 	} else if(isset($_POST['deletegroup']) && !empty($_POST['deletegroup'])) {
+
 		$groupID = $_POST['deletegroup'];
 		if($db->deleteGroup($groupID) && $db->deleteMemberStatus($groupID)) {
 			header("Location: ../groups.php");
@@ -121,7 +127,9 @@
 			echo "<script>alert('Something went wrong, Group Couldn't be deleted. Try again Later.');</script>";
 			header("Location: ../groups.php");
 		}
+
 	} else if(isset($_POST['editgroup']) && !empty($_POST['editgroup'])) {
+
 		$groupID = $_POST['editgroup'];
 		$groupname = $_POST['groupname'];
 		$groupdescription = $_POST['groupdescription'];
@@ -132,7 +140,9 @@
 			echo "<script>alert('Something went wrong, Group Couldn't be edited. Try again Later.');</script>";
 			header("Location: ../groups.php");
 		}
+
 	} else if(isset($_POST['joingroup']) && !empty($_POST['joingroup'])) {
+
 		$groupID = $_POST['joingroup'];
 		$userID = $_POST['userid'];
 		$message = $_POST['joinmessage'];
@@ -143,7 +153,9 @@
 			echo "<script>alert('Something went wrong, Couldn't join the group. Try again Later.');</script>";
 			header("Location: ../groups.php");
 		}
+
 	} else if(isset($_POST['pendingcancelgroup']) && !empty($_POST['pendingcancelgroup'])) {
+
 		$groupID = $_POST['pendingcancelgroup'];
 		$userID = $_POST['userid'];
 
@@ -152,7 +164,9 @@
 		} else {
 			echo "<script>alert('Something went wrong, Couldn't cancel pending. Try again Later.');</script>";
 		}
+
 	}  else if(isset($_POST['kickMember']) && !empty($_POST['kickMember'])) {
+
 		$groupID = $_POST['kickMember'];
 		$userID = $_POST['userID'];
 
@@ -162,6 +176,25 @@
 			echo "<script>alert('Something went wrong, Couldn't kick member. Try again Later.');</script>";
 			header("Location: ../viewgroup.php?id=$groupID");
 		}
+
+	} else if (isset($_POST['invitetogroup']) && !empty($_POST['invitetogroup'])) {
+
+		$groupID = $_POST['groupID'];
+		$userID = $_POST['invitetogroup'];
+
+		if($db->inviteToGroup($groupID, $userID)) {
+			header("Location: ../profile.php?id=$userID");
+		} else {
+			echo "<script>alert('Something went wrong, Couldn't invite. Try again Later.');</script>";
+			header("Location: ../profile.php?id=$userID");
+		}
+
+	/*****************************
+			  POST ACTIONS
+	*****************************/
+	/*****************************
+			  GET ACTIONS
+	*****************************/
 	}  else if (isset($_GET['action']) && $_GET['action'] === 'getPending') {
 
 		$userID = $_GET['userID'];
@@ -181,6 +214,7 @@
 		}
 
 	}  else if (isset($_GET['member']) && $_GET['member'] === 'refuseMember') {
+
 		$userID = $_GET['pendings'];
 		$groupID = $_GET['optionGroupID'];
 		
@@ -189,7 +223,9 @@
 		} else {
 			echo "FAIL";
 		}
+
 	} else if (isset($_GET['member']) && $_GET['member'] === 'acceptMember') {
+
 		$userID = $_GET['pendings'];
 		$groupID = $_GET['optionGroupID'];
 
@@ -198,5 +234,9 @@
 		} else {
 			echo "FAIL";
 		}
+
 	}
+	/*****************************
+			  GET ACTIONS
+	*****************************/
 ?>
