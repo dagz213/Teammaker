@@ -336,6 +336,12 @@ class DBHandler {
     /***********************************
                    INVITE
     *************************************/
+    /* GET */ 
+    function getAllYourInvites($userID) {
+        $result = mysql_query("SELECT * FROM invite WHERE userID = '$userID'") or die(mysql_error());
+        if($result) return $result; else return false;
+    }
+    /* GET */ 
     /* CHECK */              
     function checkIfAlreadyInvited($groupID, $userID) {
         $result = mysql_query("SELECT * FROM invite WHERE groupID = '$groupID' AND userID = '$userID'") or die(mysql_error());
@@ -349,11 +355,24 @@ class DBHandler {
             return false;
         }
     }
+    function checkIfHasInvites($userID) {
+        $result = mysql_query("SELECT * FROM invite WHERE userID = '$userID'") or die(mysql_error());
+        $result = mysql_num_rows($result);
+        if($result >= 1) return true; else return false;
+    }
     /* CHECK */
+    /* INSERT */
     function inviteToGroup($groupID, $userID) {
         $result = mysql_query("INSERT INTO invite (groupID, userID) VALUES ('$groupID', '$userID')") or die(mysql_error());
         if($result) return true; else return false;
     }
+    /* INSERT */
+    /* DELETE */
+    function removeFromInvite($groupID, $userID) {
+        $result = mysql_query("DELETE FROM invite WHERE groupID = '$groupID' AND userID = '$userID'") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+    /* DELETE */
     /***********************************
                    INVITE
     *************************************/

@@ -45,16 +45,41 @@
 						if(isset($_GET['id']) && !empty($_GET['id'])) {
 							$un = $_SESSION['username'];
 							$yourUserID = $db->getUserID($un);
+							$groupYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
+							$groupID = $groupYouOwn['groupID'];
+
 							if($db->checkIfHasGroupANDLeader($yourUserID)) {
-								if(!$db->checkIfAlreadyInvited($groupID, $userID)) {
+
+								if($db->checkIfInGroup($groupID, $userID)) {
+									echo '<a href="#myModal" class="btn btn-large btn-primary">Already In Your Group</a>';
+								} else if(!$db->checkIfAlreadyInvited($groupID, $userID)) {
+
 									if($db->checkIfInviteLimit($groupID)) {
 										echo '<a href="#myModal" class="btn btn-large btn-primary">Already Invite Limit</a>';
 									} else {
-										echo '<a href="#myModal" data-toggle="modal" data-target="#modalInvite" role="button" id="', $userID,'" class="btn btn-large btn-primary">Invite</a>';
+										echo '<a href="#myModal" data-toggle="modal" data-target="#modalInvite" role="button" id="', $userID,'" class="profileButton btn btn-large btn-primary">Invite</a>';
 									}
+
 								} else {
-									echo '<a href="#myModal" data-toggle="modal" data-target="#modalInviteCancel" role="button" id="', $userID,'" class="btn btn-large btn-primary">Already Invited</a>';
+									echo '<a href="#myModal" data-toggle="modal" data-target="#modalInviteCancel" role="button" id="', $userID,'" class="profileButton btn btn-large btn-primary">Already Invited</a>';
 								}
+							}
+						} else {
+							if($db->checkIfHasInvites($userID)) {
+								echo "<h3>Invites: </h3>";
+								echo "<form id='invitationForm'>";
+								echo '<input type="hidden" name="userID" value="', $userID,'">';
+								echo "<select id='inviteGroupID' name='groupID'>";
+								$invites = $db->getAllYourInvites($userID);
+								while($row = mysql_fetch_array($invites)) {
+									$groupID = $row['groupID'];
+									$groupname = $db->getGroupNameByID($groupID);
+									echo '<option value="', $groupID,'">', $groupname,'</option>';
+								}
+								echo "</select>";
+								echo '<input type="submit" id="acceptSubmit" name="accept" value="Accept" class="profileButton btn btn-large btn-primary">';
+			        			echo '<input type="submit" id="refuseSubmit" name="refuse" value="Refuse" class="profileButton btn btn-large btn-primary">';
+								echo "</form>";
 							}
 						}
 					?>

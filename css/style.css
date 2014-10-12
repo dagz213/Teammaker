@@ -92,9 +92,12 @@ a#title {
 #navigation ul li {
 	text-align: center;
 	background-color: #E8E8E8;
+	height: 100%;
+	font-size: 15px;
 }
 ul#yourgroups li a, ul#rightmenu ul li a {
 	background-color: #fff;
+
 }
 /*********************************
 		  Navigation Bar
@@ -324,12 +327,14 @@ div.pag a.activepage {
 	font-family: 'Black Ops One', cursive;
 	font-size: 27px;
 	padding: 10px 10px;
+	word-wrap: break-word;
 }
 
 #profilepersonalinfo h4 {
 	font-family: 'Holtwood One SC', serif;
 	font-size: 17px;
 	padding: 10px 20px;
+	word-wrap: break-word;
 }
 
 #modalProfilePic img {
@@ -363,6 +368,12 @@ div.pag a.activepage {
 	padding: 30px 0;
 	font-size: 18px;
 }
+
+#invitationForm select {
+	display: block;
+	width: 100%;
+	margin-bottom: 10px;
+}
 /*************************************
 		    Profile Page
 **************************************/
@@ -372,6 +383,13 @@ div.pag a.activepage {
 *****************************/
 /* Before Tablet */
 @media (max-width: 1200px) {
+	a#title {
+		font-size: 25px;
+	}
+	#navigation ul li {
+		font-size: 12px;
+	}
+
 	/* Group's Page */
 	.groupdescription {
 		width: 83%;
@@ -380,6 +398,12 @@ div.pag a.activepage {
 		width: 17%;
 	}
 	/* Group's Page */
+
+	/* Profile */
+	#profilepersonalinfo h4 {
+		font-size: 15px;
+	}
+	/* Profile */
 }
 
 @media (max-width: 1024px) {
@@ -401,6 +425,22 @@ div.pag a.activepage {
 		width: 22%;
 	}
 	/* Group's Page */
+
+	/* Profile */
+	#profilepersonalinfo h3 {
+		font-size: 20px;
+	}
+
+	#profilepersonalinfo h4 {
+		font-size: 10px;
+	}
+	.bioHeader {
+		font-size: 30px;
+	}
+	.bioBody {
+		font-size: 14px;
+	}
+	/* Profile */
 }
 
 /* Landscape phone to portrait tablet */
@@ -465,6 +505,22 @@ div.pag a.activepage {
 		font-size: 12px;
 	}
 	/* View Group's Page */
+
+	/* Profile */
+	#profilepersonalinfo h3 {
+		font-size: 18px;
+	}
+
+	#profilepersonalinfo h4 {
+		font-size: 8px;
+	}
+	.bioHeader {
+		font-size: 25px;
+	}
+	.bioBody {
+		font-size: 12px;
+	}
+	/* Profile */
 }
 
 @media (max-width: 520px) {
@@ -508,6 +564,28 @@ div.pag a.activepage {
 		font-size: 25px;
 	}
 	/* View Group's Page */
+
+	/* Profile */
+	#inviteForm select option {
+		font-size: 8px;
+	}
+	#profilepersonalinfo h3 {
+		font-size: 15px;
+	}
+	input.profileButton {
+		font-size: 10px;
+	}
+
+	#profilepersonalinfo h4 {
+		font-size: 8px;
+	}
+	.bioHeader {
+		font-size: 20px;
+	}
+	.bioBody {
+		font-size: 10px;
+	}
+	/* Profile */
 }
 
 @media (max-width: 420px) {
@@ -537,6 +615,23 @@ div.pag a.activepage {
 		font-size: 10px;
 	}
 	/* View Group's Page */
+
+	/* Profile */
+	#profilepersonalinfo h3 {
+		font-size: 12px;
+	}
+
+	#profilepersonalinfo h4 {
+		font-size: 8px;
+		padding-left: 5px;
+	}
+	.bioHeader {
+		font-size: 15px;
+	}
+	.bioBody {
+		font-size: 10px;
+	}
+	/* Profile */
 }
 
 @media (max-width: 380px) {
@@ -552,6 +647,7 @@ div.pag a.activepage {
 @media (max-width: 350px) {
 	a#title {
 		font-size: 15px;
+		margin-left: -20px;
 	}
 
 	/* View Group's Page */

@@ -235,6 +235,31 @@
 			echo "FAIL";
 		}
 
+	} else if (isset($_GET['invite']) && $_GET['invite'] === 'acceptInvite') {
+		$groupID = $_GET['groupID'];
+		$userID = $_GET['userID'];
+
+		if($db->removeFromInvite($groupID, $userID)) {
+
+			if($db->createMember($userID, $groupID)) {
+				echo "SUCCESS";
+			} else {
+				echo "FAIL";
+			}
+			
+		} else {
+			echo "FAIL";
+		}
+
+	} else if (isset($_GET['invite']) && $_GET['invite'] === 'refuseInvite') {
+		$groupID = $_GET['groupID'];
+		$userID = $_GET['userID'];
+
+		if($db->removeFromInvite($groupID, $userID)) {
+			echo "SUCCESS";
+		} else {
+			echo "FAIL";
+		}
 	}
 	/*****************************
 			  GET ACTIONS

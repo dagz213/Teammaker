@@ -253,9 +253,10 @@
 
 			if($db->getPeopleByPage($seed, $startPeople, $maxPerPage)) {
 				$people = $db->getPeopleByPage($seed, $startPeople, $maxPerPage);
-			} else {
-
 			}
+
+			$groupYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
+			$groupID = $groupYouOwn['groupID'];
 
 			while($row = mysql_fetch_array($people)) {
 				$userID = $row['userID'];
@@ -273,7 +274,9 @@
 					<div class="groupbuttons">';
 					
 					if($db->checkIfHasGroupANDLeader($yourUserID)) {
-						if(!$db->checkIfAlreadyInvited($groupID, $userID)) {
+						if($db->checkIfInGroup($groupID, $userID)) {
+							echo '<a href="#myModal" class="btn btn-large btn-primary">Already In group</a>';
+						} else if(!$db->checkIfAlreadyInvited($groupID, $userID)) {
 							if($db->checkIfInviteLimit($groupID)) {
 								echo '<a href="#myModal" class="btn btn-large btn-primary">Already Invite Limit</a>';
 							} else {

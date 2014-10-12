@@ -234,6 +234,37 @@ $('#pendingForm').submit(function(event) {
     });
 });
 
+$('#invitationForm').submit(function(event) {
+    event.preventDefault();
+    var btnName = clkBtn;
+    $('#resultMessage').html('');
+    var values = $(this).serialize();
+    var groupID = $("#inviteGroupID").val();
+
+    var inviteString = "";
+    if(btnName === 'accept') {
+        inviteString = "acceptInvite";
+    } else if(btnName === 'refuse') {
+        inviteString = "refuseInvite";
+    }
+
+    $.ajax({
+        url: "includes/actions.php",
+        type: "GET",
+        data: "invite=" + inviteString + "&" + values,
+        success: function(data){
+            if(data === "SUCCESS") {
+                setTimeout('window.location.href = "viewgroup.php?id=' + groupID + '";', 0);
+            } else if(data === "FAIL") {
+                alert("Something Failed");
+            }
+        },
+        error:function(){
+            $("#resultMessage").html('Something went wrong with the request!');
+        }
+    });
+});
+
 $('#modalKick').on('show.bs.modal', function(e) {
     var $modal = $(this),
         esseyId = e.relatedTarget.id;
