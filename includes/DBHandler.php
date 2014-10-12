@@ -376,6 +376,32 @@ class DBHandler {
     /***********************************
                    INVITE
     *************************************/
+    /***********************************
+            USER PROFILE PICTURE
+    *************************************/
+    function uploadImage($userID, $imageName) {
+        $result = mysql_query("INSERT INTO userprofilepicture (userID, imagename, isprofilepix) VALUES ('$userID', '$imageName', '0')") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+    function checkIfHasProfilePicture($userID) {
+        $result = mysql_query("SELECT * FROM userprofilepicture WHERE userID = '$userID'") or die(mysql_error());
+        $result = mysql_num_rows($result);
+        if($result == 1) return true; else return false;
+    }
+    function getImageName($userID) {
+        $result = mysql_query("SELECT * FROM userprofilepicture WHERE userID = '$userID'") or die(mysql_error());
+        if($result) {
+            $result = mysql_fetch_array($result);
+            return $result['imagename'];
+        } else return false;
+    }
+    function deleteProfilePic($userID) {
+        $result = mysql_query("DELETE FROM userprofilepicture WHERE userID = '$userID'") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+    /***********************************
+            USER PROFILE PICTURE
+    *************************************/
     function makeSeed() {
         $ip = $_SERVER['REMOTE_ADDR'];
         $hour = date("H");

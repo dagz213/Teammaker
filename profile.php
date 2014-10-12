@@ -30,21 +30,30 @@
 			$userID = $db->getUserID($username);
 		}
 		$user = $db->getUserByID($userID);
+		$un = $_SESSION['username'];
+		$yourUserID = $db->getUserID($un);
 	?>
 	<div class="container" id="mainContainer">
 		<div class="row">
+		<?php 
+		// TO DETERMINE THE PHOTO
+		$photoName;
+		if($db->checkIfHasProfilePicture($userID)) {
+			$photoName = $db->getImageName($userID);
+		} else {
+			$photoName = "nophoto.jpg";
+		}
 
+		?>
 			<div id="leftSide" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<a  href="#myModal" data-toggle="modal" data-target="#modalProfilePic" role="button"><img src="photos/
 				<?php 
-					echo "nophoto.jpg";
+					echo $photoName;
 				?>" id="profilepic"></a>
 
 				<div id="profilepersonalinfo">
 					<?php 
 						if(isset($_GET['id']) && !empty($_GET['id'])) {
-							$un = $_SESSION['username'];
-							$yourUserID = $db->getUserID($un);
 							$groupYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
 							$groupID = $groupYouOwn['groupID'];
 
@@ -112,10 +121,18 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<img src="photos/nophoto.jpg">
+						<img src="photos/<?php echo $photoName; ?>">
 						<button class="close" data-dismiss="modal">&times;</button>
 					</div><!-- end modal-header -->
+
 				</div><!-- end modal-content -->
+				<div class="modalFooter">
+					<form action="includes/actions.php" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="userIDUpload" value="<?php echo $yourUserID; ?>">
+						<span class="floatleft">Upload Photo:</span><input id="imageForm" type="file" name="image" class="floatleft">
+						<input type="submit" name="upload" value="Upload Profile Picture" class="floatleft">
+					</form>
+				</div>
 			</div><!-- end modal-dialog -->
 		</div><!-- end myModal -->
 

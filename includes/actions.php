@@ -188,7 +188,30 @@
 			echo "<script>alert('Something went wrong, Couldn't invite. Try again Later.');</script>";
 			header("Location: ../profile.php?id=$userID");
 		}
+	} else if(isset($_POST['upload'])) {
+		$base_directory = "../photos/";
+		$userID = $_POST['userIDUpload'];
+		$imageName = $_FILES['image']['name'];
+		$imageTempName = $_FILES['image']['tmp_name'];
 
+		if($_FILES['image']['name'] == "") {
+			header("Location: ../profile.php");
+		} else if($db->checkIfHasProfilePicture($userID)) {
+			$ig = $db->getImageName($userID);
+			if(unlink($base_directory.$ig)) {
+				$db->deleteProfilePic($userID);
+				move_uploaded_file($imageTempName, $base_directory."$imageName");
+				if($db->uploadImage($userID, $imageName)) {
+					header("Location: ../profile.php");
+				}
+			}
+		} else {
+			move_uploaded_file($imageTempName, $base_directory."$imageName");
+			if($db->uploadImage($userID, $imageName)) {
+				header("Location: ../profile.php");
+			}
+		}
+	
 	/*****************************
 			  POST ACTIONS
 	*****************************/
@@ -246,7 +269,7 @@
 			} else {
 				echo "FAIL";
 			}
-			
+
 		} else {
 			echo "FAIL";
 		}
