@@ -402,6 +402,20 @@ class DBHandler {
     /***********************************
             USER PROFILE PICTURE
     *************************************/
+    /***********************************
+              GROUP DISCUSSION
+    *************************************/
+    function getPostsByGroupID($groupID) {
+        $result = mysql_query("SELECT * FROM groupdiscussion WHERE groupID = $groupID ORDER BY groupdiscussionID DESC") or die(mysql_error());
+        if($result) return $result; else return false; 
+    }
+    function postDiscussion($groupID, $userID, $message, $now) {
+       $result = mysql_query("INSERT INTO groupdiscussion (groupID, userID, message, now) VALUES ('$groupID', '$userID', '$message', '$now')") or die(mysql_error());
+        if($result) return $result; else return false;  
+    }
+    /***********************************
+              GROUP DISCUSSION
+    *************************************/
     function makeSeed() {
         $ip = $_SERVER['REMOTE_ADDR'];
         $hour = date("H");

@@ -33,11 +33,12 @@
 	<script type="text/javascript" src="../../js/modernizr.custom.79639.js"></script> 
 		
 </head>
-<body>
+<body onload="getPost()">
 	<?php include 'includes/menu.php'; ?>
 	<div class="container" id="mainContainer">
 
 		<?php 
+			$username = $_SESSION['username'];
 			$yourUserID = $db-> getUserID($username);
 			if(isset($_GET['id']) && !empty($_GET['id'])) { 
 				$groupID = $_GET['id'];
@@ -59,13 +60,31 @@
 					<?php } ?>
 				</div>
 				<div id="viewgroupcontent" class="row">
+
 					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-						<div class="page-header text-centered"><h2>Description:</h2></div>
+						<div class="sectionTitle text-centered"><h2>Description:</h2></div>
+						<hr />
 						<p class="text-centered"><?php echo $groupdescription; ?></p>
 						<hr />
-					</div>
+						<div id="groupdiscussion">
+							<h1 class="text-centered">DISCUSSION</h1>
+							<form id="postDiscussionForm" method="post">
+								<input type="hidden" name="action" value="postDiscussion">
+								<input type="hidden" name="groupID" value="<?php echo $groupID; ?>">
+								<input type="hidden" name="userID" value="<?php echo $yourUserID; ?>">
+								<textarea id="postMessage" name="message" placeholder="Post or Reply"></textarea>
+								<input type="submit" id="postSubmit" name="postSubmit" value="Post" class="btn btn-large btn-primary">
+							</form>
+							<div id="postGroupID" style="display: none;"><?php echo $groupID; ?></div>
+							<div id="posts" class="list-group">
+								
+							</div>
+						</div> <!-- END OF GROUP DISCUSSION -->
+					</div> <!-- END OF VIEW GROUP CONTENT LEFT SIDE -->
+
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						<div class="page-header text-centered"><h2>Members:</h2></div>
+						<div class="sectionTitle text-centered"><h2>Members:</h2></div>
+						<hr />
 						<h3 class="text-centered"><strong>Leader:</strong></h3>
 						<hr />
 						<h4 class="text-centered"><a href="profile.php?id=<?php echo $leaderID; ?>"><?php echo $leaderName; ?></a></h4>
@@ -106,7 +125,7 @@
 			        				}
 			        			?>
 			        		</select>
-			        		<h3 class="text-centered" style="font-size: 17px;"><strong>Reason of joining:</strong></h3>
+			        		<h3 class="text-centered"><strong>Reason of joining:</strong></h3>
 			        		<h4 id="message" class="text-centered"></h4>
 			        		<input type="submit" id="acceptSubmit" name="accept" value="Accept" class="btn btn-large btn-primary acceptButton">
 			        		<input type="submit" id="refuseSubmit" name="refuse" value="Refuse" class="btn btn-large btn-primary">

@@ -28,7 +28,55 @@ $(function() {
             $('.numbers').css('display', 'block');
         }
     });
+    
+    
+});
 
+function getPost() {
+var timeout = setTimeout('getPosts()', 0);
+var interval = setInterval('getPosts()', 10000);
+}
+
+/* GET POSTS */
+function getPosts() {
+    $('#posts').html('');
+    var groupID = $('#postGroupID').text();
+
+    $.ajax({
+        url: "includes/actions.php",
+        type: "get",
+        data: "action=getPost&groupID=" + groupID,
+        success: function(data){
+            $('#posts').html(data);
+        },
+        error:function(){
+            alert('Something went wrong to the request');
+        }
+    });
+}
+
+/* POST DISCUSSION */
+$('#postDiscussionForm').submit(function(event) {
+    event.preventDefault();
+    var values = $(this).serialize();
+    $("#postMessage").val("");
+     $.ajax({
+        url: "includes/actions.php",
+        type: "post",
+        data: values,
+        success: function(data){
+            if(data === 'POST SUCCESSFUL') {
+                getPosts();
+            } else if(data === 'POST FAILED') {
+                alert("POST FAILED");
+            } else {
+                alert("Connection has died, try again later");
+            }
+        },
+        error:function(){
+           alert('Something went wrong with the request!');
+        }
+    });
 });
 
 /* REGISTER */

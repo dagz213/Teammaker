@@ -92,7 +92,7 @@
 							}
 						}
 					?>
-					<h3>Name: </h3>
+					<h3>Name: <span id="try"></span></h3>
 					<h4><?php echo $db->getLeaderName($userID); ?></h4>
 					<h3>Email: </h3>
 					<h4><?php echo $user['email']; ?></h4>
