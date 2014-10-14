@@ -234,7 +234,7 @@ div.pag a.activepage {
 	letter-spacing: 5px;
 	font-family: 'Black Ops One', cursive;
 }
-#viewgroupcontent h3 {
+#viewgroupcontent h3, #groupdiscussion h2 {
 	font-family: 'Holtwood One SC', serif;
 	letter-spacing: 3px;
 	font-size: 20px;
@@ -510,11 +510,8 @@ div.pag a.activepage {
 	#groupname > small {
 		font-size: 15px; 
 	}
-	#viewgroupcontent div.page-header > h2, #viewgroupcontent h3 {
+	#viewgroupcontent h3, #groupdiscussion h2 {
 		font-size: 20px;
-	}
-	#viewgroupcontent div.page-header > h2 {
-		font-size: 40px;
 	}
 	#viewgroupcontent h4, #viewgroupcontent p {
 		font-size: 17px;
@@ -536,7 +533,7 @@ div.pag a.activepage {
 	/* Group's Page */
 
 	/* View Group's Page */
-	#viewgroupcontent h3 {
+	#viewgroupcontent h3, #groupdiscussion h2 {
 		font-size: 12px;
 	}
 	#viewgroupcontent h4, #viewgroupcontent p {
@@ -623,7 +620,7 @@ div.pag a.activepage {
 	/* Group's Page */
 
 	/* View Group's Page */
-	#viewgroupcontent h3 {
+	#viewgroupcontent h3, #groupdiscussion h2 {
 		font-size: 10px;
 	}
 	#viewgroupcontent h4, #viewgroupcontent p {
@@ -675,7 +672,7 @@ div.pag a.activepage {
 	/* Group's Page */
 
 	/* View Group's Page */
-	#viewgroupcontent h3 {
+	#viewgroupcontent h3, #groupdiscussion h2 {
 		font-size: 7px;
 	}
 	#viewgroupcontent h4, #viewgroupcontent p {
@@ -715,7 +712,7 @@ div.pag a.activepage {
 	/* Group's Page */
 
 	/* View Group's Page */
-	#viewgroupcontent h3 {
+	#viewgroupcontent h3, #groupdiscussion h2 {
 		font-size: 6px;
 	}
 	#viewgroupcontent h4, #viewgroupcontent p {

@@ -212,19 +212,19 @@ class DBHandler {
 
     /* CREATE / INSERT */
     function createLeaderGroup($userID, $groupID) {
-        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, status) VALUES ('$userID', '$groupID', 'Leader')") or die(mysql_error());
+        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, statusID) VALUES ('$userID', '$groupID', '1')") or die(mysql_error());
         if($result) return true; else return false;
     }
 
     function createMember($userID, $groupID) {
-        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, status) VALUES ('$userID', '$groupID', 'Member')") or die(mysql_error());
+        $result = mysql_query("INSERT INTO memberstatus (userID, groupID, statusID) VALUES ('$userID', '$groupID', '2')") or die(mysql_error());
         if($result) return true; else return false;
     }
     /* CREATE / INSERT */
 
     /* GET / RETRIEVE */
     function getLeaderID($groupID) {
-        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND status='Leader'") or die(mysql_error());
+        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND statusID='1'") or die(mysql_error());
         $result = mysql_fetch_array($result);
         return $result['userID'];
     }
@@ -233,7 +233,7 @@ class DBHandler {
         if($result) return $result; else return false;
     }
     function getGroupsYouOwn($userID) {
-         $result = mysql_query("SELECT * FROM memberstatus WHERE userID = '$userID' AND status='Leader'") or die(mysql_error());
+         $result = mysql_query("SELECT * FROM memberstatus WHERE userID = '$userID' AND statusID='1'") or die(mysql_error());
          if($result) return $result; else return false;
     }
     function getGroupCount($groupID) {
@@ -242,7 +242,7 @@ class DBHandler {
         return $no_of_rows;
     }
     function getMembers($groupID) {
-        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND status='Member'") or die(mysql_error());
+        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND statusID='2'") or die(mysql_error());
         if($result) return $result; else return false;
     }
     function getYourGroupCount($userID) {
@@ -254,12 +254,12 @@ class DBHandler {
 
     /* CHECK */
     function checkIfLeader($groupID, $userID) {
-        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND userID = '$userID' AND status = 'Leader'") or die(mysql_error());
+        $result = mysql_query("SELECT * FROM memberstatus WHERE groupID = '$groupID' AND userID = '$userID' AND statusID = '2'") or die(mysql_error());
         $no_of_rows = mysql_num_rows($result);
         if($no_of_rows > 0) return true; else return false;
     }
     function checkIfHasGroupANDLeader($userID) {
-        $result = mysql_query("SELECT * FROM memberstatus WHERE userID = '$userID' AND status = 'Leader'") or die(mysql_error());
+        $result = mysql_query("SELECT * FROM memberstatus WHERE userID = '$userID' AND statusID = '1'") or die(mysql_error());
         $result = mysql_num_rows($result);
         if($result > 0) return true; else return false;
     }
