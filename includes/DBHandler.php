@@ -2,6 +2,8 @@
 ini_set('display_errors',1);  
 error_reporting(E_ALL);
 
+$itemPP = 3;
+
 class DBHandler {
     public function __construct() {
         require_once __dir__.'/DBConnection.php';
@@ -406,12 +408,21 @@ class DBHandler {
               GROUP DISCUSSION
     *************************************/
     function getPostsByGroupID($groupID) {
-        $result = mysql_query("SELECT * FROM groupdiscussion WHERE groupID = $groupID ORDER BY groupdiscussionID DESC") or die(mysql_error());
+        $result = mysql_query("SELECT * FROM groupdiscussion WHERE groupID = '$groupID' ORDER BY groupdiscussionID DESC") or die(mysql_error());
         if($result) return $result; else return false; 
     }
     function postDiscussion($groupID, $userID, $message, $now) {
        $result = mysql_query("INSERT INTO groupdiscussion (groupID, userID, message, now) VALUES ('$groupID', '$userID', '$message', '$now')") or die(mysql_error());
         if($result) return $result; else return false;  
+    }
+
+    function getPostsWithLimit($groupID, $position, $item_per_page) {
+        $result = mysql_query("SELECT * FROM groupdiscussion WHERE groupID = '$groupID' ORDER BY groupdiscussionID DESC LIMIT $position, $item_per_page") or die(mysql_error());
+        if($result) return $result; else return false;
+    }
+
+    function getPostCountByGroupID($groupID) {
+        return mysql_num_rows($this->getPostsByGroupID($groupID));
     }
     /***********************************
               GROUP DISCUSSION

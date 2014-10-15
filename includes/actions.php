@@ -296,11 +296,14 @@
 			echo "FAIL";
 		}
 	} else if (isset($_GET['action']) && $_GET['action'] === 'getPost') {
+		$item_per_page = $itemPP;
+		$page_number = $_GET["page"];
 		$groupID = $_GET['groupID'];
+		$position = ($page_number * $item_per_page);
 
-		$posts = $db->getPostsByGroupID($groupID);
+		$posts = $db->getPostsWithLimit($groupID, $position, $item_per_page);
 		$postCount = mysql_num_rows($posts);
-
+		
 		$message = "";
 		if($postCount == 0) {
 			echo "No Posts as of yet!<br />Be the one to post first!";

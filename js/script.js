@@ -1,3 +1,7 @@
+var track_click = 0;
+var groupID = $("#postGroupID").text();
+var total_pages = $("#postTotalPages").text();
+
 $(function() {
     
     $('#alertMe').click(function(e) {
@@ -29,31 +33,64 @@ $(function() {
         }
     });
     
-    
 });
 
-function getPost() {
-var timeout = setTimeout('getPosts()', 0);
-var interval = setInterval('getPosts()', 10000);
-}
-
-/* GET POSTS */
 function getPosts() {
-    $('#posts').html('');
-    var groupID = $('#postGroupID').text();
-
     $.ajax({
         url: "includes/actions.php",
         type: "get",
-        data: "action=getPost&groupID=" + groupID,
+        data: "action=getPost&groupID=" + groupID + "&page=" + track_click,
         success: function(data){
-            $('#posts').html(data);
+            $('#posts').append(data);
+            track_click++;
         },
         error:function(){
             alert('Something went wrong to the request');
         }
     });
+
+    if(total_pages == 0) {
+        $(".load_more").attr("disabled", "disabled");
+         $(".load_more").text("No More Posts");
+    }
 }
+
+$(".load_more").click(function(e){
+    $(this).hide(); //hide load more button on click
+    $('.animation_image').show(); //show loading image
+
+    //make sure user clicks are still less than total pages
+    if(track_click <= total_pages) {
+        $.ajax({
+            url: "includes/actions.php",
+            type: "get",
+            data: "action=getPost&groupID=" + groupID + "&page=" + track_click,
+            success: function(data){
+
+                $(".load_more").show(); //bring back load more button
+
+                $('#posts').append(data);
+
+                $("html, body").animate({scrollTop: $("#load_more_button").offset().top}, 500);
+
+                $('.animation_image').hide(); //hide loading image once data is received
+
+                track_click++;
+            },
+            error:function(){
+                alert(thrownError); //alert any HTTP error
+                $(".load_more").show(); //bring back load more button
+                $('.animation_image').hide(); //hide loading image once data is received
+            }
+        });
+    }
+
+    if(track_click >= total_pages - 1) {
+        //reached end of the page yet? disable load button
+        $(".load_more").attr("disabled", "disabled");
+         $(".load_more").text("No More Posts");
+    }    
+});
 
 /* POST DISCUSSION */
 $('#postDiscussionForm').submit(function(event) {
@@ -65,6 +102,7 @@ $('#postDiscussionForm').submit(function(event) {
         type: "post",
         data: values,
         success: function(data){
+            /*
             if(data === 'POST SUCCESSFUL') {
                 getPosts();
             } else if(data === 'POST FAILED') {
@@ -72,6 +110,7 @@ $('#postDiscussionForm').submit(function(event) {
             } else {
                 alert("Connection has died, try again later");
             }
+            */
         },
         error:function(){
            alert('Something went wrong with the request!');

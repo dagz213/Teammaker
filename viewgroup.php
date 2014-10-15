@@ -33,7 +33,7 @@
 	<script type="text/javascript" src="../../js/modernizr.custom.79639.js"></script> 
 		
 </head>
-<body onload="getPost()">
+<body onload="getPosts()">
 	<?php include 'includes/menu.php'; ?>
 	<div class="container" id="mainContainer">
 
@@ -48,6 +48,8 @@
 				$leaderName = $db->getLeaderName($leaderID);
 				$groupdescription = $group['groupdescription'];
 				$pendingCount = $db->getRequestCount($groupID);
+
+				$totalPages = ceil($db->getPostCountByGroupID($groupID) / $itemPP);
 				
 		?>
 				<div class="page-header">
@@ -75,9 +77,16 @@
 								<textarea id="postMessage" name="message" placeholder="Post or Reply"></textarea>
 								<input type="submit" id="postSubmit" name="postSubmit" value="Post" class="btn btn-large btn-primary">
 							</form>
+							<!-- TO GET THE VALUES TO JS -->
 							<div id="postGroupID" style="display: none;"><?php echo $groupID; ?></div>
-							<div id="posts" class="list-group">
-								
+							<div id="postTotalPages" style="display: none;"><?php echo $totalPages; ?></div>
+							<!-- TO GET THE VALUES TO JS -->
+
+							<div id="posts" class="list-group"></div><!-- END OF POSTS -->
+
+							<div align="center">
+								<button class="load_more btn btn-large btn-primary" id="load_more_button">Load More</button>
+								<div class="animation_image" style="display:none;"><img src="ajax-loader.gif"> Loading...</div>
 							</div>
 						</div> <!-- END OF GROUP DISCUSSION -->
 					</div> <!-- END OF VIEW GROUP CONTENT LEFT SIDE -->
