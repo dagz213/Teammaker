@@ -2,7 +2,7 @@
 ini_set('display_errors',1);  
 error_reporting(E_ALL);
 
-$itemPP = 3;
+$itemPP = 5;
 
 class DBHandler {
     public function __construct() {
@@ -84,8 +84,8 @@ class DBHandler {
             } else {
                 return "2";
             }
-
         } else return "1";
+
     }
     /***********************************
                     LOGIN
@@ -426,6 +426,27 @@ class DBHandler {
     }
     /***********************************
               GROUP DISCUSSION
+    *************************************/
+    /***********************************
+                USER POST
+    *************************************/
+    function getPostsByUserID($userID) {
+        $result = mysql_query("SELECT * FROM userpost WHERE userID = '$userID' ORDER BY userpostID DESC") or die(mysql_error());
+        if($result) return $result; else return false; 
+    }
+    function postStatus($userID, $message, $now) {
+        $result = mysql_query("INSERT INTO userpost (userID, message, now) VALUES ('$userID', '$message', '$now')") or die(mysql_error());
+        if($result) return $result; else return false; 
+    }
+    function getUserPostsWithLimit($userID, $position, $item_per_page) {
+        $result = mysql_query("SELECT * FROM userpost WHERE userID = '$userID' ORDER BY userpostID DESC LIMIT $position, $item_per_page") or die(mysql_error());
+        if($result) return $result; else return false;
+    }
+    function getUserPostCountByUserID($userID) {
+        return mysql_num_rows($this->getPostsByUserID($userID));
+    }
+    /***********************************
+                USER POST
     *************************************/
     function makeSeed() {
         $ip = $_SERVER['REMOTE_ADDR'];

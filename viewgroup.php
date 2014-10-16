@@ -85,7 +85,7 @@
 							<div id="posts" class="list-group"></div><!-- END OF POSTS -->
 
 							<div align="center">
-								<button class="load_more btn btn-large btn-primary" id="load_more_button">Load More</button>
+								<button class="load_more btn btn-large btn-primary" id="loadGroupPost">Load More</button>
 								<div class="animation_image" style="display:none;"><img src="ajax-loader.gif"> Loading...</div>
 							</div>
 						</div> <!-- END OF GROUP DISCUSSION -->

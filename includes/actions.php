@@ -200,6 +200,17 @@
 			echo "POST FAILED";
 		}
 
+	} else if (isset($_POST['action']) && $_POST['action'] === 'postUserStatus') {
+		$userID = $_POST['userID'];
+		$message = $_POST['message'];
+		$now = date("Y-m-d H:i:s");
+
+		if($db->postStatus($userID, $message, $now)) {
+			echo "POST SUCCESSFUL";
+		} else {
+			echo "POST FAILED";
+		}
+
 	} else if(isset($_POST['upload'])) {
 		$base_directory = "../photos/";
 		$userID = $_POST['userIDUpload'];
@@ -303,7 +314,34 @@
 
 		$posts = $db->getPostsWithLimit($groupID, $position, $item_per_page);
 		$postCount = mysql_num_rows($posts);
-		
+
+		$message = "";
+		if($postCount == 0) {
+			echo "No Posts as of yet!<br />Be the one to post first!";
+		} else if($postCount >= 1) {
+			
+			while($row = mysql_fetch_array($posts)) {
+				$m = $row['message'];
+				$username = $db->getLeaderName($row['userID']);
+				$now = $row['now'];
+				$message .= '<div class="list-group-item">';
+				$message .= '<h2 class="list-group-item-heading">'.$m.'</h2>';
+				$message .= '<p class="list-group-item-text">Posted By: '.$username.'</p>';
+				$message .= '<p class="list-group-item-text">Posted on '.$now.'</p>';
+				$message .= '</div>';
+			}
+			echo $message;
+		}
+	}  else if (isset($_GET['action']) && $_GET['action'] === 'getUserPost') {
+		$item_per_page = $itemPP;
+		$page_number = $_GET["page"];
+		$userID = $_GET['userID'];
+
+		$position = ($page_number * $item_per_page);
+
+		$posts = $db->getUserPostsWithLimit($userID, $position, $item_per_page);
+		$postCount = mysql_num_rows($posts);
+
 		$message = "";
 		if($postCount == 0) {
 			echo "No Posts as of yet!<br />Be the one to post first!";

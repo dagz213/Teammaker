@@ -1,5 +1,4 @@
 var track_click = 0;
-var groupID = $("#postGroupID").text();
 var total_pages = $("#postTotalPages").text();
 
 $(function() {
@@ -35,7 +34,11 @@ $(function() {
     
 });
 
+/* GET INITIALIZE POSTS */
 function getPosts() {
+    var groupID = $("#postGroupID").text();
+    $('#posts').empty();
+    track_click = 0;
     $.ajax({
         url: "includes/actions.php",
         type: "get",
@@ -50,12 +53,14 @@ function getPosts() {
     });
 
     if(total_pages == 0) {
-        $(".load_more").attr("disabled", "disabled");
-         $(".load_more").text("No More Posts");
+        $("#loadGroupPost").attr("disabled", "disabled");
+         $("#loadGroupPost").text("No More Posts");
     }
 }
 
-$(".load_more").click(function(e){
+/* GET GROUP DISCUSSION WHEN CLICKED  */
+$("#loadGroupPost").click(function(e){
+    var groupID = $("#postGroupID").text();
     $(this).hide(); //hide load more button on click
     $('.animation_image').show(); //show loading image
 
@@ -67,11 +72,11 @@ $(".load_more").click(function(e){
             data: "action=getPost&groupID=" + groupID + "&page=" + track_click,
             success: function(data){
 
-                $(".load_more").show(); //bring back load more button
+                $("#loadGroupPost").show(); //bring back load more button
 
                 $('#posts').append(data);
 
-                $("html, body").animate({scrollTop: $("#load_more_button").offset().top}, 500);
+                $("html, body").animate({scrollTop: $("#loadGroupPost").offset().top}, 500);
 
                 $('.animation_image').hide(); //hide loading image once data is received
 
@@ -79,7 +84,7 @@ $(".load_more").click(function(e){
             },
             error:function(){
                 alert(thrownError); //alert any HTTP error
-                $(".load_more").show(); //bring back load more button
+                $("#loadGroupPost").show(); //bring back load more button
                 $('.animation_image').hide(); //hide loading image once data is received
             }
         });
@@ -87,30 +92,93 @@ $(".load_more").click(function(e){
 
     if(track_click >= total_pages - 1) {
         //reached end of the page yet? disable load button
-        $(".load_more").attr("disabled", "disabled");
-         $(".load_more").text("No More Posts");
+        $("#loadGroupPost").attr("disabled", "disabled");
+         $("#loadGroupPost").text("No More Posts");
     }    
 });
 
-/* POST DISCUSSION */
-$('#postDiscussionForm').submit(function(event) {
+/* GET INITIALIZE USER POSTS */
+function getUserPosts() {
+    var userID = $("#postUserID").text();
+    $("#userPosts").empty();
+    track_click = 0;
+    $.ajax({
+        url: "includes/actions.php",
+        type: "get",
+        data: "action=getUserPost&userID=" + userID + "&page=" + track_click,
+        success: function(data){
+            $('#userPosts').append(data);
+            track_click++;
+        },
+        error:function(){
+            alert('Something went wrong to the request');
+        }
+    });
+
+    if(total_pages == 0) {
+        $("#loadUserPost").attr("disabled", "disabled");
+         $("#loadUserPost").text("No More Posts");
+    }
+}
+
+/* GET USER POSTS WHEN CLICKED  */
+$("#loadUserPost").click(function(e){
+    var userID = $("#postUserID").text();
+    $(this).hide(); //hide load more button on click
+    $('.animation_image').show(); //show loading image
+
+    //make sure user clicks are still less than total pages
+    if(track_click <= total_pages) {
+        $.ajax({
+            url: "includes/actions.php",
+            type: "get",
+            data: "action=getUserPost&userID=" + userID + "&page=" + track_click,
+            success: function(data){
+
+                $("#loadUserPost").show(); //bring back load more button
+
+                $('#userPosts').append(data);
+
+                $("html, body").animate({scrollTop: $("#loadUserPost").offset().top}, 500);
+
+                $('.animation_image').hide(); //hide loading image once data is received
+
+                track_click++;
+            },
+            error:function(){
+                alert(thrownError); //alert any HTTP error
+                $("#loadUserPost").show(); //bring back load more button
+                $('.animation_image').hide(); //hide loading image once data is received
+            }
+        });
+    }
+
+    if(track_click >= total_pages - 1) {
+        //reached end of the page yet? disable load button
+        $(".#loadUserPost").attr("disabled", "disabled");
+         $(".#loadUserPost").text("No More Posts");
+    }   
+
+
+});
+
+/* POST USER POSTS */
+$('#postUserStatusForm').submit(function(event) {
     event.preventDefault();
     var values = $(this).serialize();
-    $("#postMessage").val("");
+    $("#postStatus").val("");
      $.ajax({
         url: "includes/actions.php",
         type: "post",
         data: values,
         success: function(data){
-            /*
             if(data === 'POST SUCCESSFUL') {
-                getPosts();
+                getUserPosts();
             } else if(data === 'POST FAILED') {
                 alert("POST FAILED");
             } else {
                 alert("Connection has died, try again later");
             }
-            */
         },
         error:function(){
            alert('Something went wrong with the request!');
@@ -122,7 +190,7 @@ $('#postDiscussionForm').submit(function(event) {
 $('#registrationForm').submit(function(event) {
 	/* Stop form from submitting normally */
 	event.preventDefault();
-	$('#resultMessage').html('');
+	$('#resultMessage').empty();
 	/* Get some values from elements on the page: */
 	var values = $(this).serialize();
 	/* Send the data using post and put the results in a div */
@@ -148,7 +216,7 @@ $('#registrationForm').submit(function(event) {
 $('#loginForm').submit(function(event) {
 	/* Stop form from submitting normally */
 	event.preventDefault();
-	$('#resultMessage').html('');
+	$('#resultMessage').empty();
 	/* Get some values from elements on the page: */
 	var values = $(this).serialize();
 	/* Send the data using post and put the results in a div */
@@ -180,7 +248,7 @@ $('#loginForm').submit(function(event) {
 $('#profileRegistrationForm').submit(function(event) {
     /* Stop form from submitting normally */
     event.preventDefault();
-    $('#resultMessage').html('');
+    $('#resultMessage').empty();
     /* Get some values from elements on the page: */
     var values = $(this).serialize();
     /* Send the data using post and put the results in a div */
@@ -207,7 +275,7 @@ $('#profileRegistrationForm').submit(function(event) {
 $('#editProfileForm').submit(function(event) {
     /* Stop form from submitting normally */
     event.preventDefault();
-    $('#resultMessage').html('');
+    $('#resultMessage').empty();
     /* Get some values from elements on the page: */
     var values = $(this).serialize();
     /* Send the data using post and put the results in a div */
@@ -232,7 +300,7 @@ $('#editProfileForm').submit(function(event) {
 /* CREATE GROUP */
 $('#createGroupForm').submit(function(event) {
     event.preventDefault();
-    $('#resultMessage').html('');
+    $('#resultMessage').empty();
     var values = $(this).serialize();
      $.ajax({
         url: "includes/actions.php",
@@ -294,7 +362,7 @@ $('input[type="submit"]').click(function(evt) {
 $('#pendingForm').submit(function(event) {
     event.preventDefault();
     var btnName = clkBtn;
-    $('#resultMessage').html('');
+    $('#resultMessage').empty();
     var values = $(this).serialize();
     var groupID = $('#optionGroupID').val();
     var memberString = "";
@@ -324,7 +392,7 @@ $('#pendingForm').submit(function(event) {
 $('#invitationForm').submit(function(event) {
     event.preventDefault();
     var btnName = clkBtn;
-    $('#resultMessage').html('');
+    $('#resultMessage').empty();
     var values = $(this).serialize();
     var groupID = $("#inviteGroupID").val();
 

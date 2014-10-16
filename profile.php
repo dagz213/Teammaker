@@ -19,7 +19,7 @@
 	<script type="text/javascript" src="../../js/modernizr.custom.79639.js"></script> 
 		
 </head>
-<body>
+<body onload="getUserPosts()">
 	<?php include 'includes/menu.php'; ?>
 	<?php 
 		$userID;
@@ -44,6 +44,7 @@
 			$photoName = "nophoto.jpg";
 		}
 
+		$totalPages = ceil($db->getUserPostCountByUserID($userID) / $itemPP);
 		?>
 			<div id="leftSide" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<a  href="#myModal" data-toggle="modal" data-target="#modalProfilePic" role="button"><img src="photos/
@@ -112,6 +113,24 @@
 				<div id="bio">
 					<div class="bioHeader text-centered">Skills:</div>
 					<div class="bioBody text-centered">ekisfugfdujsfgbkujsyhgbf khjbf kgdhfjsgbkljsbfglos bflduhfjs gbldjhf gbljsdhf gb</div>
+				</div>
+				<hr />
+				<div id="postUserID" style="display: none;"><?php echo $userID; ?></div>
+				<div id="postTotalPages" style="display: none;"><?php echo $totalPages; ?></div>
+				<?php if(!isset($_GET['id'])) { ?>
+				<form id="postUserStatusForm" method="post">
+					<input type="hidden" name="action" value="postUserStatus">
+					<input type="hidden" name="userID" value="<?php echo $userID; ?>">
+					<textarea id="postStatus" name="message" placeholder="What's on your mind?"></textarea>
+					<input type="submit" id="postSubmit" name="postUserSubmit" value="Post" class="btn btn-large btn-primary">
+				</form>
+				<?php } ?>
+				<div id="userPosts">
+					
+				</div>
+				<div align="center">
+					<button class="load_more btn btn-large btn-primary" id="loadUserPost">Load More</button>
+					<div class="animation_image" style="display:none;"><img src="ajax-loader.gif"> Loading...</div>
 				</div>
 			</div> <!-- END OF RIGHT SIDE -->
 
