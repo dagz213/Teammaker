@@ -67,8 +67,11 @@
 				</div> <!-- End of Submit Button form group -->
 			</form> <!-- End of Create group form -->
 		</div><!-- end alert -->
-
-		<a href="" class="btn btn-large btn-primary" id="alertMe">Create Group</a>
+		<?php if($db->checkIfHasGroupANDLeader($userID)) { ?>
+			<a href="" class="btn btn-large btn-primary">Already Own a Group so you can't create a group anymore</a>
+		<?php } else { ?>
+			<a href="" class="btn btn-large btn-primary" id="alertMe">Create Group</a>
+		<?php } ?>
 		<hr />
 		<div class="page-header">
 		   <h2>Groups</h2>

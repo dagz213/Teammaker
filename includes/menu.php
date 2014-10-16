@@ -38,6 +38,9 @@
 				<li>
 					<a href='profile.php'>Profile</a>
 				</li>
+				<li>
+					<a href='inbox.php'>Inbox</a>
+				</li>
 			</ul>
 			<ul id='rightmenu' class='nav navbar-nav pull-right'>
 				<li class='dropdown'>
