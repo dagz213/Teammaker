@@ -191,6 +191,32 @@
 			</div><!-- end modal-dialog -->
 		</div><!-- END OF MODAL INVITE -->
 
+		<div class="modal fade" id="modalMessage">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title text-centered">New Message</h4>
+					</div><!-- end modal-header -->
+
+					<div class="modal-body">
+					<div>
+						<form id="privateMessageForm">
+							<input type="hidden" name="action" value="privateMessage">
+							<input type="hidden" name="from" value="<?php echo $yourUserID; ?>">
+							<input type="hidden" name="to" value="<?php echo $userID; ?>">
+							<textarea id="privateMessageTextArea" name="message" placeholder="What's your message?"></textarea>
+							<div class="resultMessageModal text-centered"><span id="resultMessage"></span></div>
+							<input class="btn btn-primary" type="submit" value="Send" />
+						<button class="btn btn-primary" data-dismiss="modal" type="button">Close</button>
+						</form> <!-- END OF MESSAGE FORM -->
+					</div>
+					</div><!-- end modal-footer -->
+
+				</div><!-- end modal-content -->
+			</div><!-- end modal-dialog -->
+		</div><!-- END OF MODAL MESSAGE -->
+
 		<?php include 'includes/footer.php'; ?>
 	</div> <!-- End of main container -->
 	<script type="text/javascript" src="../../js/jquery.js"></script>	

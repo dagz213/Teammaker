@@ -433,3 +433,26 @@ $('#modalInvite').on('show.bs.modal', function(e) {
         esseyId = e.relatedTarget.id;
    $modal.find('#userIDInvite').val(esseyId);
 });
+
+/* Private Messaging */
+$('#privateMessageForm').submit(function(event) {
+    event.preventDefault();
+    $('#resultMessage').empty();
+    var values = $(this).serialize();
+     $.ajax({
+        url: "includes/actions.php",
+        type: "post",
+        data: values,
+        success: function(data){
+            if(data === "Sent!") {
+                $('#resultMessage').css('color', 'green');
+            } else {
+                $('#resultMessage').css('color', 'red');   
+            }
+            $('#resultMessage').html(data);
+        },
+        error:function(){
+
+        }
+    });
+});

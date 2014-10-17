@@ -436,7 +436,7 @@ class DBHandler {
     }
     function postStatus($userID, $message, $now) {
         $result = mysql_query("INSERT INTO userpost (userID, message, now) VALUES ('$userID', '$message', '$now')") or die(mysql_error());
-        if($result) return $result; else return false; 
+        if($result) return true; else return false; 
     }
     function getUserPostsWithLimit($userID, $position, $item_per_page) {
         $result = mysql_query("SELECT * FROM userpost WHERE userID = '$userID' ORDER BY userpostID DESC LIMIT $position, $item_per_page") or die(mysql_error());
@@ -447,6 +447,16 @@ class DBHandler {
     }
     /***********************************
                 USER POST
+    *************************************/
+    /***********************************
+                  INBOX
+    *************************************/
+    function sendMessage($from, $to, $message, $now) {
+        $result = mysql_query("INSERT INTO inbox (`from`, `to`, `message`, `now`) VALUES ('$from', '$to', '$message', '$now')") or die(mysql_error());
+        if($result) return true; else return false; 
+    }
+    /***********************************
+                  INBOX
     *************************************/
     function makeSeed() {
         $ip = $_SERVER['REMOTE_ADDR'];

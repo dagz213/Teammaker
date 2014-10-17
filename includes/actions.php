@@ -211,6 +211,18 @@
 			echo "POST FAILED";
 		}
 
+	} else if (isset($_POST['action']) && $_POST['action'] === 'privateMessage') {
+		$from = $_POST['from'];
+		$to =  $_POST['to'];
+		$message = $_POST['message'];
+		$now = date("Y-m-d H:i:s");
+
+		if($db->sendMessage($from, $to, $message, $now)) {
+			echo "Sent!";
+		} else {
+			echo "Sending Failed, Try Again Later!";
+		}
+
 	} else if(isset($_POST['upload'])) {
 		$base_directory = "../photos/";
 		$userID = $_POST['userIDUpload'];

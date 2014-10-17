@@ -428,6 +428,16 @@ div.pag a.activepage {
 .messageButton {
 	margin-top: 10px;
 }
+#privateMessageTextArea {
+	width: 200px;
+	height: 100px;
+	margin-left: -30px;
+	margin-bottom: 10px;
+}
+.resultMessageModal {
+	margin-left: -15px;
+	margin-bottom: 10px;
+}
 /* MESSAGING */
 
 /*************************************
