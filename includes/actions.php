@@ -344,7 +344,7 @@
 
 		$message = "";
 		if($postCount == 0) {
-			echo "No Posts as of yet!<br />Be the one to post first!";
+			echo "Hasn't posted anyting yet";
 		} else if($postCount >= 1) {
 			
 			while($row = mysql_fetch_array($posts)) {

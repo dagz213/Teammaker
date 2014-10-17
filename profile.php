@@ -53,6 +53,7 @@
 				?>" id="profilepic"></a>
 
 				<div id="profilepersonalinfo">
+
 					<?php 
 						if(isset($_GET['id']) && !empty($_GET['id'])) {
 							$groupYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
@@ -73,6 +74,10 @@
 								} else {
 									echo '<a href="#myModal" data-toggle="modal" data-target="#modalInviteCancel" role="button" id="', $userID,'" class="profileButton btn btn-large btn-primary">Already Invited</a>';
 								}
+							}
+
+							if($yourUserID !== $userID) {
+								echo '<a href="#myModal" data-toggle="modal" data-target="#modalMessage" role="button" class="messageButton btn btn-large btn-primary">Message</a>';
 							}
 						} else {
 							if($db->checkIfHasInvites($userID)) {
@@ -105,6 +110,7 @@
 					<h4><?php echo $user['hobbies']; ?></h4>
 					<h3>About: </h3>
 					<h4><?php echo $user['about']; ?></h4>
+
 				</div> <!-- END OF PROFILE PERSONAL INFO-->
 
 			</div> <!-- END OF LEFT SIDE -->
@@ -117,7 +123,7 @@
 				<hr />
 				<div id="postUserID" style="display: none;"><?php echo $userID; ?></div>
 				<div id="postTotalPages" style="display: none;"><?php echo $totalPages; ?></div>
-				<?php if(!isset($_GET['id'])) { ?>
+				<?php if((!isset($_GET['id']) && empty($_GET['id'])) || $_GET['id'] === $yourUserID) { ?>
 				<form id="postUserStatusForm" method="post">
 					<input type="hidden" name="action" value="postUserStatus">
 					<input type="hidden" name="userID" value="<?php echo $userID; ?>">
@@ -145,6 +151,7 @@
 					</div><!-- end modal-header -->
 
 				</div><!-- end modal-content -->
+				<?php if((!isset($_GET['id']) && empty($_GET['id'])) || $_GET['id'] === $yourUserID) { ?>
 				<div class="modalFooter">
 					<form action="includes/actions.php" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="userIDUpload" value="<?php echo $yourUserID; ?>">
@@ -152,6 +159,7 @@
 						<input type="submit" name="upload" value="Upload Profile Picture" class="floatleft">
 					</form>
 				</div>
+				<?php } ?>
 			</div><!-- end modal-dialog -->
 		</div><!-- end myModal -->
 
