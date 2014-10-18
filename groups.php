@@ -68,7 +68,7 @@
 			</form> <!-- End of Create group form -->
 		</div><!-- end alert -->
 		<?php if($db->checkIfHasGroupANDLeader($userID)) { ?>
-			<a href="" class="btn btn-large btn-primary">Already Own a Group so you can't create a group anymore</a>
+			<a href="" class="btn btn-large btn-primary">Already Own a Group</a>
 		<?php } else { ?>
 			<a href="" class="btn btn-large btn-primary" id="alertMe">Create Group</a>
 		<?php } ?>

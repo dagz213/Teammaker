@@ -444,6 +444,24 @@ div.pag a.activepage {
 		    Profile Page
 **************************************/
 
+/*************************************
+		     Inbox Page
+**************************************/
+
+#messageList {
+	border: 1px solid black;
+}
+
+#messageBox {
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+/*************************************
+		     Inbox Page
+**************************************/
+
 /****************************
  	   Media Queries
 *****************************/
