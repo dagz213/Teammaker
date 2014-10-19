@@ -31,7 +31,7 @@ $(function() {
             $('.numbers').css('display', 'block');
         }
     });
-    
+  //getMessageList();  
 });
 
 /* GET INITIALIZE POSTS */
@@ -158,8 +158,6 @@ $("#loadUserPost").click(function(e){
         $(".#loadUserPost").attr("disabled", "disabled");
          $(".#loadUserPost").text("No More Posts");
     }   
-
-
 });
 
 /* POST USER POSTS */
@@ -456,3 +454,26 @@ $('#privateMessageForm').submit(function(event) {
         }
     });
 });
+
+/************************************
+*                                   *
+*               INBOX               *
+*                                   *
+*************************************/
+
+function getMessageList() {
+    var yourUserID = $("#yourUserID").text();
+    $.get(
+        "includes/actions.php",
+        { "action" : "getMessageList", "yourUserID" : yourUserID },
+        function(data) {
+            $("#messageList").append(data);
+        }
+    );
+}
+
+/************************************
+*                                   *
+*               INBOX               *
+*                                   *
+*************************************/

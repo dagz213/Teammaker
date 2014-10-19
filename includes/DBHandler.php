@@ -449,14 +449,63 @@ class DBHandler {
                 USER POST
     *************************************/
     /***********************************
-                  INBOX
+            INBOX AND MESSAGES
     *************************************/
-    function sendMessage($from, $to, $message, $now) {
-        $result = mysql_query("INSERT INTO inbox (`from`, `to`, `message`, `now`) VALUES ('$from', '$to', '$message', '$now')") or die(mysql_error());
-        if($result) return true; else return false; 
+    /* INBOX */
+    function sendNewMessage($yourUserID, $to, $message, $now) {
+        $result = mysql_query("INSERT INTO inbox (`from`, `to`) VALUES ('$yourUserID', '$to')") or die(mysql_error());
+        $inboxID = mysql_insert_id();
+        if($result) {
+            $result = $this->insertMessage($inboxID, $yourUserID, $message, $now);
+            if($result) return true; else return false;
+        } else return false;
     }
+
+    function sendMessage($inboxID, $yourUserID, $message, $now) {
+        $result = $this->insertMessage($inboxID, $yourUserID, $message, $now);
+        if($result) return true; else return false;
+    }
+
+    function getMessageList($userID) {
+        $result = mysql_query("SELECT i.inboxID, u.userID
+            FROM user u, inbox i
+            WHERE CASE WHEN i.`from` =  '$userID'
+            THEN i.`to` = u.userID
+            WHEN i.`to` =  '$userID'
+            THEN i.`from` = u.userID
+            END AND (
+            i.`from` =  '$userID'
+            OR i.`to` =  '$userID')") or die(mysql_error());
+
+        if($result) return $result; else return false;
+    }
+    function getInboxID($from, $to) {
+        $result = mysql_query("SELECT inboxID FROM `inbox` WHERE (`from` = $from AND `to` = $to) OR (`from` = $to AND `to` = $from)") or die(mysql_error());
+        if($result) {
+            $result = mysql_fetch_array($result);
+            return $result['inboxID'];
+        } else return false;
+    }
+
+    function checkIfHasInbox($from, $to) {
+        $result = mysql_query("SELECT inboxID FROM inbox WHERE `from` = '$from' AND `to` = '$to'") or die(mysql_error());
+        $result = mysql_num_rows($result);
+        if($result > 0) return true; else return false;
+    }
+    /* INBOX */
+
+    /* MESSAGES */
+    function insertMessage($inboxID, $yourUserID, $message, $now) {
+        $result = mysql_query("INSERT INTO message (`inboxID`, `userID`, `message`, `now`) VALUES ('$inboxID', '$yourUserID', '$message', '$now')") or die(mysql_error());
+        if($result) return true; else return false;
+    }
+    function getLastMessageDate($inboxID) {
+        $result = mysql_query("SELECT `now` FROM message WHERE inboxID = '$inboxID' ORDER BY messageID DESC LIMIT 1") or die(mysql_error());
+        if($result) return mysql_fetch_assoc($result); else return false;
+    }
+    /* MESSAGES */
     /***********************************
-                  INBOX
+            INBOX AND MESSAGES
     *************************************/
     function makeSeed() {
         $ip = $_SERVER['REMOTE_ADDR'];
@@ -467,6 +516,8 @@ class DBHandler {
         $seed = ($ip + $hour + $day + $month);
         $_SESSION['seed'] = $seed;
     }
+
+
 }
 
 ?>

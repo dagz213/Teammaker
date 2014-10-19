@@ -448,16 +448,25 @@ div.pag a.activepage {
 		     Inbox Page
 **************************************/
 
-#messageList {
+#inboxLeftPanel {
 	border: 1px solid black;
 }
 
-#messageBox {
+#inboxRightPanel {
 	border-top: 1px solid black;
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 }
 
+.messages {
+	cursor: pointer;
+}
+.messages h1 {
+	font-size: 30px;
+}
+.messages h4 {
+	font-size: 15px;
+}
 /*************************************
 		     Inbox Page
 **************************************/

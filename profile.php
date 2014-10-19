@@ -203,7 +203,7 @@
 					<div>
 						<form id="privateMessageForm">
 							<input type="hidden" name="action" value="privateMessage">
-							<input type="hidden" name="from" value="<?php echo $yourUserID; ?>">
+							<input type="hidden" name="yourUserID" value="<?php echo $yourUserID; ?>">
 							<input type="hidden" name="to" value="<?php echo $userID; ?>">
 							<textarea id="privateMessageTextArea" name="message" placeholder="What's your message?"></textarea>
 							<div class="resultMessageModal text-centered"><span id="resultMessage"></span></div>

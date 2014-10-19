@@ -212,16 +212,26 @@
 		}
 
 	} else if (isset($_POST['action']) && $_POST['action'] === 'privateMessage') {
-		$from = $_POST['from'];
+		$yourUserID = $_POST['yourUserID'];
 		$to =  $_POST['to'];
 		$message = $_POST['message'];
 		$now = date("Y-m-d H:i:s");
 
-		if($db->sendMessage($from, $to, $message, $now)) {
-			echo "Sent!";
+		if($db->checkIfHasInbox($yourUserID, $to)) {
+			$inboxID = $db->getInboxID($yourUserID, $to);
+			if($db->sendMessage($inboxID, $yourUserID, $message, $now)) {
+				echo "Sent!";
+			} else {
+				echo "Sending Failed, Try Again Later!";
+			}
 		} else {
-			echo "Sending Failed, Try Again Later!";
+			if($db->sendNewMessage($yourUserID, $to, $message, $now)) {
+				echo "Sent!";
+			} else {
+				echo "Sending Failed, Try Again Later!";
+			}
 		}
+
 
 	} else if(isset($_POST['upload'])) {
 		$base_directory = "../photos/";
@@ -371,6 +381,30 @@
 			}
 			echo $message;
 		}
+	} else if(isset($_GET['action']) && $_GET['action'] === 'getMessageList') {
+		$yourUserID = $_GET['yourUserID'];
+
+		$message = "";
+		$messages = $db->getMessageList($yourUserID);
+		$count = mysql_num_rows($messages);
+
+		if($count > 0) {
+			while($row = mysql_fetch_array($messages)) {
+				$userID = $row['userID'];
+				$username = $db->getLeaderName($userID);
+				$inboxID = $row['inboxID'];
+				$now = $db->getLastMessageDate($inboxID);
+
+				$message .= '<a class="list-group-item messages">';
+				$message .= '<h1 class="list-group-item-heading">'.$username.'</h1>';
+				$message .= '<h4>Last Message on: '.$now['now'].'</h4>';
+				$message .= '</a>';
+			}
+
+		} else {
+			$message .= "No Messages";
+		}
+		echo $message;
 	}
 	/*****************************
 			  GET ACTIONS

@@ -19,26 +19,30 @@
 	<script type="text/javascript" src="../../js/modernizr.custom.79639.js"></script> 
 		
 </head>
-<body>
+<body onload="getMessageList()">
 	<?php include 'includes/menu.php'; ?>
 	<?php 
 		$un = $_SESSION['username'];
 		$yourUserID = $db->getUserID($un);
 	?>
-	<div class="row" id="mainContainer">
-		<div id="messageList" class="col-xs-4 col-sm-4 col-md-4 col-lg-3">
-			<div class="page-header">
-				<h1 class="text-centered">Messages</h1>
+	<div class="container" id="mainContainer">
+		<div class="row">
+			<div id="yourUserID" style="display:none;"><?php echo $yourUserID; ?></div>
+			<div id="inboxLeftPanel" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="page-header">
+					<h1 class="text-centered">Messages</h1>
+				</div>
+				<div id="messageList" class="list-group">
+					<!--
+					<a class="list-group-item messages">
+						<h1 class="list-group-item-heading">Marlon Sidlacan</h1>
+						<h4>on: July 31</h4>
+					</a> -->
+				</div>
 			</div>
-			<div class="list-group">
-				<a class="list-group-item messages">
-					<h1 class="list-group-item-heading">Marlon Sidlacan</h1>
-					<h4>on: July 31</h4>
-				</a>
+			<div id="inboxRightPanel" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+				
 			</div>
-		</div>
-		<div id="messageBox" class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
-			
 		</div>
 	</div> <!-- End of main container -->
 	<?php include 'includes/footer.php'; ?>
