@@ -31,71 +31,83 @@ $(function() {
             $('.numbers').css('display', 'block');
         }
     });
-  //getMessageList();  
 });
 
-/* GET INITIALIZE POSTS */
-function getPosts() {
-    var groupID = $("#postGroupID").text();
-    $('#posts').empty();
-    track_click = 0;
-    $.ajax({
+/************************************
+*                                   *
+*         LOGIN AND REGISTER        *
+*                                   *
+*************************************/
+
+/* REGISTER */
+$('#registrationForm').submit(function(event) {
+    /* Stop form from submitting normally */
+    event.preventDefault();
+    $('#resultMessage').empty();
+    /* Get some values from elements on the page: */
+    var values = $(this).serialize();
+    /* Send the data using post and put the results in a div */
+     $.ajax({
         url: "includes/actions.php",
-        type: "get",
-        data: "action=getPost&groupID=" + groupID + "&page=" + track_click,
+        type: "post",
+        data: values,
         success: function(data){
-            $('#posts').append(data);
-            track_click++;
+            if(data === "Register Successful") {
+                $('#resultMessage').css('color', 'green');
+            } else {
+                $('#resultMessage').css('color', 'red');   
+            }
+            $('#resultMessage').html(data);
         },
         error:function(){
-            alert('Something went wrong to the request');
+            $("#resultMessage").html('Something went wrong with the request!');
         }
     });
-
-    if(total_pages == 0) {
-        $("#loadGroupPost").attr("disabled", "disabled");
-         $("#loadGroupPost").text("No More Posts");
-    }
-}
-
-/* GET GROUP DISCUSSION WHEN CLICKED  */
-$("#loadGroupPost").click(function(e){
-    var groupID = $("#postGroupID").text();
-    $(this).hide(); //hide load more button on click
-    $('.animation_image').show(); //show loading image
-
-    //make sure user clicks are still less than total pages
-    if(track_click <= total_pages) {
-        $.ajax({
-            url: "includes/actions.php",
-            type: "get",
-            data: "action=getPost&groupID=" + groupID + "&page=" + track_click,
-            success: function(data){
-
-                $("#loadGroupPost").show(); //bring back load more button
-
-                $('#posts').append(data);
-
-                $("html, body").animate({scrollTop: $("#loadGroupPost").offset().top}, 500);
-
-                $('.animation_image').hide(); //hide loading image once data is received
-
-                track_click++;
-            },
-            error:function(){
-                alert(thrownError); //alert any HTTP error
-                $("#loadGroupPost").show(); //bring back load more button
-                $('.animation_image').hide(); //hide loading image once data is received
-            }
-        });
-    }
-
-    if(track_click >= total_pages - 1) {
-        //reached end of the page yet? disable load button
-        $("#loadGroupPost").attr("disabled", "disabled");
-         $("#loadGroupPost").text("No More Posts");
-    }    
 });
+
+/* LOGIN */
+$('#loginForm').submit(function(event) {
+    /* Stop form from submitting normally */
+    event.preventDefault();
+    $('#resultMessage').empty();
+    /* Get some values from elements on the page: */
+    var values = $(this).serialize();
+    /* Send the data using post and put the results in a div */
+     $.ajax({
+        url: "includes/actions.php",
+        type: "post",
+        data: values,
+        success: function(data){
+            var string = data.split('/');
+            if(string[0] === "Login Successful") {
+                $('#resultMessage').css('color', 'green');
+                if(string[1] === "noregister") {
+                    window.location.href = 'groups.php';
+                } else if (string[1] === "register") {
+                    window.location.href = 'registerprofile.php';
+                } 
+            } else { 
+                $('#resultMessage').css('color', 'red');   
+            }
+            $('#resultMessage').html(string[0]);
+        },
+        error:function(){
+            $("#resultMessage").html('Something went wrong with the request!');
+        }
+    });
+});
+
+/************************************
+*                                   *
+*         LOGIN AND REGISTER        *
+*                                   *
+*************************************/
+
+/************************************
+*                                   *
+*              PROFILE              *
+*                                   *
+*************************************/
 
 /* GET INITIALIZE USER POSTS */
 function getUserPosts() {
@@ -184,20 +196,17 @@ $('#postUserStatusForm').submit(function(event) {
     });
 });
 
-/* REGISTER */
-$('#registrationForm').submit(function(event) {
-	/* Stop form from submitting normally */
-	event.preventDefault();
-	$('#resultMessage').empty();
-	/* Get some values from elements on the page: */
-	var values = $(this).serialize();
-	/* Send the data using post and put the results in a div */
-	 $.ajax({
+/* Private Messaging */
+$('#privateMessageForm').submit(function(event) {
+    event.preventDefault();
+    $('#resultMessage').empty();
+    var values = $(this).serialize();
+     $.ajax({
         url: "includes/actions.php",
         type: "post",
         data: values,
         success: function(data){
-            if(data === "Register Successful") {
+            if(data === "Sent!") {
                 $('#resultMessage').css('color', 'green');
             } else {
                 $('#resultMessage').css('color', 'red');   
@@ -205,39 +214,7 @@ $('#registrationForm').submit(function(event) {
             $('#resultMessage').html(data);
         },
         error:function(){
-            $("#resultMessage").html('Something went wrong with the request!');
-        }
-    });
-});
 
-/* LOGIN */
-$('#loginForm').submit(function(event) {
-	/* Stop form from submitting normally */
-	event.preventDefault();
-	$('#resultMessage').empty();
-	/* Get some values from elements on the page: */
-	var values = $(this).serialize();
-	/* Send the data using post and put the results in a div */
-	 $.ajax({
-        url: "includes/actions.php",
-        type: "post",
-        data: values,
-        success: function(data){
-            var string = data.split('/');
-            if(string[0] === "Login Successful") {
-                $('#resultMessage').css('color', 'green');
-                if(string[1] === "noregister") {
-                    window.location.href = 'groups.php';
-                } else if (string[1] === "register") {
-                    window.location.href = 'registerprofile.php';
-                } 
-            } else { 
-                $('#resultMessage').css('color', 'red');   
-            }
-            $('#resultMessage').html(string[0]);
-        },
-        error:function(){
-            $("#resultMessage").html('Something went wrong with the request!');
         }
     });
 });
@@ -295,6 +272,18 @@ $('#editProfileForm').submit(function(event) {
     });
 });
 
+/************************************
+*                                   *
+*              PROFILE              *
+*                                   *
+*************************************/
+
+/************************************
+*                                   *
+*               GROUP               *
+*                                   *
+*************************************/
+
 /* CREATE GROUP */
 $('#createGroupForm').submit(function(event) {
     event.preventDefault();
@@ -330,6 +319,81 @@ $('#modalPendingCancel').on('show.bs.modal', function(e) {
    $modal.find('#pendingcancelgroup').val(string[0]);
 });
 
+/************************************
+*                                   *
+*               GROUP               *
+*                                   *
+*************************************/
+
+/************************************
+*                                   *
+*            VIEW GROUP             *
+*                                   *
+*************************************/
+
+/* GET INITIALIZE POSTS */
+function getPosts() {
+    var groupID = $("#postGroupID").text();
+    $('#posts').empty();
+    track_click = 0;
+    $.ajax({
+        url: "includes/actions.php",
+        type: "get",
+        data: "action=getPost&groupID=" + groupID + "&page=" + track_click,
+        success: function(data){
+            $('#posts').append(data);
+            track_click++;
+        },
+        error:function(){
+            alert('Something went wrong to the request');
+        }
+    });
+
+    if(total_pages == 0) {
+        $("#loadGroupPost").attr("disabled", "disabled");
+         $("#loadGroupPost").text("No More Posts");
+    }
+}
+
+/* GET GROUP DISCUSSION WHEN CLICKED  */
+$("#loadGroupPost").click(function(e){
+    var groupID = $("#postGroupID").text();
+    $(this).hide(); //hide load more button on click
+    $('.animation_image').show(); //show loading image
+
+    //make sure user clicks are still less than total pages
+    if(track_click <= total_pages) {
+        $.ajax({
+            url: "includes/actions.php",
+            type: "get",
+            data: "action=getPost&groupID=" + groupID + "&page=" + track_click,
+            success: function(data){
+
+                $("#loadGroupPost").show(); //bring back load more button
+
+                $('#posts').append(data);
+
+                $("html, body").animate({scrollTop: $("#loadGroupPost").offset().top}, 500);
+
+                $('.animation_image').hide(); //hide loading image once data is received
+
+                track_click++;
+            },
+            error:function(){
+                alert(thrownError); //alert any HTTP error
+                $("#loadGroupPost").show(); //bring back load more button
+                $('.animation_image').hide(); //hide loading image once data is received
+            }
+        });
+    }
+
+    if(track_click >= total_pages - 1) {
+        //reached end of the page yet? disable load button
+        $("#loadGroupPost").attr("disabled", "disabled");
+         $("#loadGroupPost").text("No More Posts");
+    }    
+});
+
 //to get The reason of joinging
 function showUser(str) {
     var groupID = $('#optionGroupID').val();
@@ -355,7 +419,6 @@ var clkBtn = "";
 $('input[type="submit"]').click(function(evt) {
     clkBtn = evt.target.name;
 });
-
 
 $('#pendingForm').submit(function(event) {
     event.preventDefault();
@@ -432,28 +495,11 @@ $('#modalInvite').on('show.bs.modal', function(e) {
    $modal.find('#userIDInvite').val(esseyId);
 });
 
-/* Private Messaging */
-$('#privateMessageForm').submit(function(event) {
-    event.preventDefault();
-    $('#resultMessage').empty();
-    var values = $(this).serialize();
-     $.ajax({
-        url: "includes/actions.php",
-        type: "post",
-        data: values,
-        success: function(data){
-            if(data === "Sent!") {
-                $('#resultMessage').css('color', 'green');
-            } else {
-                $('#resultMessage').css('color', 'red');   
-            }
-            $('#resultMessage').html(data);
-        },
-        error:function(){
-
-        }
-    });
-});
+/************************************
+*                                   *
+*            VIEW GROUP             *
+*                                   *
+*************************************/
 
 /************************************
 *                                   *
