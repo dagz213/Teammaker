@@ -499,9 +499,30 @@ class DBHandler {
         $result = mysql_query("INSERT INTO message (`inboxID`, `userID`, `message`, `now`) VALUES ('$inboxID', '$yourUserID', '$message', '$now')") or die(mysql_error());
         if($result) return true; else return false;
     }
+    function sendReply($inboxID, $yourUserID, $message, $now) {
+        $result = mysql_query("INSERT INTO message (`inboxID`, `userID`, `message`, `now`) VALUES ('$inboxID', '$yourUserID', '$message', '$now')") or die(mysql_error());
+        $messageID = mysql_insert_id();
+        if($result) return $messageID; else return false;
+    }
+    function getLastMessage($inboxID) {
+        $result = mysql_query("SELECT * FROM message WHERE inboxID = '$inboxID' ORDER BY messageID DESC LIMIT 1") or die(mysql_error());
+        if($result) return mysql_fetch_assoc($result); else return false;
+    }
     function getLastMessageDate($inboxID) {
         $result = mysql_query("SELECT `now` FROM message WHERE inboxID = '$inboxID' ORDER BY messageID DESC LIMIT 1") or die(mysql_error());
         if($result) return mysql_fetch_assoc($result); else return false;
+    }
+    function getChat($inboxID) {
+        $result = mysql_query("SELECT messageID, userID, message, `now` FROM message WHERE  inboxID = '$inboxID' ORDER BY messageID DESC") or die(mysql_error());
+        if($result) return $result; else return false;
+    }
+    function getMessage($messageID) {
+        $result = mysql_query("SELECT * FROM message WHERE  messageID = '$messageID'") or die(mysql_error());
+        if($result) return $result; else return false;
+    }
+    function getChatCount($inboxID) {
+        $result = mysql_query("SELECT * FROM message WHERE  inboxID = '$inboxID'") or die(mysql_error());
+        if($result) return mysql_num_rows($result); else return false;
     }
     /* MESSAGES */
     /***********************************

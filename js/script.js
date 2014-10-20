@@ -472,6 +472,87 @@ function getMessageList() {
     );
 }
 
+var inboxID;
+var chatCount;
+var repeatingChatCount;
+var intervalChat;
+
+$('#messageList').on("click", ".messages", function() {    
+    clearInterval(intervalChat);
+    $("#chatBox").empty();
+    inboxID = $(this).attr('rel');
+    getChat(inboxID);
+    setTimeout(getChatCount(), 0);
+    setInterval(getRepeatingChatCount, 1000);
+});
+
+function getChat(inboxID) {
+    $.get(
+        "includes/actions.php",
+        { "action" : "getChat", "inboxID" : inboxID },
+        function(data) {
+            $("#chatBox").append(data);
+        }
+    ); 
+}
+
+function getChatCount() {
+    if(!chatCount && inboxID) {
+        $.get(
+            "includes/actions.php",
+            { "action" : "getChatCount", "inboxID" : inboxID },
+            function(data) {
+                chatCount = data;
+            }
+        ); 
+    }
+}
+
+function getRepeatingChatCount() {
+    if(repeatingChatCount > chatCount) {
+        $.get(
+            "includes/actions.php",
+            { "action" : "getLastMessage", "inboxID" : inboxID },
+            function(data) {
+                chatCount++;
+                $("#chatBox").prepend(data);
+            }
+        );
+    } else {
+        $.get(
+            "includes/actions.php",
+            { "action" : "getChatCount", "inboxID" : inboxID },
+            function(data) {
+                repeatingChatCount = data;
+            }
+        );
+    } 
+}
+
+$('#sendReplyForm').submit(function(event) {
+    event.preventDefault();
+    if(!inboxID) {
+        alert("no chat");
+    } else {   
+        $('#inboxID').val(inboxID);
+        var values = $(this).serialize();
+
+        $.ajax({
+            url: "includes/actions.php",
+            type: "post",
+            data: values,
+            success: function(data){
+                chatCount++;
+                $("#chatBox").prepend(data);
+            },
+            error:function(){
+
+            }
+        });
+    }
+});
+
+
 /************************************
 *                                   *
 *               INBOX               *

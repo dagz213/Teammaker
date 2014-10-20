@@ -33,15 +33,22 @@
 					<h1 class="text-centered">Messages</h1>
 				</div>
 				<div id="messageList" class="list-group">
-					<!--
-					<a class="list-group-item messages">
-						<h1 class="list-group-item-heading">Marlon Sidlacan</h1>
-						<h4>on: July 31</h4>
-					</a> -->
+					<!-- HERE GOES THE MESSAGE LIST FROM AJAX GET CALL -->
 				</div>
 			</div>
 			<div id="inboxRightPanel" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-				
+				<form id="sendReplyForm">
+				<div>
+					<input type="hidden" name="action" value="sendReply">
+					<input type="hidden" name="yourUserID" value="<?php echo $yourUserID; ?>">
+					<input id="inboxID" type="hidden" name="inboxID">
+					<textarea id="inboxInput" name="message" placeholder="Write a Reply..."></textarea>
+					<input type="submit" value="Send!" class="reply btn btn-primary">
+				</div>
+				</form>
+				<div id="chatBox">
+					
+				</div>
 			</div>
 		</div>
 	</div> <!-- End of main container -->

@@ -231,7 +231,24 @@
 				echo "Sending Failed, Try Again Later!";
 			}
 		}
+	} else if(isset($_POST['action']) && $_POST['action'] === 'sendReply') {
 
+		$yourUserID = $_POST['yourUserID'];
+		$inboxID = $_POST['inboxID'];
+		$message = $_POST['message'];
+		$now = date("Y-m-d H:i:s");
+
+		$reply = $db->sendReply($inboxID, $yourUserID, $message, $now);
+		$message = "";
+		if(!$reply) {
+			$message = "Refresh The Page";
+		} else {
+			$r = mysql_fetch_array($db->getMessage($reply));
+			$m = $r['message'];
+			$username = $db->getLeaderName($r['userID']);
+			$message .= '<div class="replies">'.$username.': '.$m.'</div>';
+		}
+		echo $message;
 
 	} else if(isset($_POST['upload'])) {
 		$base_directory = "../photos/";
@@ -394,17 +411,61 @@
 				$username = $db->getLeaderName($userID);
 				$inboxID = $row['inboxID'];
 				$now = $db->getLastMessageDate($inboxID);
+				$photo = "";
+				if($db->checkIfHasProfilePicture($userID))
+					$photo = "".$db->getImageName($userID);
+				else
+					$photo = "nophoto.jpg";
 
-				$message .= '<a class="list-group-item messages">';
+				$message .= '<a class="messages list-group-item" rel="'.$inboxID.'">';
+				$message .= '<img src="photos/'.$photo.'" class="thumbnail"></img>';
 				$message .= '<h1 class="list-group-item-heading">'.$username.'</h1>';
 				$message .= '<h4>Last Message on: '.$now['now'].'</h4>';
 				$message .= '</a>';
+				$message .= '<div class="clearLeft"></div>';
 			}
 
 		} else {
 			$message .= "No Messages";
 		}
 		echo $message;
+	} else if(isset($_GET['action']) && $_GET['action'] === 'getChat') {
+		$inboxID = $_GET['inboxID'];
+
+		$chat = $db->getChat($inboxID);
+		$message = "";
+		if(!$chat) {
+			$message = "Something is wrong!";
+		} else {
+			while($row = mysql_fetch_array($chat)) {
+				$m = $row['message'];
+				$userID = $row['userID'];
+				$username = $db->getLeaderName($userID);
+
+				$message .= '<div class="replies">'.$username.': '.$m.'</div>';
+			}
+		}
+		echo $message;
+	}  else if(isset($_GET['action']) && $_GET['action'] === 'getChatCount') {
+		$inboxID = $_GET['inboxID'];
+
+		$chatCount = $db->getChatCount($inboxID);
+		if(!$chatCount) {
+			echo "nocount";
+		} else {
+			echo $chatCount;
+		}
+	}   else if(isset($_GET['action']) && $_GET['action'] === 'getLastMessage') {
+		$inboxID = $_GET['inboxID'];
+
+		$message = $db->getLastMessage($inboxID);
+		if(!$message) {
+			echo "Something Failed REFRESH!";
+		} else {
+			$m = $message['message'];
+			$username = $db->getLeaderName($message['userID']);
+			echo '<div class="replies">'.$username.': '.$m.'</div>';
+		}
 	}
 	/*****************************
 			  GET ACTIONS
