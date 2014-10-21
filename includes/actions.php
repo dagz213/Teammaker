@@ -434,7 +434,8 @@
 			$r = mysql_fetch_array($db->getMessage($reply));
 			$m = $r['message'];
 			$username = $db->getLeaderName($r['userID']);
-			$message .= '<div class="replies">'.$username.': '.$m.'</div>';
+			$now = $r['now'];
+			$message .= '<div class="replies"><b class="username">'.$username.'</b>: <span class="chatMessage">'.$m.'</span><span class="floatRight timeMessage">'.$now.'</span></div>';
 		}
 		echo $message;
 
@@ -480,9 +481,10 @@
 			while($row = mysql_fetch_array($chat)) {
 				$m = $row['message'];
 				$userID = $row['userID'];
+				$now = $row['now'];
 				$username = $db->getLeaderName($userID);
 
-				$message .= '<div class="replies">'.$username.': '.$m.'</div>';
+				$message .= '<div class="replies"><b class="username">'.$username.'</b>: <span class="chatMessage">'.$m.'</span><span class="floatRight timeMessage">'.$now.'</span></div>';
 			}
 		}
 		echo $message;
@@ -504,7 +506,8 @@
 		} else {
 			$m = $message['message'];
 			$username = $db->getLeaderName($message['userID']);
-			echo '<div class="replies">'.$username.': '.$m.'</div>';
+			$now = $message['now'];
+			echo '<div class="replies"><b class="username">'.$username.'</b>: <span class="chatMessage">'.$m.'</span><span class="floatRight timeMessage">'.$now.'</span></div>';
 		}
 	}
 
