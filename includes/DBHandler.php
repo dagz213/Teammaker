@@ -5,12 +5,15 @@ error_reporting(E_ALL);
 $itemPP = 5;
 
 class DBHandler {
+
+    private $db;
+
     public function __construct() {
         require_once __dir__.'/DBConnection.php';
         session_start();
 
-        $this->db = new DBConnection();
-        $this->db->connect();
+        $this->pdo = new DBConnection();
+        $this->db = $this->pdo->connect();
     }
 
     public function __destruct() {
@@ -66,16 +69,18 @@ class DBHandler {
     *************************************/
 
     function login($username, $password) {
-        $result = mysql_query("SELECT * FROM user WHERE username='$username'") or die(mysql_error());
-        $no_of_rows = mysql_num_rows($result);
-        if ($no_of_rows > 0) {
-            $result = mysql_fetch_array($result);
-            $salt = $result['salt'];
-            $encrypted_password = $result['encrypted_password'];
+        $query = $this->db->prepare('SELECT * FROM user WHERE username = :username');
+        $query->bindParam(':username', $username);
+        $query->execute();
+        $count = $query->rowCount();
+        if($count > 0) {
+            $user = $query->fetch(PDO::FETCH_ASSOC);
+            $salt = $user['salt'];
+            $encrypted_password = $user['encrypted_password'];
             $hash = $this->checkhashSSHA($salt, $password);
 
             if ($encrypted_password == $hash) {
-                if($this->checkIfHasProfile($result['userID'])) {
+                if($this->checkIfHasProfile($user['userID'])) {
                     return "3";
                 } else {
                     return "4";
@@ -86,6 +91,27 @@ class DBHandler {
             }
         } else return "1";
 
+        /*
+        $result = mysql_query("SELECT * FROM user WHERE username='$username'");
+        $no_of_rows = mysql_num_rows($result);
+        if ($no_of_rows > 0) {
+            $result = mysql_fetch_array($result);
+            $salt = $result['salt'];
+            $encrypted_password = $result['encrypted_password'];
+            $hash = $this->checkhashSSHA($salt, $password);
+
+            if ($encrypted_password == $hash) {
+                if($this->checkIfHasProfile($user['userID'])) {
+                    return "3";
+                } else {
+                    return "4";
+                }
+                
+            } else {
+                return "2";
+            }
+        } else return "1";
+        */
     }
     /***********************************
                     LOGIN
@@ -187,10 +213,18 @@ class DBHandler {
     }
 
     function checkIfHasProfile($userID) {
-        $result = mysql_query("SELECT * FROM userprofile WHERE userID = '$userID'") or die(mysql_error());
-        $result = mysql_num_rows($result);
-        if($result == 1) return true; else return false;
+        $result = $this->db->query('SELECT COUNT(*) FROM userprofile WHERE userID = :userID');
+        $result->bindParam(":userID", $userID);
+        $result->execute();
+        $count = $result->fetchColumn();
+
+        if($count) return true; else return false;
+
+        //$result = mysql_query("SELECT * FROM userprofile WHERE userID = '$userID'") or die(mysql_error());
+        //$result = mysql_num_rows($result);
+        //if($result == 1) return true; else return false;
     }
+
     function getLeaderName($userID) {
         $result = mysql_query("SELECT * FROM userprofile WHERE userID = '$userID'") or die(mysql_error());
         $result = mysql_fetch_array($result);

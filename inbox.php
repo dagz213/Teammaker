@@ -30,7 +30,7 @@
 			<div id="yourUserID" style="display:none;"><?php echo $yourUserID; ?></div>
 			<div id="inboxLeftPanel" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<div class="page-header">
-					<h1 class="text-centered">Messages</h1>
+					<h1 class="text-centered messageTitle">Messages</h1>
 				</div>
 				<div id="messageList" class="list-group">
 					<!-- HERE GOES THE MESSAGE LIST FROM AJAX GET CALL -->

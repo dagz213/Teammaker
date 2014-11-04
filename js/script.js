@@ -82,9 +82,9 @@ $('#loginForm').submit(function(event) {
             if(string[0] === "Login Successful") {
                 $('#resultMessage').css('color', 'green');
                 if(string[1] === "noregister") {
-                    window.location.href = 'groups.php';
+                    //window.location.href = 'groups.php';
                 } else if (string[1] === "register") {
-                    window.location.href = 'registerprofile.php';
+                    //window.location.href = 'registerprofile.php';
                 } 
             } else { 
                 $('#resultMessage').css('color', 'red');   

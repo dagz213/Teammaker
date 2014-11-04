@@ -1,6 +1,7 @@
 <?php    
 
 class DBConnection {
+    
     // constructor
     function __construct() {
          
@@ -14,11 +15,14 @@ class DBConnection {
     // Connecting to database
     public function connect() {
         require_once __dir__ . '/config.php';
+        $dbhost = DB_HOST;
+        $dbname = DB_DATABASE;
+        $dbuser = DB_USER;
+        $dbpass = DB_PASSWORD;
+        
         // connecting to mysql
-        $con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-        // selecting database
-        mysql_select_db(DB_DATABASE);
- 
+        $con = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass, 
+             array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         // return database handler
         return $con;
     }

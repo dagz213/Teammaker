@@ -40,10 +40,10 @@
 		} else if ($db->login($username, $password) === "2") {
 			echo "Wrong Username or Password";
 		} else if ($db->login($username, $password) === "3") {
-			$_SESSION['username'] = $username;
+			//$_SESSION['username'] = $username;
 			echo "Login Successful/noregister";
 		} else if($db->login($username, $password) === "4") {
-			$_SESSION['username'] = $username;
+			//$_SESSION['username'] = $username;
 			echo "Login Successful/register";
 		}
 	} 
@@ -114,7 +114,7 @@
 
 	} else if (isset($_POST['action']) && $_POST['action'] === 'postUserStatus') {
 		$userID = $_POST['userID'];
-		$message = $_POST['message'];
+		$message = mysql_real_escape_string($_POST['message']);
 		$now = date("Y-m-d H:i:s");
 
 		if($db->postStatus($userID, $message, $now)) {
@@ -126,7 +126,7 @@
 	} else if (isset($_POST['action']) && $_POST['action'] === 'privateMessage') {
 		$yourUserID = $_POST['yourUserID'];
 		$to =  $_POST['to'];
-		$message = $_POST['message'];
+		$message = mysql_real_escape_string($_POST['message']);
 		$now = date("Y-m-d H:i:s");
 
 		if($db->checkIfHasInbox($yourUserID, $to)) {
@@ -265,7 +265,7 @@
 
 		$groupID = $_POST['joingroup'];
 		$userID = $_POST['userid'];
-		$message = $_POST['joinmessage'];
+		$message = mysql_real_escape_string($_POST['joinmessage']);
 
 		if($db->joinGroup($userID, $groupID, $message)) {
 			header("Location: ../groups.php");
@@ -335,7 +335,7 @@
 	} else if (isset($_POST['action']) && $_POST['action'] === 'postDiscussion') {
 		$groupID = $_POST['groupID'];
 		$userID = $_POST['userID'];
-		$message = $_POST['message'];
+		$message = mysql_real_escape_string($_POST['message']);
 		$now = date("Y-m-d H:i:s");
 
 		if($db->postDiscussion($groupID, $userID, $message, $now)) {
@@ -423,7 +423,7 @@
 
 		$yourUserID = $_POST['yourUserID'];
 		$inboxID = $_POST['inboxID'];
-		$message = $_POST['message'];
+		$message = mysql_real_escape_string($_POST['message']);
 		$now = date("Y-m-d H:i:s");
 
 		$reply = $db->sendReply($inboxID, $yourUserID, $message, $now);
