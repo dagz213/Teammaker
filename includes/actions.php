@@ -18,14 +18,22 @@
 		$email = $_POST['email'];
 
 		if(!empty($username) && !empty($password) && !empty($confirmpassword) && !empty($email)) {
-			if ($password === $confirmpassword) {
-				if($db->register($username, $password, $email)) {
-					echo "Register Successful";
+			if(!$db->checkIfUsernameExists($username)) {
+				if ($password === $confirmpassword) {
+					if(!$db->checkIfEmailExists($email)) {
+						if($db->register($username, $password, $email)) {
+							echo "Register Successful";
+						} else {
+							echo "Something went wrong with the process!";
+						} 
+					} else {
+						echo "Email already exists!";
+					}
 				} else {
-					echo "Something went wrong with the process!";
+					echo "Passwords do not match!";
 				}
 			} else {
-				echo "Passwords do not match!";
+				echo "Username already exists!";
 			}
 		} else {
 			echo "Complete the form! Do not leave an empty box!";

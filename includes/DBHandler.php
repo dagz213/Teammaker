@@ -195,7 +195,7 @@ class DBHandler {
     /***********************************
                USER & PROFILE
     *************************************/
-
+    /* USER */
     function getUserID($username) {
         $result = $this->db->prepare("SELECT userID FROM user WHERE username = :username");
         $result->bindParam(":username", $username);
@@ -227,7 +227,26 @@ class DBHandler {
         } else return false;
     }
 
-    /* PROFILE */
+    function checkIfUsernameExists($username) {
+        $result = $this->db->prepare('SELECT COUNT(*) FROM user WHERE username = :username');
+        $result->bindParam(":username", $username);
+        $result->execute();
+        $count = $result->fetchColumn();
+
+        if($count) return true; else return false;
+    }
+
+    function checkIfEmailExists($email) {
+        $result = $this->db->prepare('SELECT COUNT(*) FROM user WHERE email = :email');
+        $result->bindParam(":email", $email);
+        $result->execute();
+        $count = $result->fetchColumn();
+
+        if($count) return true; else return false;
+    }
+    /* USER */
+
+    /* USER PROFILE */
     function registerProfile($userID, $firstname, $lastname, $birthday, $gender, $hobbies, $skills, $about) {
         $result = $this->db->prepare("INSERT INTO userprofile (userID, firstname, lastname, birthday, gender, hobbies, skills, about) 
             VALUES (:userID, :firstname, :lastname, :birthday, :gender, :hobbies, :skills, :about)");
@@ -258,7 +277,7 @@ class DBHandler {
     }
 
     function checkIfHasProfile($userID) {
-        $result = $this->db->query('SELECT COUNT(*) FROM userprofile WHERE userID = :userID');
+        $result = $this->db->prepare('SELECT COUNT(*) FROM userprofile WHERE userID = :userID');
         $result->bindParam(":userID", $userID);
         $result->execute();
         $count = $result->fetchColumn();
@@ -285,7 +304,7 @@ class DBHandler {
         else 
             return false;
     }
-
+    /* USER PROFILE */
     /* User INNER JOIN for account settings  */
 
     /***********************************
