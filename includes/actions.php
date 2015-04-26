@@ -12,7 +12,6 @@
 	*************************************/
 
 	if(isset($_POST['registration']) && !empty($_POST['registration'])) {
-
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		$confirmpassword = $_POST['confirmpassword'];
@@ -40,10 +39,10 @@
 		} else if ($db->login($username, $password) === "2") {
 			echo "Wrong Username or Password";
 		} else if ($db->login($username, $password) === "3") {
-			//$_SESSION['username'] = $username;
+			$_SESSION['username'] = $username;
 			echo "Login Successful/noregister";
 		} else if($db->login($username, $password) === "4") {
-			//$_SESSION['username'] = $username;
+			$_SESSION['username'] = $username;
 			echo "Login Successful/register";
 		}
 	} 
@@ -114,7 +113,7 @@
 
 	} else if (isset($_POST['action']) && $_POST['action'] === 'postUserStatus') {
 		$userID = $_POST['userID'];
-		$message = mysql_real_escape_string($_POST['message']);
+		$message = $_POST['message'];
 		$now = date("Y-m-d H:i:s");
 
 		if($db->postStatus($userID, $message, $now)) {
@@ -126,7 +125,7 @@
 	} else if (isset($_POST['action']) && $_POST['action'] === 'privateMessage') {
 		$yourUserID = $_POST['yourUserID'];
 		$to =  $_POST['to'];
-		$message = mysql_real_escape_string($_POST['message']);
+		$message = $_POST['message'];
 		$now = date("Y-m-d H:i:s");
 
 		if($db->checkIfHasInbox($yourUserID, $to)) {
@@ -199,14 +198,14 @@
 		$position = ($page_number * $item_per_page);
 
 		$posts = $db->getUserPostsWithLimit($userID, $position, $item_per_page);
-		$postCount = mysql_num_rows($posts);
+		$postCount = $db->getUserPostsWithLimitCount($userID, $position, $item_per_page);
 
 		$message = "";
 		if($postCount == 0) {
 			echo "Hasn't posted anyting yet";
 		} else if($postCount >= 1) {
 			
-			while($row = mysql_fetch_array($posts)) {
+			foreach ($posts as $row) {
 				$m = $row['message'];
 				$username = $db->getLeaderName($row['userID']);
 				$now = $row['now'];
@@ -265,7 +264,7 @@
 
 		$groupID = $_POST['joingroup'];
 		$userID = $_POST['userid'];
-		$message = mysql_real_escape_string($_POST['joinmessage']);
+		$message = $_POST['joinmessage'];
 
 		if($db->joinGroup($userID, $groupID, $message)) {
 			header("Location: ../groups.php");
@@ -335,7 +334,7 @@
 	} else if (isset($_POST['action']) && $_POST['action'] === 'postDiscussion') {
 		$groupID = $_POST['groupID'];
 		$userID = $_POST['userID'];
-		$message = mysql_real_escape_string($_POST['message']);
+		$message = $_POST['message'];
 		$now = date("Y-m-d H:i:s");
 
 		if($db->postDiscussion($groupID, $userID, $message, $now)) {
@@ -389,14 +388,13 @@
 		$position = ($page_number * $item_per_page);
 
 		$posts = $db->getPostsWithLimit($groupID, $position, $item_per_page);
-		$postCount = mysql_num_rows($posts);
+		$postCount =  $db->getPostsWithLimitCount($groupID, $position, $item_per_page);
 
 		$message = "";
 		if($postCount == 0) {
 			echo "No Posts as of yet!<br />Be the one to post first!";
 		} else if($postCount >= 1) {
-			
-			while($row = mysql_fetch_array($posts)) {
+			foreach ($posts as $row) {
 				$m = $row['message'];
 				$username = $db->getLeaderName($row['userID']);
 				$now = $row['now'];
@@ -423,7 +421,7 @@
 
 		$yourUserID = $_POST['yourUserID'];
 		$inboxID = $_POST['inboxID'];
-		$message = mysql_real_escape_string($_POST['message']);
+		$message = $_POST['message'];
 		$now = date("Y-m-d H:i:s");
 
 		$reply = $db->sendReply($inboxID, $yourUserID, $message, $now);
@@ -431,7 +429,7 @@
 		if(!$reply) {
 			$message = "Refresh The Page";
 		} else {
-			$r = mysql_fetch_array($db->getMessage($reply));
+			$r = $db->getMessage($reply);
 			$m = $r['message'];
 			$username = $db->getLeaderName($r['userID']);
 			$now = $r['now'];
@@ -444,10 +442,10 @@
 
 		$message = "";
 		$messages = $db->getMessageList($yourUserID);
-		$count = mysql_num_rows($messages);
+		$count = $db->getMessageListCount($yourUserID);
 
 		if($count > 0) {
-			while($row = mysql_fetch_array($messages)) {
+			foreach($messages as $row) {
 				$userID = $row['userID'];
 				$username = $db->getLeaderName($userID);
 				$inboxID = $row['inboxID'];
@@ -478,7 +476,7 @@
 		if(!$chat) {
 			$message = "Something is wrong!";
 		} else {
-			while($row = mysql_fetch_array($chat)) {
+			foreach($chat as $row) {
 				$m = $row['message'];
 				$userID = $row['userID'];
 				$now = $row['now'];

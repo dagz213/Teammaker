@@ -56,7 +56,7 @@
 
 					<?php 
 						if(isset($_GET['id']) && !empty($_GET['id'])) {
-							$groupYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
+							$groupYouOwn = $db->getGroupsYouOwn($yourUserID);
 							$groupID = $groupYouOwn['groupID'];
 
 							if($db->checkIfHasGroupANDLeader($yourUserID)) {
@@ -86,7 +86,7 @@
 								echo '<input type="hidden" name="userID" value="', $userID,'">';
 								echo "<select id='inviteGroupID' name='groupID'>";
 								$invites = $db->getAllYourInvites($userID);
-								while($row = mysql_fetch_array($invites)) {
+								foreach($invites as $row) {
 									$groupID = $row['groupID'];
 									$groupname = $db->getGroupNameByID($groupID);
 									echo '<option value="', $groupID,'">', $groupname,'</option>';
@@ -169,7 +169,7 @@
 					<div class="modal-header">
 						<button class="close" data-dismiss="modal">&times;</button>
 						<?php
-							$groupsYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
+							$groupsYouOwn = $db->getGroupsYouOwn($yourUserID);
 							$groupID = $groupsYouOwn['groupID'];
 							$groupname = $db->getGroupNameByID($groupID);
 						?>

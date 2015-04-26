@@ -25,7 +25,7 @@
 <body>
 	<?php 
 		$username = $_SESSION['username'];
-		$yourUserID = $db-> getUserID($username);
+		$yourUserID = $db->getUserID($username);
 	?>
 	<?php include 'includes/menu.php'; ?>
 	<div class="container" id="mainContainer">	
@@ -78,10 +78,10 @@
 		</div>
 		<div class="list-group">
 		<?php 
+		
 			//Variables
-			$groups;
 			$maxPerPage = 5;
-			$count =  mysql_num_rows($db->getAllGroups());
+			$count = $db->getAllGroupsCount();
 
 			$pn = 0;
 			if($count > 0) {
@@ -91,7 +91,7 @@
 			} else {
 				$pn = 1;
 			}
-
+			
 			if($pn < 1) {
 				$pn = 1;
 			} else if ($pn > $totalpages) {
@@ -100,13 +100,10 @@
 
 			$start = ($pn - 1) * $maxPerPage;
 
-			if($db->getGroupsByPage($start, $maxPerPage)) {
-				$groups = $db->getGroupsByPage($start, $maxPerPage);
-			} else {
+			$groups = $db->getGroupsByPage($start, $maxPerPage);
 
-			}
-
-			while($row = mysql_fetch_array($groups)) {
+			
+			foreach($groups as $row) {
 				$groupID = $row['groupID'];
 				$groupname = $row['groupname'];
 				$userID = $db->getLeaderID($groupID);
@@ -154,6 +151,7 @@
 		<div class="row pag">
             <ul>
 			<?php
+			
 				if($pn > 0) {
 				$centerPages = "";
 				$sub1 = $pn - 1;
@@ -223,6 +221,7 @@
 				}
 	            echo ">Next >></a></li>"; 
 	        }
+	        
 			?>
 			</ul>
 		</div> <!-- End of Pagination Groups -->
@@ -233,9 +232,10 @@
 		</div>
 		<div id="peoplePage" class="list-group">
 		<?php 
-			$people;
-			$countPeople =  mysql_num_rows($db->getAllPeople());
-
+		
+			$getAllPeople = $db->getAllPeople();
+			$countPeople = $db->getAllPeopleCount();
+			
 			$pnPeople = 0;
 			if($countPeople > 0) {
 			$totalpagesPeople = ceil($countPeople / $maxPerPage); 
@@ -254,14 +254,12 @@
 			$startPeople = ($pnPeople - 1) * $maxPerPage;
 			$seed = $_SESSION['seed'];
 
-			if($db->getPeopleByPage($seed, $startPeople, $maxPerPage)) {
-				$people = $db->getPeopleByPage($seed, $startPeople, $maxPerPage);
-			}
+			$people = $db->getPeopleByPage($seed, $startPeople, $maxPerPage);
 
-			$groupYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
+			$groupYouOwn = $db->getGroupsYouOwn($yourUserID);
 			$groupID = $groupYouOwn['groupID'];
 
-			while($row = mysql_fetch_array($people)) {
+			foreach($people as $row) {
 				$userID = $row['userID'];
 				$leaderName = $db->getLeaderName($userID);
 				$about = $row['about'];
@@ -295,12 +293,13 @@
 				';
 				}
 			}
-				
+			
 		?>
 		</div><!-- list-group -->
 		<div class="row pag">
             <ul>
 			<?php
+			
 				if($pnPeople > 0) {
 				$centerPagesPeople = "";
 				$sub1People = $pnPeople - 1;
@@ -372,6 +371,7 @@
 				}
 	            echo ">Next >></a></li>"; 
 	        }
+	        
 			?>
 			</ul>
 		</div> <!-- End of Pagination Groups -->
@@ -429,9 +429,11 @@
 					<div class="modal-header">
 						<button class="close" data-dismiss="modal">&times;</button>
 						<?php
-							$groupsYouOwn = mysql_fetch_array($db->getGroupsYouOwn($yourUserID));
+						
+							$groupsYouOwn = $db->getGroupsYouOwn($yourUserID);
 							$groupID = $groupsYouOwn['groupID'];
 							$groupname = $db->getGroupNameByID($groupID);
+						
 						?>
 						<h4 class="modal-title text-centered">Invite to group "<?php echo $groupname; ?>"?</h4>
 					</div><!-- end modal-header -->

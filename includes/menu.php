@@ -26,7 +26,7 @@
 				$username = $_SESSION['username'];
 				$userID = $db->getUserID($username);
 				$yourGroups = $db->getAllYourGroup($userID);
-				while($row = mysql_fetch_array($yourGroups)) {
+				foreach($yourGroups as $row) {
 					$groupID = $row['groupID'];
 					$groupname = $db->getGroupNameByID($groupID);
 					echo '<li><a href="viewgroup.php?id=', $groupID,'">', $groupname,'</a></li>';

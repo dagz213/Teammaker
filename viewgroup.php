@@ -102,7 +102,7 @@
 						<hr />
 						<?php 
 	        				$result = $db->getMembers($groupID);
-	        				while($member = mysql_fetch_array($result)) {
+	        				foreach($result as $member) {
 	        					$userID = $member['userID'];
 	        					$user = $db->getLeaderName($userID);
 	        					echo '
@@ -125,7 +125,7 @@
 			        			<option value="" selected="true">Select the best candidate to accept: <?php echo $pendingCount; ?></option>
 			        			<?php 
 			        				$result = $db->getPendings($groupID);
-			        				while($pendings = mysql_fetch_array($result)) {
+			        				foreach($result as $pendings) {
 			        					$userID = $pendings['userID'];
 			        					$user = $db->getLeaderName($userID);
 			        					echo '
@@ -185,7 +185,7 @@
 							<input class="btn btn-primary" type="submit" value="Edit" />
 						<button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
 						</form>
-					</div>
+					</div>f
 					</div><!-- end modal-footer -->
 
 				</div><!-- end modal-content -->

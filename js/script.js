@@ -82,9 +82,9 @@ $('#loginForm').submit(function(event) {
             if(string[0] === "Login Successful") {
                 $('#resultMessage').css('color', 'green');
                 if(string[1] === "noregister") {
-                    //window.location.href = 'groups.php';
+                    window.location.href = 'groups.php';
                 } else if (string[1] === "register") {
-                    //window.location.href = 'registerprofile.php';
+                    window.location.href = 'registerprofile.php';
                 } 
             } else { 
                 $('#resultMessage').css('color', 'red');   
@@ -330,6 +330,28 @@ $('#modalPendingCancel').on('show.bs.modal', function(e) {
 *            VIEW GROUP             *
 *                                   *
 *************************************/
+
+$('#postDiscussionForm').submit(function(event) {
+    /* Stop form from submitting normally */
+    event.preventDefault();
+    /* Get some values from elements on the page: */
+    var values = $(this).serialize();
+    /* Send the data using post and put the results in a div */
+    $("#postMessage").val("");
+     $.ajax({
+        url: "includes/actions.php",
+        type: "post",
+        data: values,
+        success: function(data){
+            if(data === "POST SUCCESSFUL") {
+                getPosts();
+            }
+        },
+        error:function(){
+            alert('Something went wrong with the request!');
+        }
+    });
+});
 
 /* GET INITIALIZE POSTS */
 function getPosts() {
